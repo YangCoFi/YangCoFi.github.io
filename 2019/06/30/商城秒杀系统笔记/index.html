@@ -8,18 +8,18 @@
   <link rel="dns-prefetch" href="http://yoursite.com">
   <title>商城秒杀系统-分布式session | 阿yang</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="转载至  https://blog.csdn.net/Brad_PiTt7/article/details/90635659  ##综述我们的秒杀服务，实际的应用可能不止部署在一个服务器上，而是分布式的多台服务器，这时候假如用户登录是在第一个服务器，第一个请求到了第一台服务器，但是第二个请求到了第二个服务器，那么用户的session信息就丢失了。">
+  <meta name="description" content="转载至  https://blog.csdn.net/Brad_PiTt7/article/details/90635659  ##综述我们的秒杀服务，实际的应用可能不止部署在一个服务器上，而是分布式的多台服务器，这时候假如用户登录是在第一个服务器，第一个请求到了第一台服务器，但是第二个请求到了第二个服务器，那么用户的session信息就丢失了。 public class GoodsControl">
 <meta name="keywords" content="React,JavaScript">
 <meta property="og:type" content="article">
 <meta property="og:title" content="商城秒杀系统-分布式session">
 <meta property="og:url" content="http://yoursite.com/2019/06/30/商城秒杀系统笔记/index.html">
 <meta property="og:site_name" content="阿yang">
-<meta property="og:description" content="转载至  https://blog.csdn.net/Brad_PiTt7/article/details/90635659  ##综述我们的秒杀服务，实际的应用可能不止部署在一个服务器上，而是分布式的多台服务器，这时候假如用户登录是在第一个服务器，第一个请求到了第一台服务器，但是第二个请求到了第二个服务器，那么用户的session信息就丢失了。">
+<meta property="og:description" content="转载至  https://blog.csdn.net/Brad_PiTt7/article/details/90635659  ##综述我们的秒杀服务，实际的应用可能不止部署在一个服务器上，而是分布式的多台服务器，这时候假如用户登录是在第一个服务器，第一个请求到了第一台服务器，但是第二个请求到了第二个服务器，那么用户的session信息就丢失了。 public class GoodsControl">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2019-06-30T04:30:06.295Z">
+<meta property="og:updated_time" content="2019-06-30T08:44:29.935Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="商城秒杀系统-分布式session">
-<meta name="twitter:description" content="转载至  https://blog.csdn.net/Brad_PiTt7/article/details/90635659  ##综述我们的秒杀服务，实际的应用可能不止部署在一个服务器上，而是分布式的多台服务器，这时候假如用户登录是在第一个服务器，第一个请求到了第一台服务器，但是第二个请求到了第二个服务器，那么用户的session信息就丢失了。">
+<meta name="twitter:description" content="转载至  https://blog.csdn.net/Brad_PiTt7/article/details/90635659  ##综述我们的秒杀服务，实际的应用可能不止部署在一个服务器上，而是分布式的多台服务器，这时候假如用户登录是在第一个服务器，第一个请求到了第一台服务器，但是第二个请求到了第二个服务器，那么用户的session信息就丢失了。 public class GoodsControl">
   
     <link rel="alternative" href="/atom.xml" title="阿yang" type="application/atom+xml">
   
@@ -174,7 +174,17 @@
 <p><a href="https://blog.csdn.net/Brad_PiTt7/article/details/90635659" target="_blank" rel="noopener">https://blog.csdn.net/Brad_PiTt7/article/details/90635659</a></p>
 </blockquote>
 <p>##综述<br>我们的秒杀服务，实际的应用可能不止部署在一个服务器上，而是分布式的多台服务器，这时候假如用户登录是在第一个服务器，第一个请求到了第一台服务器，但是第二个请求到了第二个服务器，那么用户的session信息就丢失了。</p>
+<pre><code>public class GoodsController {
 
+    @Autowired
+    SeckillUserService seckillUserService;
+
+    @Autowired
+    RedisService redisService;
+
+    @RequestMapping(&quot;/to_list&quot;)
+    public String to_list()
+}</code></pre>
       
 
       
@@ -301,11 +311,6 @@
       </div>
     </a>
   
-  
-    <a href="/2019/06/30/My-fist-Blog/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">My fist Blog</div>
-      <i class="icon-circle-right"></i>
-    </a>
   
 </nav>
 
@@ -442,15 +447,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">Java</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">React</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">JavaScript</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">Java</a>
               </li>
             
             <div class="clearfix"></div>

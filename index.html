@@ -84,12 +84,6 @@
 				
 					<a class="github" target="_blank" href="https://github.com/YangCoFi" title="github"><i class="icon-github"></i></a>
 		        
-					<a class="weibo" target="_blank" href="#" title="weibo"><i class="icon-weibo"></i></a>
-		        
-					<a class="rss" target="_blank" href="#" title="rss"><i class="icon-rss"></i></a>
-		        
-					<a class="zhihu" target="_blank" href="#" title="zhihu"><i class="icon-zhihu"></i></a>
-		        
 			</div>
 		</nav>
 	</header>		
@@ -127,12 +121,6 @@
 					
 						<a class="github" target="_blank" href="https://github.com/YangCoFi" title="github"><i class="icon-github"></i></a>
 			        
-						<a class="weibo" target="_blank" href="#" title="weibo"><i class="icon-weibo"></i></a>
-			        
-						<a class="rss" target="_blank" href="#" title="rss"><i class="icon-rss"></i></a>
-			        
-						<a class="zhihu" target="_blank" href="#" title="zhihu"><i class="icon-zhihu"></i></a>
-			        
 				</div>
 			</nav>
 
@@ -160,6 +148,188 @@
           </div>
           <div id="js-content" class="content-ll">
             
+  
+    <article id="post-最长递增子序列问题" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/06/30/最长递增子序列问题/">最长递增子序列问题</a>
+    </h1>
+  
+
+        
+        <a href="/2019/06/30/最长递增子序列问题/" class="archive-article-date">
+  	<time datetime="2019-06-30T06:42:24.830Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-06-30</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>#最长递增子序列问题</p>
+<p>##问题描述<br>如3 1 2 5 4 6 7 最长子序列是1 2 5 6 7或者是1 2 4 6 7 子序列是可以不连续的，子数组必须是连续的。 返回5</p>
+<p>##思路</p>
+<p>###经典解法<br>准备一个数组arr，这个数组和原数组一样长，这个数组记着是数组中如果必须要以某个数结尾的情况下最长递增子序列的长度。如[3 1 2 5 4 6 7]，他的arr数组为[1 1 2 3 3 4 5],从左往右，以3结尾的递增子序列就是它自己，所以arr数组0位置为1；对于1来说，左边的数都不比1小，所以他只能自己构成一个递增子序列，所以它的长度还是1；再看2，左边比它小的数，找到了一个1，因为以1作为结尾的最长子序列是1，而2在1的右边，所以2对应的arr数组上的数为2。对于5来说，找左边所有比它小的，再从所有比它小的数里面找相应的arr数组对应的最大的数，而5可以落在它之后，以2为结尾的最长递增子序列是最长的，为2，所以5对应的arr数组上的相应位置为3。以此类推。</p>
+<p>我们发现arr左边求得的信息是可以帮助我们求得右边的位置的值的。所以我们最终要求的返回值就是arr数组中的最大值，我们将它返回就行。</p>
+<p>问题：我们如果想还原最长的子序列的信息呢？怎么根据arr数组得到？</p>
+<p>现在数组为[3 1 2 5 4 6 7 1]，对应的arr数组[1 1 2 3 3 4 5 1]。找到一个序列过程：先在整个arr数组中找到最大值5，说明在原数组中相应位置上我一定是以这个数结尾的。通过原数组得到这个数，为7，下面我开始在原数组找比7小并且是5-1=4的那个数，就是6，说明倒数倒数第二个数是6，在原数组找比6小并且是4-1=3的那个数。以此类推。</p>
+<p>因为我在每个位置去求这个值的时候，左边最差要遍历一遍。所以时间复杂度为o(n2)。</p>
+<p>###优化解法<br>出发点：能不能每次遍历到这个位置上的时候，想求这个位置上的数必须以它结尾的情况下的最长递增子序列，这个过程能不能不遍历呢？</p>
+<p>数组[3 1 2 4 3]，有效区和无效区。ends[3 N N N N]</p>
+<p><strong>ends(i)的意义：长度为i+1的所有递增子序列中最小结尾是什么。</strong></p>
+<p><strong>有效区：就是ends数组里面此时有数的区域。</strong></p>
+<p>一开始你遍历到0位置，就是3，ends[0]就代表遍历到当前0位置时长度为1的所有递增子序列中最小结尾是3。再来一个len数组，记录长度。<br>len：[1 N N N N]，再继续遍历到1，有效区再怎么更新呢？以二分的方式在有效区里面找哪个是第一个比它大的。它找到了3，因此将ends[0]更新，把3更新成1,ends[1 N N N N].代表我遍历到1这个位置为止，所有长度为1的递增子序列的最小结尾是1。怎么确定以1结尾的情况下它的最长递增子序列长度是多少呢？同样，在这个ends数组中1左边有数吗？没有。OK，它的长度就是1。len:[1 1 N N N]。</p>
+<p>此时数组遍历到了2这个数，在有效区以二分的方式去找比他大的数，没找到，OK。<br><strong>有效区扩充</strong></p>
+<p>ends:[1 2 N N N]。2代表着遍历到此时为止所有长度为2的递增子序列的最小结尾是2。在ends中，2左边有1个数，可以组成的长度为2，所以在len中相应位置就是2。len:[1 1 2 N N]，OK，再看4，4又去有效区二分找，发现找不到刚比它大的，有效区扩充。ends：[1 2 4 N N]，在ends中4左边有两个数，它能够组成多长的递增子序列？3。len：[1 1 2 3 N]。好，最后来到了原数组的最后一位，数为3，它以二分的方式找到了ends中刚比他大的，找到了4，所以就把4改成了3，代表遍历到此时为止长度为3的递增子序列的最小结尾是3，ends：[1 2 3 N N]，3的左边有两个数，于是以3结尾的最长递增子序列的长度是3。len：[1 1 2 3 3 3]。这就是我们最终的得到的长度数组。</p>
+<p><strong>有效区肯定是递增的。</strong></p>
+<p>在一个有序数组中，找到一个数刚比他大，这个行为是可以二分的。</p>
+<p>###代码<br>    public class Problem_01_LIS {</p>
+<pre><code>    public static int[] lis1(int[] arr) {
+        if (arr == null || arr.length == 0) {
+            return null;
+        }
+        int[] dp = getdp1(arr);
+        return generateLIS(arr, dp);
+    }
+
+    public static int[] getdp1(int[] arr) {
+        int[] dp = new int[arr.length];
+        for (int i = 0; i &lt; arr.length; i++) {
+            dp[i] = 1;
+            for (int j = 0; j &lt; i; j++) {
+                if (arr[i] &gt; arr[j]) {
+                    dp[i] = Math.max(dp[i], dp[j] + 1);
+                }
+            }
+        }
+        return dp;
+    }
+
+    public static int[] generateLIS(int[] arr, int[] dp) {
+        int len = 0;
+        int index = 0;
+        for (int i = 0; i &lt; dp.length; i++) {
+            if (dp[i] &gt; len) {
+                len = dp[i];
+                index = i;
+            }
+        }
+        int[] lis = new int[len];
+        lis[--len] = arr[index];
+        for (int i = index; i &gt;= 0; i--) {
+            if (arr[i] &lt; arr[index] &amp;&amp; dp[i] == dp[index] - 1) {
+                lis[--len] = arr[i];
+                index = i;
+            }
+        }
+        return lis;
+    }
+
+    public static int[] lis2(int[] arr) {
+        if (arr == null || arr.length == 0) {
+            return null;
+        }
+        int[] dp = getdp2(arr);
+        return generateLIS(arr, dp);
+    }
+
+    public static int[] getdp2(int[] arr) {
+        int[] dp = new int[arr.length];
+        int[] ends = new int[arr.length];
+        ends[0] = arr[0];
+        dp[0] = 1;
+        int right = 0;
+        int l = 0;
+        int r = 0;
+        int m = 0;
+        for (int i = 1; i &lt; arr.length; i++) {
+            l = 0;
+            r = right;
+            while (l &lt;= r) {
+                m = (l + r) / 2;
+                if (arr[i] &gt; ends[m]) {
+                    l = m + 1;
+                } else {
+                    r = m - 1;
+                }
+            }
+            right = Math.max(right, l);
+            ends[l] = arr[i];
+            dp[i] = l + 1;
+        }
+        return dp;
+    }
+
+    // for test
+    public static void printArray(int[] arr) {
+        for (int i = 0; i != arr.length; i++) {
+            System.out.print(arr[i] + &quot; &quot;);
+        }
+        System.out.println();
+    }
+
+    public static void main(String[] args) {
+        int[] arr = { 2, 1, 5, 3, 6, 4, 8, 9, 7 };
+        printArray(arr);
+        printArray(lis1(arr));
+        printArray(lis2(arr));
+
+    }
+}</code></pre>
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">Java</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/06/30/最长递增子序列问题/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
   
     <article id="post-商城秒杀系统笔记" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
@@ -481,6 +651,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">JavaScript</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">Java</a>
               </li>
             
             <div class="clearfix"></div>

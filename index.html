@@ -1955,10 +1955,14 @@
     <div class="article-entry" itemprop="articleBody">
       
         <h1 id="问题描述"><a href="#问题描述" class="headerlink" title="问题描述"></a>问题描述</h1><p>数组中，1出现了5次，2出现了4次，3出现了3次，4出现了3次，5出现了3次。<br>打印最先最多次数的3个数字。结果：1，2，4 or 1,2,3 or 1,2,5</p>
-<p>#思路<br>一个数组遍历一遍，用一个hash表记录下每一个数字出现的词频，哈希表的增删改查认为是O(1)的，hash弄完之后，我们求得是TOP K的问题，用一个小根堆(维持出现次数最大的K个)即可搞定。以出现的次数作为原则组建这个小根堆。</p>
+<h1 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h1><p>一个数组遍历一遍，用一个hash表记录下每一个数字出现的词频，哈希表的增删改查认为是O(1)的，hash弄完之后，我们求得是TOP K的问题，用一个小根堆(维持出现次数最大的K个)即可搞定。以出现的次数作为原则组建这个小根堆。</p>
 <p><img src="https://github.com/YangCoFi/YangCoFi.github.io/blob/master/img/TOP_K.png" alt="image"><br>1,6 2,5 3,7 组成大小为3的小根堆<br>接下来遇到4 它出现了9次。怎么确定这个4要不要进这个小根堆呢？堆顶是目前找到的top3里面出现次数最少的，发现4，9起码可以将堆顶淘汰掉，之后就牵扯到堆的调整操作。4，9就往下沉，有下一个top3次数最少的就浮上来。最终打印这个堆。</p>
-<p>#代码<br>    public class Problem_03_TopKTimes1 {</p>
-<pre><code>    public static class Node {
+<h1 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h1><pre><code> //为什么我们要建小根堆，因为我们是要找最大的三个。堆建完之后，之后加入的节点必须和我的根节点作比较，如果它比根节点还小，你肯定进不去这个堆。
+//可以保证将最大的三个保持在堆里面，如果你选建大根堆，那么从hashMap中开始的三个组成堆，之后的元素必须要比堆顶大才能进入，好，万一我此时要进入的没有堆顶大
+//但实际上我是原数组中出现次数第二多的，就出错了。
+public class Problem_03_TopKTimes1 {
+
+    public static class Node {
         public String str;
         public int times;
 
@@ -2647,11 +2651,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">Java</a>
+                <a href="javascript:void(0)" class="js-tag color1">JavaScript</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">JavaScript</a>
+                <a href="javascript:void(0)" class="js-tag color5">Java</a>
               </li>
              
               <li class="article-tag-list-item">

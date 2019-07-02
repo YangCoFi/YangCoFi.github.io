@@ -149,6 +149,117 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-集合and迭代器笔记" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/07/02/集合and迭代器笔记/">集合&amp;迭代器</a>
+    </h1>
+  
+
+        
+        <a href="/2019/07/02/集合and迭代器笔记/" class="archive-article-date">
+  	<time datetime="2019-07-02T12:42:23.527Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-07-02</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="集合体系"><a href="#集合体系" class="headerlink" title="集合体系"></a>集合体系</h1><h3 id="集合体系图"><a href="#集合体系图" class="headerlink" title="集合体系图"></a>集合体系图</h3><p><img src="https://github.com/YangCoFi/IMG/raw/master/jihe.png" alt="image"></p>
+<p>在最顶层的父接口Collection中一定定义了所有子类集合的共同属性和方法,因此我们首先需要学习Collection中共性方法,然后再去针对每个子类集合学习它的特有方法</p>
+<p><strong><em>插入图片，如果是把图片放在github上，复制下来的地址把blob改成raw！！！</em></strong></p>
+<p>案例代码一：</p>
+<pre><code>package com.yang.basic.day17;
+import java.util.ArrayList;
+/**
+ * ArrayList遍历
+ * */
+
+//字符串length()方法
+//数组是length属性
+//集合是size()方法
+
+// *  ArrayList
+//         *  集合的体系结构：
+//         *      由于不同的数据结构（数据的组织，存储方式），所以Java为我们提供了不同的集合，
+//         *      但是不同的集合他们的功能都是相似，不断的向上提取，将共性抽取出来，这就是集合体系结构形成的原因
+//         *  体系结构：
+//         *          怎么学习?最顶层开始学习，因为最顶层包含了所有的共性
+//         *          怎么使用？使用最底层，因为最底层就是具体的实现
+
+//List特点：有序，允许重复，而且有索引
+public class Day17_Generics1 {
+    public static void main(String[] args) {
+        //创建集合对象
+        ArrayList al = new ArrayList();
+        //添加元素
+        al.add(&quot;hello&quot;);
+        al.add(&quot;world&quot;);
+        al.add(&quot;java&quot;);
+        //遍历集合 这里用for循环进行遍历
+        for (int i = 0; i &lt; al.size(); i++) {
+            System.out.println(al.get(i));
+        }
+    }
+}</code></pre><p>父类的引用指向子类的对象？</p>
+<p>子类是对父类的一个改进和扩充，所以一般子类在功能上较父类更强大，属性较父类更独特，   定义一个父类类型的引用指向一个子类的对象既可以使用子类强大的功能，又可以抽取父类的共性。 </p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">Java基础</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/07/02/集合and迭代器笔记/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-算法笔记2" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -1956,7 +2067,7 @@
       
         <h1 id="问题描述"><a href="#问题描述" class="headerlink" title="问题描述"></a>问题描述</h1><p>数组中，1出现了5次，2出现了4次，3出现了3次，4出现了3次，5出现了3次。<br>打印最先最多次数的3个数字。结果：1，2，4 or 1,2,3 or 1,2,5</p>
 <h1 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h1><p>一个数组遍历一遍，用一个hash表记录下每一个数字出现的词频，哈希表的增删改查认为是O(1)的，hash弄完之后，我们求得是TOP K的问题，用一个小根堆(维持出现次数最大的K个)即可搞定。以出现的次数作为原则组建这个小根堆。</p>
-<p><img src="https://github.com/YangCoFi/YangCoFi.github.io/blob/master/img/TOP_K.png" alt="image"><br>1,6 2,5 3,7 组成大小为3的小根堆<br>接下来遇到4 它出现了9次。怎么确定这个4要不要进这个小根堆呢？堆顶是目前找到的top3里面出现次数最少的，发现4，9起码可以将堆顶淘汰掉，之后就牵扯到堆的调整操作。4，9就往下沉，有下一个top3次数最少的就浮上来。最终打印这个堆。</p>
+<p><img src="https://github.com/YangCoFi/IMG/raw/master/TOP_K.png" alt="image"><br>1,6 2,5 3,7 组成大小为3的小根堆<br>接下来遇到4 它出现了9次。怎么确定这个4要不要进这个小根堆呢？堆顶是目前找到的top3里面出现次数最少的，发现4，9起码可以将堆顶淘汰掉，之后就牵扯到堆的调整操作。4，9就往下沉，有下一个top3次数最少的就浮上来。最终打印这个堆。</p>
 <h1 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h1><pre><code> //为什么我们要建小根堆，因为我们是要找最大的三个。堆建完之后，之后加入的节点必须和我的根节点作比较，如果它比根节点还小，你肯定进不去这个堆。
 //可以保证将最大的三个保持在堆里面，如果你选建大根堆，那么从hashMap中开始的三个组成堆，之后的元素必须要比堆顶大才能进入，好，万一我此时要进入的没有堆顶大
 //但实际上我是原数组中出现次数第二多的，就出错了。
@@ -2155,7 +2266,7 @@ public class Problem_03_TopKTimes1 {
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h1 id="俄罗斯信封问题"><a href="#俄罗斯信封问题" class="headerlink" title="俄罗斯信封问题"></a>俄罗斯信封问题</h1><h2 id="问题描述"><a href="#问题描述" class="headerlink" title="问题描述"></a>问题描述</h2><p> <img src="G:%5Cblog%5Cthemes%5Cyilia%5Csource%5Cimg%5CRussianEnvelopes.png" alt="image"><br>如：给信封[[5,4],[6,4],[6,7],[2,3]]，最大的值为3<br>([2,3] =&gt; [5,4] =&gt; [6,7])<br>必须w和h都比另一个大才行 w相等或h相等都不行！！</p>
+        <h1 id="俄罗斯信封问题"><a href="#俄罗斯信封问题" class="headerlink" title="俄罗斯信封问题"></a>俄罗斯信封问题</h1><h2 id="问题描述"><a href="#问题描述" class="headerlink" title="问题描述"></a>问题描述</h2><p> <img src="https://github.com/YangCoFi/IMG/raw/master/RussianEnvelopes.png" alt="image"><br>如：给信封[[5,4],[6,4],[6,7],[2,3]]，最大的值为3<br>([2,3] =&gt; [5,4] =&gt; [6,7])<br>必须w和h都比另一个大才行 w相等或h相等都不行！！</p>
 <h2 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h2><ul>
 <li><p>假定所有的信封的长度和宽度都是不重复的</p>
 <p>  将这些信封按照w从小到大排序，此时h会组成一个数组，在这个h组成的数组上找最长递增子序列，解决。</p>
@@ -2424,6 +2535,10 @@ public class Problem_03_TopKTimes1 {
         		<li class="article-tag-list-item">
         			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">Java</a>
         		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">算法</a>
+        		</li>
       		
 		</ul>
 	</div>
@@ -2651,11 +2766,19 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">Java</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">算法</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">JavaScript</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">Java</a>
+                <a href="javascript:void(0)" class="js-tag color2">Java基础</a>
               </li>
              
               <li class="article-tag-list-item">

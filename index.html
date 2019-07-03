@@ -149,6 +149,266 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-最大异或和的子数组" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/07/03/最大异或和的子数组/">MAX_EOR</a>
+    </h1>
+  
+
+        
+        <a href="/2019/07/03/最大异或和的子数组/" class="archive-article-date">
+  	<time datetime="2019-07-03T08:53:37.356Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-07-03</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="MaxEOR"><a href="#MaxEOR" class="headerlink" title="MaxEOR"></a>MaxEOR</h1><h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2><p>给一个子数组，求以该数组结尾的所有子数组的异或和，最大的值是多少</p>
+<h3 id="暴力解"><a href="#暴力解" class="headerlink" title="暴力解"></a>暴力解</h3><pre><code>public static int getMaxE1(int[] arr){
+    int max = Integer.MIN_VALUE;
+    for (int i = 0; i &lt; arr.length; i ++){
+        for (int start = 0; start &lt;= i; start ++){
+            int res = 0;
+            for (int j = start; j &lt;= i; j ++){
+                res ^= arr[j];
+            }
+            max = Math.max(max, res);
+        }
+    }
+    return max;
+}</code></pre><h3 id="优化暴力解"><a href="#优化暴力解" class="headerlink" title="优化暴力解"></a>优化暴力解</h3><p>start到i的异或结果为EOR2</p>
+<p>0-i的异或结果为EOR：0到start-1的异或结果 异或 start到i的异或结果</p>
+<p>0-start-1的异或结果为EOR1</p>
+<p>要求start到i的异或结果：就是EOR2 = EOR ^ EOR1;</p>
+<p><strong>0到i每个位置的异或结果将其记在dp[]数组里</strong></p>
+<p>比如现在已经知道0到i的异或结果了，想求3到i的异或结果，只需要把0到i的异或结果去异或上0到2的异或结果。</p>
+<p>代码：</p>
+<pre><code>public static int getMaxE2(int[] arr){
+    int max = Integer.MIN_VALUE;
+    int[] dp = new int[arr.length];     //记录结果
+    int eor = 0;
+    for (int i = 0; i &lt; arr.length; i ++){
+        eor ^= arr[i];  //0...i的异或结果
+        max = Math.max(eor,max);
+        for (int start = 1; start &lt;= i; start ++){
+            int curEor = eor ^ dp[start - 1];
+            max = Math.max(max, curEor);
+        }
+        dp[i] = eor;
+    }
+    return max;
+}</code></pre><p>时间复杂度：O(n2) </p>
+<p>因为枚举行为被我们摒弃了，我们用空间去代替它。</p>
+<p>我们以上都是通过尝试的方式：</p>
+<p>0—i</p>
+<p>1—i</p>
+<p>2—i</p>
+<p>i—i</p>
+<p>这种尝试的过程效率是极低的。</p>
+<p>希望将这种尝试变成一种高效的方式： <strong>前缀树</strong></p>
+<h3 id="最优解"><a href="#最优解" class="headerlink" title="最优解"></a>最优解</h3><p>假设有一个黑盒，里面装着0-0 0-1 0-2 0-3 … 0-i-1的异或结果。</p>
+<p><img src="https://github.com/YangCoFi/IMG/raw/master/preTree.png" alt="image"></p>
+<p>先假设数为4位，如0 010 ，第一位为符号位，0代表正，1代表负。如图，此时已经建立好了</p>
+<p>0–0 异或和0001</p>
+<p>0–1 异或和0101</p>
+<p>0–2 异或和1011</p>
+<p>的前缀树，现在有一个0–3的异或结果是0 000. 第一位我希望走0，因为走0是正的，第二位我希望走1，因为0和1异或是1，第三位我希望走1，但没有1了，你期望的东西没有被实现 你就被迫走它给你的路，走0，第四位希望走1，好，走1。总的希望保证数与这个黑盒里面的某一个异或值最大。先要尽可能去满足高位。</p>
+<p>如果0–3是1 111呢？我希望符号位走完黑盒后是0，所以要与1进行异或，我走的是1的路。</p>
+<p><strong><em>负数 值 求补码，数值位取反再加一 1111代表 -1  1011代表 -5</em></strong></p>
+<p>除了符号位的选择有讲究之外，不管它是正数还是负数，接下来的选择还是一样的，还是紧着高位来变1.照顾高位来变一。正数负数都是一样的！</p>
+<p>代码：</p>
+<pre><code>package com.yang.algo.advan.seven;
+
+public class MaxEorBasePreTree {
+    public static class Node {
+        public Node[] nexts = new Node[2];      //这个Node只有下一级的数组nexts，只有2个路 一个是0的路，一个是1的路
+    }
+
+    public static class NumTrie {
+        public Node head = new Node();
+
+        /**
+         * 无论加一个数add还是选择一个最大值maxXor 因为for循环是32次，所以他们都是常数级别的。
+         * 而整个代码套在一个O(N)的代码(maxXorSubarray)里
+         *  for (int i = 0; i &lt; arr.length; i++) 所以最后的时间复杂度O(N)
+         * */
+
+
+        //path代表路  cur.nexts[path]就是这个路尽头有无节点，没有，就没有这个路
+        public void add(int num) {
+            Node cur = head;
+            //把每个位上的数字提取出来，加到前缀树里面去
+            for (int move = 31; move &gt;= 0; move--) {        //整数是32位
+                int path = ((num &gt;&gt; move) &amp; 1);     //右移31位之后，符号位来到最后，再与1，就可以得到此时符号位的数，path要么0，要么1
+                cur.nexts[path] = cur.nexts[path] == null ? new Node() : cur.nexts[path];   //当前节点有无走path的路，没有就建上Node
+                cur = cur.nexts[path];
+            }
+        }
+
+        /***
+         * @param num    就是0--i的异或结果
+         * 对于符号位来说，他希望选择的路应该和符号位的数一样，因为异或的结果就是0
+         * 不是符号位，你是0我就选1，你是1我就选0
+         * 一定能走到底的，因为一开始加数字进来就是32位的。不可能既没0，又没1
+         */
+
+        public int maxXor(int num) {
+            Node cur = head;
+            int res = 0;
+            for (int move = 31; move &gt;= 0; move--) {
+                int path = (num &gt;&gt; move) &amp; 1;
+                int best = move == 31 ? path : (path ^ 1);  //就是我期待要选的路
+                best = cur.nexts[best] != null ? best : (best ^ 1); //我实际要选的路  因为这条路可能有也可能没有
+               //结果依次设置好，每一次从高位开始选，每选一条路，实际上结果相应的位置上的那个值就确定了
+                res |= (path ^ best) &lt;&lt; move;   //设置每一位的答案
+                cur = cur.nexts[best];
+            }
+            return res;
+        }
+    }
+
+    /**
+     * @numTrie;黑盒
+     * 黑盒的作用：你扔我一个从0到i的结果，我这个黑盒里面有所有的从0到0，从0到1，从0到2，从0到i-1的结果。OK我给你选择一个你能得到的最大的xor的值
+     * eor永远是从0到i的异或值     0...i
+     * 所以每一次往黑盒里面丢的时候就是0到i的丢进去，下面你要算i+1位置了，你往黑盒里面不断的扔东西就可以了
+     * 每个位置结尾的最大异或值黑盒会告诉你，不用你去操心。
+     * */
+    public static int maxXorSubarray(int[] arr) {
+        if (arr == null || arr.length == 0) {
+            return 0;
+        }
+        int max = Integer.MIN_VALUE;
+        int eor = 0;
+        NumTrie numTrie = new NumTrie();
+        numTrie.add(0);
+        for (int i = 0; i &lt; arr.length; i++) {
+            eor ^= arr[i];      //eor    0...i异或值
+            max = Math.max(max, numTrie.maxXor(eor));//numTrie.maxXor(eor) 你给我0...i的异或值，我给你以i结尾的最大异或值
+            numTrie.add(eor);
+        }
+        return max;
+    }
+
+    // for test
+    public static int comparator(int[] arr) {
+        if (arr == null || arr.length == 0) {
+            return 0;
+        }
+        int max = Integer.MIN_VALUE;
+        for (int i = 0; i &lt; arr.length; i++) {
+            int eor = 0;
+            for (int j = i; j &lt; arr.length; j++) {
+                eor ^= arr[j];
+                max = Math.max(max, eor);
+            }
+        }
+        return max;
+    }
+
+    // for test
+    public static int[] generateRandomArray(int maxSize, int maxValue) {
+        int[] arr = new int[(int) ((maxSize + 1) * Math.random())];
+        for (int i = 0; i &lt; arr.length; i++) {
+            arr[i] = (int) ((maxValue + 1) * Math.random()) - (int) (maxValue * Math.random());
+        }
+        return arr;
+    }
+
+    // for test
+    public static void printArray(int[] arr) {
+        if (arr == null) {
+            return;
+        }
+        for (int i = 0; i &lt; arr.length; i++) {
+            System.out.print(arr[i] + &quot; &quot;);
+        }
+        System.out.println();
+    }
+
+    // for test
+    public static void main(String[] args) {
+        int testTime = 500000;
+        int maxSize = 30;
+        int maxValue = 50;
+        boolean succeed = true;
+        for (int i = 0; i &lt; testTime; i++) {
+            int[] arr = generateRandomArray(maxSize, maxValue);
+            int res = maxXorSubarray(arr);
+            int comp = comparator(arr);
+            if (res != comp) {
+                succeed = false;
+                printArray(arr);
+                System.out.println(res);
+                System.out.println(comp);
+                break;
+            }
+        }
+        System.out.println(succeed ? &quot;Nice!&quot; : &quot;Fucking fucked!&quot;);
+    }
+}</code></pre>
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">Java</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">算法</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/07/03/最大异或和的子数组/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-java内部类详解" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     

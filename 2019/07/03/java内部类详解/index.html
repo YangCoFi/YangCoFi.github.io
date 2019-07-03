@@ -6,20 +6,20 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>商城秒杀系统-分布式session | 阿yang</title>
+  <title>Java内部类详解 | 阿yang</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="转载至  https://blog.csdn.net/Brad_PiTt7/article/details/90635659  ##综述我们的秒杀服务，实际的应用可能不止部署在一个服务器上，而是分布式的多台服务器，这时候假如用户登录是在第一个服务器，第一个请求到了第一台服务器，但是第二个请求到了第二个服务器，那么用户的session信息就丢失了。 public class GoodsControl">
-<meta name="keywords" content="React,JavaScript">
+  <meta name="description" content="Java内部类总述内部类： 1、内部类中的变量和方法不能声明为静态的。 2、内部类创建自身对象需要先创建其所在类的对象。内部类实例化：B是A的内部类，实例化B：A.B b = new A().new B()。 3、内部类可以引用外部类的静态或者非静态属性及方法。 静态内部类： 1、静态内部类属性和方法可以声明为静态的或者非静态的。 2、实例化静态内部类：B是A的静态内部类，A.B b = new">
+<meta name="keywords" content="Java基础">
 <meta property="og:type" content="article">
-<meta property="og:title" content="商城秒杀系统-分布式session">
-<meta property="og:url" content="http://yoursite.com/2019/06/30/商城秒杀系统笔记/index.html">
+<meta property="og:title" content="Java内部类详解">
+<meta property="og:url" content="http://yoursite.com/2019/07/03/java内部类详解/index.html">
 <meta property="og:site_name" content="阿yang">
-<meta property="og:description" content="转载至  https://blog.csdn.net/Brad_PiTt7/article/details/90635659  ##综述我们的秒杀服务，实际的应用可能不止部署在一个服务器上，而是分布式的多台服务器，这时候假如用户登录是在第一个服务器，第一个请求到了第一台服务器，但是第二个请求到了第二个服务器，那么用户的session信息就丢失了。 public class GoodsControl">
+<meta property="og:description" content="Java内部类总述内部类： 1、内部类中的变量和方法不能声明为静态的。 2、内部类创建自身对象需要先创建其所在类的对象。内部类实例化：B是A的内部类，实例化B：A.B b = new A().new B()。 3、内部类可以引用外部类的静态或者非静态属性及方法。 静态内部类： 1、静态内部类属性和方法可以声明为静态的或者非静态的。 2、实例化静态内部类：B是A的静态内部类，A.B b = new">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2019-06-30T08:44:29.935Z">
+<meta property="og:updated_time" content="2019-07-03T06:46:55.639Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="商城秒杀系统-分布式session">
-<meta name="twitter:description" content="转载至  https://blog.csdn.net/Brad_PiTt7/article/details/90635659  ##综述我们的秒杀服务，实际的应用可能不止部署在一个服务器上，而是分布式的多台服务器，这时候假如用户登录是在第一个服务器，第一个请求到了第一台服务器，但是第二个请求到了第二个服务器，那么用户的session信息就丢失了。 public class GoodsControl">
+<meta name="twitter:title" content="Java内部类详解">
+<meta name="twitter:description" content="Java内部类总述内部类： 1、内部类中的变量和方法不能声明为静态的。 2、内部类创建自身对象需要先创建其所在类的对象。内部类实例化：B是A的内部类，实例化B：A.B b = new A().new B()。 3、内部类可以引用外部类的静态或者非静态属性及方法。 静态内部类： 1、静态内部类属性和方法可以声明为静态的或者非静态的。 2、实例化静态内部类：B是A的静态内部类，A.B b = new">
   
     <link rel="alternative" href="/atom.xml" title="阿yang" type="application/atom+xml">
   
@@ -149,42 +149,65 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-商城秒杀系统笔记" class="article article-type-post " itemscope itemprop="blogPost">
+            <article id="post-java内部类详解" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 class="article-title" itemprop="name">
-      商城秒杀系统-分布式session
+      Java内部类详解
     </h1>
   
 
         
-        <a href="/2019/06/30/商城秒杀系统笔记/" class="archive-article-date">
-  	<time datetime="2019-06-30T04:24:55.726Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-06-30</time>
+        <a href="/2019/07/03/java内部类详解/" class="archive-article-date">
+  	<time datetime="2019-07-03T03:41:26.636Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-07-03</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>转载至</p>
-<blockquote>
-<p><a href="https://blog.csdn.net/Brad_PiTt7/article/details/90635659" target="_blank" rel="noopener">https://blog.csdn.net/Brad_PiTt7/article/details/90635659</a></p>
-</blockquote>
-<p>##综述<br>我们的秒杀服务，实际的应用可能不止部署在一个服务器上，而是分布式的多台服务器，这时候假如用户登录是在第一个服务器，第一个请求到了第一台服务器，但是第二个请求到了第二个服务器，那么用户的session信息就丢失了。</p>
-<pre><code>public class GoodsController {
+        <h1 id="Java内部类"><a href="#Java内部类" class="headerlink" title="Java内部类"></a>Java内部类</h1><h2 id="总述"><a href="#总述" class="headerlink" title="总述"></a>总述</h2><p><strong>内部类：</strong></p>
+<p>1、内部类中的变量和方法不能声明为静态的。</p>
+<p>2、内部类创建自身对象需要先创建其所在类的对象。内部类实例化：B是A的内部类，实例化B：A.B b = new A().new B()。</p>
+<p><strong>3、内部类可以引用外部类的静态或者非静态属性及方法。</strong></p>
+<p><strong>静态内部类：</strong></p>
+<p>1、静态内部类属性和方法可以声明为静态的或者非静态的。</p>
+<p>2、实例化静态内部类：B是A的静态内部类，A.B b = new A.B()。</p>
+<p><strong>3、静态内部类只能引用外部类的静态的属性及方法。</strong></p>
+<p>代码：</p>
+<pre><code>package com.yang.basic.day17;
 
-    @Autowired
-    SeckillUserService seckillUserService;
+public class TestInner {
+    private int number = 100;
+    public class Inner{
+        private int number = 200;
+        public void myPrinter(){
+            int number = 300;
+            System.out.println(number);
+            //通过this引用内部类的成员属性
+            System.out.println(this.number);
+            //通过外部类名加上this的方式访问外部类成员属性
+            System.out.println(TestInner.this.number);
+        }
+    }
 
-    @Autowired
-    RedisService redisService;
+    public static void main(String[] args) {
+        TestInner tl = new TestInner();
+        TestInner.Inner in  = tl.new Inner();
+        in.myPrinter();
+    }
 
-    @RequestMapping(&quot;/to_list&quot;)
-    public String to_list()
-}</code></pre>
+}</code></pre><p>运行结果：</p>
+<pre><code>300
+200
+100</code></pre><p>内部类依靠外部类的存在为前提，而静态嵌套类（静态内部类）则可以完全独立</p>
+<p><strong>静态内部类的加载和外部类加载无关。静态内部类在使用的时候才会加载</strong></p>
+<h3 id="类加载过程"><a href="#类加载过程" class="headerlink" title="类加载过程"></a>类加载过程</h3><p>静态类型的属性和方法，在类加载的时候就会存在于内存中。使用某个类的静态属性和方法，那么这个类必须要加载到虚拟机中。但是非静态内部类并不随外部类一起加载，只有在实例化外部类之后才会加载。</p>
+<p>在外部类并没有实例化，内部类还没有加载的时候如果调用内部类的静态成员或方法，内部类还没有加载，却试图在内存中创建该内部类的静态成员，就会产生冲突。所以非静态内部类不能有静态成员变量或静态方法。</p>
+
       
 
       
@@ -228,11 +251,7 @@
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">React</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">JavaScript</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">Java基础</a>
         		</li>
       		
 		</ul>
@@ -288,7 +307,7 @@
     <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2019/06/30/商城秒杀系统笔记/" alt="微信分享二维码">
+      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2019/07/03/java内部类详解/" alt="微信分享二维码">
     </div>
 </div>
 
@@ -302,15 +321,11 @@
   
 <nav id="article-nav">
   
-    <a href="/2019/06/30/最长递增子序列问题/" id="article-nav-newer" class="article-nav-link-wrap">
-      <i class="icon-circle-left"></i>
-      <div class="article-nav-title">
-        
-          最长递增子序列问题
-        
-      </div>
-    </a>
   
+    <a href="/2019/07/02/集合and迭代器笔记/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">集合&amp;迭代器</div>
+      <i class="icon-circle-right"></i>
+    </a>
   
 </nav>
 
@@ -335,7 +350,7 @@
                 </span>
                 <span class="tooltip-content">
                     <div class="toc-article">
-                    目录，不存在的…
+                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Java内部类"><span class="toc-number">1.</span> <span class="toc-text">Java内部类</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#总述"><span class="toc-number">1.1.</span> <span class="toc-text">总述</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#类加载过程"><span class="toc-number">1.1.1.</span> <span class="toc-text">类加载过程</span></a></li></ol></li></ol></li></ol>
                     </div>
                 </span>
             </div>

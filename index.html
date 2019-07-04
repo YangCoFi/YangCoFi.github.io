@@ -149,6 +149,253 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-Listener-Filter" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/07/04/Listener-Filter/">Listener&amp;Filter</a>
+    </h1>
+  
+
+        
+        <a href="/2019/07/04/Listener-Filter/" class="archive-article-date">
+  	<time datetime="2019-07-04T07:14:25.706Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-07-04</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="Listener"><a href="#Listener" class="headerlink" title="Listener"></a>Listener</h2><p>内部机制：接口回调</p>
+<h3 id="接口回调"><a href="#接口回调" class="headerlink" title="接口回调"></a>接口回调</h3><p>现在有一个类A：</p>
+<pre><code>public class A {
+
+    public void print(B b){
+        for (int i = 0; i &lt; 10; i++) {
+            System.out.println(&quot;循环到了--&quot;+i);
+            if(i == 5){
+                System.out.println(&quot;循环到了5了，该通知B 了。&quot;);
+                B b = new B();
+                b.printFive();
+            }
+        }
+    }
+}</code></pre><p>类B：</p>
+<pre><code>public class B  implements PrintListener{
+
+    /*public void printFive(){
+        System.out.println(&quot;A已经循环到了5， 所以B的这个方法将被调用&quot;);
+    }*/
+
+    @Override
+    public void print() {
+        System.out.println(&quot;2018年。。。A已经循环到了5， 所以B的这个方法将被调用&quot;);
+    }
+}</code></pre><p>这个类是很久之前写的，在这个print方法中需要使用B类的实例，但当时还不知道有这个B类。</p>
+<ol>
+<li><p>不能直接new B。因为此时还没有这个类。</p>
+</li>
+<li><p>不能传递B的实例进来。</p>
+</li>
+</ol>
+<p>那怎么办呢？ <strong><em>传一个接口进来</em></strong></p>
+<p>在定义这个方法的时候，不管未来写的是B类， 还是C类，还是D类，为了通用，定义了一种接口，只要让未来的那些类，实现这个接口。 然后这个方法的参数写 接口类型即可。</p>
+<p>接口：</p>
+<pre><code>public interface PrintListener {
+
+    /**
+     * 一旦出现了某一种事件， 达到了某一个状态，就调用这个方法。
+     */
+    void print();
+}</code></pre><p>A类中的print()方法：</p>
+<pre><code>public void print(PrintListener listener){
+    for (int i = 0; i &lt; 10; i++) {
+        System.out.println(&quot;我在1988年就开始打印这个语句了。。循环到了--&quot;+i);
+        if(i == 5){
+            System.out.println(&quot;循环到了5了，该通知B 了。&quot;);
+            listener.print();    //不是调用接口的方法，而是接口的实现类的方法
+            /*B b = new B();
+            b.printFive();*/
+        }
+    }
+}</code></pre><p>让B实现这个接口：</p>
+<pre><code>@Override
+public void print() {
+    System.out.println(&quot;2018年。。。A已经循环到了5， 所以B的这个方法将被调用&quot;);
+}</code></pre><p>我们测试一下：</p>
+<p>public class Test {</p>
+<pre><code>public static void main(String[] args) {
+    A a = new A();
+
+    //参数为什么可以接受B？
+    //这是多态的体现，
+
+    /*
+     * 这个方法咋i1988年就定义了要收 printlistener 这个接口的类型。
+     * 在2018年的时候有一个类 B 实现了这个接口printlistener ，
+     * 所以现在可以传递B（这个接口的实现类）进来。
+     */
+    a.print(new B());
+}</code></pre><p>过程表示：</p>
+<p><img src="https://github.com/YangCoFi/IMG/raw/master/InterfaceRecall.png" alt="image"></p>
+<h3 id="Web监听器"><a href="#Web监听器" class="headerlink" title="Web监听器"></a>Web监听器</h3><blockquote>
+<p>总共有8个,分为三种类型</p>
+</blockquote>
+<p>Listener创建:</p>
+<blockquote>
+<ol>
+<li>定义一个类，实现接口</li>
+</ol>
+</blockquote>
+<blockquote>
+<ol start="2">
+<li>注册 | 配置监听器</li>
+</ol>
+</blockquote>
+<ul>
+<li><p>监听三个作用域的创建与销毁</p>
+<p>  request  —httpServletRequest</p>
+<p>  session     —httpSession</p>
+<p>  application  —ServletContext</p>
+</li>
+</ul>
+<blockquote>
+<p>ServletContext,是一个全局的储存信息的空间，服务器开始，其就存在，服务器关闭，其才释放。request，一个用户可有多个；session，一个用户一个；而servletContext，所有用户共用一个。所以，为了节省空间，提高效率，ServletContext中，要放必须的、重要的、所有用户需要共享的线程又是安全的一些信息。如，做一个购物类的网站，要从数据库中提取物品信息，如果用session保存这些物品信息，每个用户都访问一便数据库，效率就太低了；所以要用来Servlet上下文来保存，在服务器开始时，就访问数据库，将物品信息存入Servlet上下文中，这样，每个用户只用从上下文中读入物品信息就行了。</p>
+</blockquote>
+<p>1.ServletContextListener</p>
+<ul>
+<li><p>servletcontext创建：启动服务器的时候</p>
+</li>
+<li><p>servletContext销毁：关闭服务器. 从服务器移除项目</p>
+</li>
+</ul>
+<p>新建类:</p>
+<pre><code>package com.yangcofi.listener;
+import javax.servlet.ServletContextEvent;
+import javax.servlet.ServletContextListener;
+import javax.servlet.http.HttpSessionAttributeListener;
+import javax.servlet.http.HttpSessionEvent;
+import javax.servlet.http.HttpSessionListener;
+import javax.servlet.http.HttpSessionBindingEvent;
+
+public class MyServletContextListener implements ServletContextListener,
+        HttpSessionListener, HttpSessionAttributeListener {
+
+    // Public constructor is required by servlet spec
+    public MyServletContextListener() {
+    }
+
+    // -------------------------------------------------------
+    // ServletContextListener implementation
+    // -------------------------------------------------------
+    public void contextInitialized(ServletContextEvent sce) {
+      /* This method is called when the servlet context is
+         initialized(when the Web application is deployed). 
+         You can initialize servlet context related data here.
+      */
+
+        System.out.println(&quot;servletContext初始化了...&quot;);
+    }
+
+    public void contextDestroyed(ServletContextEvent sce) {
+      /* This method is invoked when the Servlet Context 
+         (the Web application) is undeployed or 
+         Application Server shuts down.
+      */
+        System.out.println(&quot;servletContext销毁了...&quot;);
+    }
+
+    // -------------------------------------------------------
+    // HttpSessionListener implementation
+    // -------------------------------------------------------
+    public void sessionCreated(HttpSessionEvent se) {
+        /* Session is created. */
+    }
+
+    public void sessionDestroyed(HttpSessionEvent se) {
+        /* Session is destroyed. */
+    }
+
+    // -------------------------------------------------------
+    // HttpSessionAttributeListener implementation
+    // -------------------------------------------------------
+
+    public void attributeAdded(HttpSessionBindingEvent sbe) {
+      /* This method is called when an attribute 
+         is added to a session.
+      */
+    }
+
+    public void attributeRemoved(HttpSessionBindingEvent sbe) {
+      /* This method is called when an attribute
+         is removed from a session.
+      */
+    }
+
+    public void attributeReplaced(HttpSessionBindingEvent sbe) {
+      /* This method is invoked when an attibute
+         is replaced in a session.
+      */
+    }
+}</code></pre><p>到xml</p>
+<pre><code>2.ServletRequestListener
+
+3.HttpSessionListener</code></pre>
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">JavaWeb</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/07/04/Listener-Filter/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-最大异或和的子数组" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -3620,15 +3867,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">React</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">Java</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">Java基础</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">React</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -3636,7 +3879,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">Java</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">算法</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">JavaWeb</a>
               </li>
              
               <li class="article-tag-list-item">

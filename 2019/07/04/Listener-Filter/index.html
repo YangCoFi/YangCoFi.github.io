@@ -17,7 +17,20 @@
 <meta property="og:description" content="Listener内部机制：接口回调 接口回调现在有一个类A： public class A {      public void print(B b){         for (int i = 0; i &amp;lt; 10; i++) {             System.out.println(&amp;quot;循环到了--&amp;quot;+i);             if(i == 5){">
 <meta property="og:locale" content="default">
 <meta property="og:image" content="https://github.com/YangCoFi/IMG/raw/master/InterfaceRecall.png">
-<meta property="og:updated_time" content="2019-07-04T08:59:35.546Z">
+<meta property="og:image" content="https://github.com/YangCoFi/IMG/raw/master/result.png">
+<meta property="og:image" content="https://github.com/YangCoFi/IMG/raw/master/result2.png">
+<meta property="og:image" content="https://github.com/YangCoFi/IMG/raw/master/result3.png">
+<meta property="og:image" content="https://github.com/YangCoFi/IMG/raw/master/result4.png">
+<meta property="og:image" content="https://github.com/YangCoFi/IMG/raw/master/result5.png">
+<meta property="og:image" content="https://github.com/YangCoFi/IMG/raw/master/result6.png">
+<meta property="og:image" content="https://github.com/YangCoFi/IMG/raw/master/result7.png">
+<meta property="og:image" content="https://github.com/YangCoFi/IMG/raw/master/result8.png">
+<meta property="og:image" content="https://github.com/YangCoFi/IMG/raw/master/result12.png">
+<meta property="og:image" content="https://github.com/YangCoFi/IMG/raw/master/result10.png">
+<meta property="og:image" content="https://github.com/YangCoFi/IMG/raw/master/result11.png">
+<meta property="og:image" content="https://github.com/YangCoFi/IMG/raw/master/result12.png">
+<meta property="og:image" content="https://github.com/YangCoFi/IMG/raw/master/result12.png">
+<meta property="og:updated_time" content="2019-07-05T03:15:21.196Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Listener&amp;Filter">
 <meta name="twitter:description" content="Listener内部机制：接口回调 接口回调现在有一个类A： public class A {      public void print(B b){         for (int i = 0; i &amp;lt; 10; i++) {             System.out.println(&amp;quot;循环到了--&amp;quot;+i);             if(i == 5){">
@@ -278,13 +291,8 @@ public void print() {
 <pre><code>package com.yangcofi.listener;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
-import javax.servlet.http.HttpSessionAttributeListener;
-import javax.servlet.http.HttpSessionEvent;
-import javax.servlet.http.HttpSessionListener;
-import javax.servlet.http.HttpSessionBindingEvent;
 
-public class MyServletContextListener implements ServletContextListener,
-        HttpSessionListener, HttpSessionAttributeListener {
+public class MyServletContextListener implements ServletContextListener {
 
     // Public constructor is required by servlet spec
     public MyServletContextListener() {
@@ -309,43 +317,116 @@ public class MyServletContextListener implements ServletContextListener,
       */
         System.out.println(&quot;servletContext销毁了...&quot;);
     }
+}</code></pre><p>到xml注册:</p>
+<pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;web-app xmlns=&quot;http://xmlns.jcp.org/xml/ns/javaee&quot;
+         xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;
+         xsi:schemaLocation=&quot;http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd&quot;
+         version=&quot;4.0&quot;&gt;
+    &lt;listener&gt;
+        &lt;listener-class&gt;com.yangcofi.listener.MyServletContextListener&lt;/listener-class&gt;
+    &lt;/listener&gt;
+&lt;/web-app&gt;</code></pre><p>2.ServletRequestListener</p>
+<p>request创建:</p>
+<pre><code>访问服务器上的任意资源都会有请求出现。
 
-    // -------------------------------------------------------
-    // HttpSessionListener implementation
-    // -------------------------------------------------------
-    public void sessionCreated(HttpSessionEvent se) {
-        /* Session is created. */
+访问 html： 会
+访问 jsp:    会
+访问 servlet : 会 </code></pre><p>创建Listener类:</p>
+<pre><code>package com.yangcofi.listener;
+
+import javax.servlet.*;
+import javax.servlet.annotation.WebListener;
+import javax.servlet.http.HttpSessionAttributeListener;
+import javax.servlet.http.HttpSessionEvent;
+import javax.servlet.http.HttpSessionListener;
+import javax.servlet.http.HttpSessionBindingEvent;
+
+@WebListener()
+public class MyRequestListener implements ServletRequestListener{
+
+    // Public constructor is required by servlet spec
+    public MyRequestListener() {
     }
 
-    public void sessionDestroyed(HttpSessionEvent se) {
-        /* Session is destroyed. */
+    @Override
+    public void requestDestroyed(ServletRequestEvent servletRequestEvent) {
+        System.out.println(&quot;servletRequest销毁了...&quot;);
     }
 
-    // -------------------------------------------------------
-    // HttpSessionAttributeListener implementation
-    // -------------------------------------------------------
+    @Override
+    public void requestInitialized(ServletRequestEvent servletRequestEvent) {
+        System.out.println(&quot;servletRequest初始化了...&quot;);
+    }
+}</code></pre><blockquote>
+<p>由于直接用注解的方式@WebListener()进行注册了,所以不用再web.xml中进行Listener的注册.</p>
+</blockquote>
+<p>在web文件夹下新建demo01文件夹,在demo01文件夹里面新建index.html,运行tomcat.</p>
+<p>结果:</p>
+<p>访问TestServlet结果:</p>
+<p><img src="https://github.com/YangCoFi/IMG/raw/master/result.png" alt="image"></p>
+<p><img src="https://github.com/YangCoFi/IMG/raw/master/result2.png" alt="image"></p>
+<p>访问网页结果:</p>
+<p><img src="https://github.com/YangCoFi/IMG/raw/master/result3.png" alt="image"></p>
+<p><img src="https://github.com/YangCoFi/IMG/raw/master/result4.png" alt="image"></p>
+<p>3.HttpSessionListener</p>
+<pre><code>session的创建
+    只要调用getSession
+    html:        不会
+    jsp:        会      getSession();
+    servlet:     会
 
-    public void attributeAdded(HttpSessionBindingEvent sbe) {
-      /* This method is called when an attribute 
-         is added to a session.
-      */
+session的销毁
+    超时  30分钟
+    非正常关闭 销毁
+    正常关闭服务器(序列化)</code></pre><p>创建一个类:MySessionListener</p>
+<pre><code>package com.yangcofi.listener;
+import javax.servlet.annotation.WebListener;
+import javax.servlet.http.HttpSessionEvent;
+import javax.servlet.http.HttpSessionListener;
+
+@WebListener()
+public class MySessionListener implements HttpSessionListener{
+
+    @Override
+    public void sessionCreated(HttpSessionEvent httpSessionEvent) {
+        System.out.println(&quot;创建Session了...&quot;);
     }
 
-    public void attributeRemoved(HttpSessionBindingEvent sbe) {
-      /* This method is called when an attribute
-         is removed from a session.
-      */
+    @Override
+    public void sessionDestroyed(HttpSessionEvent httpSessionEvent) {
+        System.out.println(&quot;销毁Session了...&quot;);
     }
+}</code></pre><p>同样的,我们访问index.html</p>
+<p><img src="https://github.com/YangCoFi/IMG/raw/master/result5.png" alt="image"></p>
+<p><img src="https://github.com/YangCoFi/IMG/raw/master/result6.png" alt="image"></p>
+<p>可以看到,html的访问并不会为我们创建一个session.</p>
+<p>再访问一下index.jsp:</p>
+<p><img src="https://github.com/YangCoFi/IMG/raw/master/result7.png" alt="image"></p>
+<p><img src="https://github.com/YangCoFi/IMG/raw/master/result8.png" alt="image"></p>
+<p>创建了session…</p>
+<p>最后再看一下servlet的访问:</p>
+<p><img src="https://github.com/YangCoFi/IMG/raw/master/result12.png" alt="image"></p>
+<p><img src="https://github.com/YangCoFi/IMG/raw/master/result10.png" alt="image"></p>
+<p>并未创建session</p>
+<blockquote>
+<p>那么怎么样才会为我们创建session呢?</p>
+</blockquote>
+<p>我们在TestServlet中:</p>
+<p><img src="https://github.com/YangCoFi/IMG/raw/master/result11.png" alt="image"></p>
+<p><img src="https://github.com/YangCoFi/IMG/raw/master/result12.png" alt="image"></p>
+<p><img src="https://github.com/YangCoFi/IMG/raw/master/result12.png" alt="image"></p>
+<p>这些Listener的作用：</p>
+<pre><code>ServletContextListener
 
-    public void attributeReplaced(HttpSessionBindingEvent sbe) {
-      /* This method is invoked when an attibute
-         is replaced in a session.
-      */
-    }
-}</code></pre><p>到xml</p>
-<pre><code>2.ServletRequestListener
+    利用它来，在servletcontext创建的时候， 
+        1. 完成自己想要的初始化工作
 
-3.HttpSessionListener</code></pre>
+        2. 执行自定义任务调度。 执行某一个任务。 Timer  
+
+HttpSessionListener
+
+    统计在线人数.</code></pre>
       
 
       
@@ -524,6 +605,18 @@ public class MyServletContextListener implements ServletContextListener,
       	</div>
     </div>
   </div>
+ 
+  <div calss="count-span">
+		<span id="busuanzi_container_site_pv">
+		总访问量: <span id="busuanzi_value_site_pv"></span>|
+		</span>
+		<span id="busuanzi_container_site_uv">
+		总访客: <span id="busuanzi_value_site_uv"></span>
+		</span>
+  </div>
+
+  <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
 </footer>
     </div>
     <script>
@@ -600,15 +693,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">Java基础</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">React</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">JavaScript</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">Java基础</a>
               </li>
              
               <li class="article-tag-list-item">

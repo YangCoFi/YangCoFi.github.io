@@ -149,6 +149,167 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-leetcode刷题" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/07/05/leetcode刷题/">leetcode(牛客网)</a>
+    </h1>
+  
+
+        
+        <a href="/2019/07/05/leetcode刷题/" class="archive-article-date">
+  	<time datetime="2019-07-05T08:23:54.304Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-07-05</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="minimum-depth-of-binary-tree"><a href="#minimum-depth-of-binary-tree" class="headerlink" title="minimum-depth-of-binary-tree"></a>minimum-depth-of-binary-tree</h2><h3 id="描述"><a href="#描述" class="headerlink" title="描述"></a>描述</h3><p>Given a binary tree, find its minimum depth.The minimum depth is the number of nodes along the shortest path from the root node down to the nearest leaf node.</p>
+<h3 id="递归解法"><a href="#递归解法" class="headerlink" title="递归解法"></a>递归解法</h3><pre><code>/**
+ * Definition for binary tree
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+public class Solution {
+    public int run(TreeNode root) {
+        if(root == null){
+            return 0;
+        }
+        if(root.left == null &amp;&amp; root.right == null){
+            return 1;
+        }
+        //因为如果一个子树如果左右孩子只有其中一个有的话，必须选择有值的那个孩子，否则就不是最短路径了
+        if(root.left == null || root.right == null){
+            return Math.max(run(root.left),run(root.right)) + 1;
+        }
+        return Math.min(run(root.left),run(root.right)) + 1;
+    }
+}</code></pre><blockquote>
+<p>需要注意一个问题,让你求一个二叉树的最大深度:</p>
+</blockquote>
+<blockquote>
+<p>直接:</p>
+</blockquote>
+<blockquote>
+<p>return root == null ? 0 : Math.max(run(root.left),run(root.right)) + 1;</p>
+</blockquote>
+<blockquote>
+<p>因为求最大的深度不用考虑左右子树一个有一个无的情况.</p>
+</blockquote>
+<h3 id="非递归-使用BFS"><a href="#非递归-使用BFS" class="headerlink" title="非递归,使用BFS"></a>非递归,使用BFS</h3><p>LinkedList的一些API:</p>
+<blockquote>
+<p>add        增加一个元索                     如果队列已满，则抛出一个IIIegaISlabEepeplian异常</p>
+</blockquote>
+<p>remove   移除并返回队列头部的元素    如果队列为空，则抛出一个NoSuchElementException异常</p>
+<blockquote>
+</blockquote>
+<p>element  返回队列头部的元素             如果队列为空，则抛出一个NoSuchElementException异常</p>
+<blockquote>
+</blockquote>
+<p>offer       添加一个元素并返回true       如果队列已满，则返回false</p>
+<blockquote>
+</blockquote>
+<p>poll         移除并返问队列头部的元素    如果队列为空，则返回null</p>
+<blockquote>
+</blockquote>
+<p>peek       返回队列头部的元素             如果队列为空，则返回null</p>
+<blockquote>
+</blockquote>
+<p>put         添加一个元素                      如果队列满，则阻塞</p>
+<blockquote>
+</blockquote>
+<p>take        移除并返回队列头部的元素     如果队列为空，则阻塞</p>
+<p>代码:</p>
+<pre><code>public static int run2(TreeNode root){
+    if (root == null){
+        return 0;
+    }
+    if (root.left == null &amp;&amp; root.right == null){
+        return 1;
+    }
+    int depth = 0;
+    Queue&lt;TreeNode&gt; queue = new LinkedList&lt;&gt;();
+    queue.offer(root);
+    while (!queue.isEmpty()){
+        int len = queue.size();
+        depth ++;
+        for (int i = 0; i &lt; len; i ++){
+            TreeNode curNode = queue.poll();
+            if (curNode.left == null &amp;&amp; curNode.right == null){
+                //说明我已经到了叶节点了
+                return depth;
+            }
+            if (curNode.left != null){
+                queue.offer(curNode.left);
+            }
+            if (curNode.right != null){
+                queue.offer(curNode.right);
+            }
+        }
+    }
+    return 0;
+}</code></pre>
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">算法</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/07/05/leetcode刷题/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-Listener-Filter" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -411,7 +572,177 @@ public class MySessionListener implements HttpSessionListener{
 
 HttpSessionListener
 
-    统计在线人数.</code></pre>
+    统计在线人数.</code></pre><h3 id="监听三个作用域属性状态变更"><a href="#监听三个作用域属性状态变更" class="headerlink" title="监听三个作用域属性状态变更"></a>监听三个作用域属性状态变更</h3><p>这种监听器是在三个作用域存值的时候</p>
+<blockquote>
+<p>这个值被添加了</p>
+</blockquote>
+<blockquote>
+<p>这个值被替换了</p>
+</blockquote>
+<blockquote>
+<p>这个值被删除了</p>
+</blockquote>
+<ul>
+<li><p>servletContext — ServletContextAttributeListener(上下文的属性监听器)</p>
+</li>
+<li><p><img src="https://github.com/YangCoFi/IMG/raw/master/ServletContextAttributeListener.png" alt="image"></p>
+</li>
+<li><p>request — ServletRequestAttributeListener</p>
+</li>
+</ul>
+<p><img src="https://github.com/YangCoFi/IMG/raw/master/ServletRequestAttributeListener.png" alt="image"></p>
+<ul>
+<li>session — HttpSessionAttributeListener</li>
+</ul>
+<p><img src="https://github.com/YangCoFi/IMG/raw/master/HttpSessionAttributeListener.png" alt="image"></p>
+<p>往session里面存值:setAttribute(“name”,aa)<br>移除这个值:removeAttribute()<br>替换这个值:setAttribute(“name”,bb)        —&gt;将值进行了覆盖</p>
+<p>因为三个作用域属性监听器的方法基本是一样的,所以我们测试其中一个:</p>
+<p>新建一个Listener,名为MyHttpSessionListener,并实现了HttpSessionAttributeListener接口:</p>
+<pre><code>package com.yangcofi.listener02;
+
+import javax.servlet.ServletContextEvent;
+import javax.servlet.annotation.WebListener;
+import javax.servlet.http.HttpSessionAttributeListener;
+import javax.servlet.http.HttpSessionEvent;
+import javax.servlet.http.HttpSessionBindingEvent;
+
+@WebListener()
+public class MyHttpSessionListener implements  HttpSessionAttributeListener {
+
+    // Public constructor is required by servlet spec
+    public MyHttpSessionListener() {
+    }
+
+    // -------------------------------------------------------
+    // HttpSessionAttributeListener implementation
+    // -------------------------------------------------------
+
+    public void attributeAdded(HttpSessionBindingEvent sbe) {
+      /* This method is called when an attribute 
+         is added to a session.
+      */
+        System.out.println(&quot;属性被添加了...&quot;);
+    }
+
+    public void attributeRemoved(HttpSessionBindingEvent sbe) {
+      /* This method is called when an attribute
+         is removed from a session.
+      */
+        System.out.println(&quot;属性被移除了...&quot;);
+    }
+
+    public void attributeReplaced(HttpSessionBindingEvent sbe) {
+      /* This method is invoked when an attibute
+         is replaced in a session.
+      */
+        System.out.println(&quot;属性被替换了...&quot;);
+    }
+}</code></pre><p>我们在web目录下新建demo02文件夹,在demo02文件夹里面新建一个demo02.jsp,</p>
+<pre><code>&lt;%--
+  Created by IntelliJ IDEA.
+  User: YangCoFi
+  Date: 2019/7/5 0005
+  Time: 12:29
+  To change this template use File | Settings | File Templates.
+--%&gt;
+&lt;%@ page contentType=&quot;text/html;charset=UTF-8&quot; language=&quot;java&quot; %&gt;
+&lt;html&gt;
+&lt;head&gt;
+    &lt;title&gt;Demo01&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;%
+      session.setAttribute(&quot;name&quot;,&quot;van&quot;);
+      session.setAttribute(&quot;name&quot;,&quot;mumu&quot;);
+      session.removeAttribute(&quot;name&quot;);
+    %&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre><p>接下来运行tomcat,结果:</p>
+<p><img src="https://github.com/YangCoFi/IMG/raw/master/hh.png" alt="image"></p>
+<p><img src="https://github.com/YangCoFi/IMG/raw/master/hh1.png" alt="image"></p>
+<p><strong><em>这类监听器用的不是很多</em></strong></p>
+<h3 id="监听httpSession里面存值的状态变更"><a href="#监听httpSession里面存值的状态变更" class="headerlink" title="监听httpSession里面存值的状态变更"></a>监听httpSession里面存值的状态变更</h3><blockquote>
+<p>这一类监听器不用注册。</p>
+</blockquote>
+<ul>
+<li>HttpSessionBindingListener(监听对象和session绑定与解除绑定的动作)</li>
+</ul>
+<blockquote>
+<p>监听对象与session 绑定和解除绑定 的动作</p>
+</blockquote>
+<p>新建一个类,实现HttpSessionBindingListener</p>
+<pre><code>package com.yangcofi.bean;
+
+import javax.servlet.http.HttpSessionBindingEvent;
+import javax.servlet.http.HttpSessionBindingListener;
+
+public class Bean01 implements HttpSessionBindingListener {
+
+    private String name;
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    @Override
+    public void valueBound(HttpSessionBindingEvent httpSessionBindingEvent) {
+        System.out.println(&quot;对象被绑定进来了...&quot;);
+    }
+
+    @Override
+    public void valueUnbound(HttpSessionBindingEvent httpSessionBindingEvent) {
+        System.out.println(&quot;对象解除绑定...&quot;);
+    }
+}</code></pre><p>同样,在web下新建一个demo03文件夹,在demo03文件夹里面新建demo03.jsp文件:</p>
+<pre><code>&lt;%@ page import=&quot;com.yangcofi.bean.Bean01&quot; %&gt;&lt;%--
+  Created by IntelliJ IDEA.
+  User: Administrator
+  Date: 2019/7/5 0005
+  Time: 14:37
+  To change this template use File | Settings | File Templates.
+--%&gt;
+&lt;%@ page contentType=&quot;text/html;charset=UTF-8&quot; language=&quot;java&quot; %&gt;
+&lt;html&gt;
+&lt;head&gt;
+    &lt;title&gt;Demo03&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    这是demo03.jsp
+    &lt;%
+        Bean01 bean01 = new Bean01();
+        bean01.setName(&quot;kangp&quot;);
+        session.setAttribute(&quot;bean&quot;,bean01);
+    %&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre><p><img src="https://github.com/YangCoFi/IMG/raw/master/hh2.png" alt="image"></p>
+<p><img src="https://github.com/YangCoFi/IMG/raw/master/hh3.png" alt="image"></p>
+<p>那么什么时候会调用valueUnbound()呢?</p>
+<p>我们在demo03.jsp里面继续写:</p>
+<pre><code>session.removeAttribute(&quot;bean&quot;);    </code></pre><p>再运行可以看到:</p>
+<pre><code>对象绑定...
+对象解除绑定...</code></pre><blockquote>
+<p>HttpSessionActivationListener(激活监听器)</p>
+</blockquote>
+<blockquote>
+<p>用于监听现在session的值 是 钝化 （序列化）还是活化 （反序列化）的动作</p>
+</blockquote>
+<ul>
+<li>钝化 （序列化）         关闭服务器即可</li>
+</ul>
+<blockquote>
+<p>把内存中的数据 存储到硬盘上</p>
+</blockquote>
+<ul>
+<li>活化 （反序列化）        重启服务器</li>
+</ul>
+<blockquote>
+<p>把硬盘中的数据读取到内存中。</p>
+</blockquote>
+
       
 
       
@@ -3750,98 +4081,10 @@ public class Problem_03_TopKTimes1 {
 
 
   
-    <article id="post-商城秒杀系统笔记" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
   
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/06/30/商城秒杀系统笔记/">商城秒杀系统-分布式session</a>
-    </h1>
-  
-
-        
-        <a href="/2019/06/30/商城秒杀系统笔记/" class="archive-article-date">
-  	<time datetime="2019-06-30T04:24:55.726Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-06-30</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>转载至</p>
-<blockquote>
-<p><a href="https://blog.csdn.net/Brad_PiTt7/article/details/90635659" target="_blank" rel="noopener">https://blog.csdn.net/Brad_PiTt7/article/details/90635659</a></p>
-</blockquote>
-<p>##综述<br>我们的秒杀服务，实际的应用可能不止部署在一个服务器上，而是分布式的多台服务器，这时候假如用户登录是在第一个服务器，第一个请求到了第一台服务器，但是第二个请求到了第二个服务器，那么用户的session信息就丢失了。</p>
-<pre><code>public class GoodsController {
-
-    @Autowired
-    SeckillUserService seckillUserService;
-
-    @Autowired
-    RedisService redisService;
-
-    @RequestMapping(&quot;/to_list&quot;)
-    public String to_list()
-}</code></pre>
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">React</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">JavaScript</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/06/30/商城秒杀系统笔记/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
+    <nav id="page-nav">
+      <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
+    </nav>
   
 
 
@@ -3951,7 +4194,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">JavaScript</a>
+                <a href="javascript:void(0)" class="js-tag color5">Java</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -3959,7 +4202,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">Java</a>
+                <a href="javascript:void(0)" class="js-tag color3">JavaWeb</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -3967,7 +4210,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">JavaWeb</a>
+                <a href="javascript:void(0)" class="js-tag color1">JavaScript</a>
               </li>
              
               <li class="article-tag-list-item">

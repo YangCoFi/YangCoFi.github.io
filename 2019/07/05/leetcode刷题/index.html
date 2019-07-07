@@ -16,7 +16,7 @@
 <meta property="og:site_name" content="阿yang">
 <meta property="og:description" content="minimum-depth-of-binary-tree描述Given a binary tree, find its minimum depth.The minimum depth is the number of nodes along the shortest path from the root node down to the nearest leaf node. 递归解法/**  *">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2019-07-05T10:12:29.252Z">
+<meta property="og:updated_time" content="2019-07-07T04:59:07.280Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="leetcode(牛客网)">
 <meta name="twitter:description" content="minimum-depth-of-binary-tree描述Given a binary tree, find its minimum depth.The minimum depth is the number of nodes along the shortest path from the root node down to the nearest leaf node. 递归解法/**  *">
@@ -207,27 +207,29 @@ public class Solution {
 </blockquote>
 <h3 id="非递归-使用BFS"><a href="#非递归-使用BFS" class="headerlink" title="非递归,使用BFS"></a>非递归,使用BFS</h3><p>LinkedList的一些API:</p>
 <blockquote>
-<p>add        增加一个元索                     如果队列已满，则抛出一个IIIegaISlabEepeplian异常</p>
+<p>add        增加一个元索                     如果队列已满，则抛出一个&gt;IIIegaISlabEepeplian异常</p>
 </blockquote>
+<blockquote>
 <p>remove   移除并返回队列头部的元素    如果队列为空，则抛出一个NoSuchElementException异常</p>
-<blockquote>
 </blockquote>
+<blockquote>
 <p>element  返回队列头部的元素             如果队列为空，则抛出一个NoSuchElementException异常</p>
-<blockquote>
 </blockquote>
+<blockquote>
 <p>offer       添加一个元素并返回true       如果队列已满，则返回false</p>
-<blockquote>
 </blockquote>
+<blockquote>
 <p>poll         移除并返问队列头部的元素    如果队列为空，则返回null</p>
-<blockquote>
 </blockquote>
+<blockquote>
 <p>peek       返回队列头部的元素             如果队列为空，则返回null</p>
-<blockquote>
 </blockquote>
+<blockquote>
 <p>put         添加一个元素                      如果队列满，则阻塞</p>
-<blockquote>
 </blockquote>
+<blockquote>
 <p>take        移除并返回队列头部的元素     如果队列为空，则阻塞</p>
+</blockquote>
 <p>代码:</p>
 <pre><code>public static int run2(TreeNode root){
     if (root == null){
@@ -257,6 +259,234 @@ public class Solution {
         }
     }
     return 0;
+}</code></pre><h2 id="evaluate-reverse-polish-notation"><a href="#evaluate-reverse-polish-notation" class="headerlink" title="evaluate-reverse-polish-notation"></a>evaluate-reverse-polish-notation</h2><h3 id="描述-1"><a href="#描述-1" class="headerlink" title="描述"></a>描述</h3><p>Evaluate the value of an arithmetic expression in Reverse Polish Notation.</p>
+<p>Valid operators are+,-,*,/. Each operand may be an integer or another expression.</p>
+<p>Some examples:</p>
+<p>  [“2”, “1”, “+”, “3”, “*”] -&gt; ((2 + 1) * 3) -&gt; 9</p>
+<p>  [“4”, “13”, “5”, “/“, “+”] -&gt; (4 + (13 / 5)) -&gt; 6</p>
+<h3 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h3><blockquote>
+<p>Stack中的add和push方法</p>
+</blockquote>
+<blockquote>
+<p>add是继承自Vector的方法，且返回值类型是boolean。</p>
+</blockquote>
+<blockquote>
+<p>push是Stack自身的方法，返回值类型是参数类类型。</p>
+</blockquote>
+<p>思路：</p>
+<ul>
+<li><p>遇到操作数就出栈，把计算结果入栈</p>
+<pre><code>计算结果时，stack至少2个数，否则不合法，返回0</code></pre></li>
+<li><p>遇到数字就入栈</p>
+<pre><code>如果不是操作数，也无法转换为数字，就返回0，这里用try catch</code></pre></li>
+<li><p>结果要合法：</p>
+<pre><code>如果遍历完成,stack的元素不止1个，说明不合法，返回0
+
+当stack元素只有一个的时候，返回结果</code></pre></li>
+</ul>
+<h3 id="代码"><a href="#代码" class="headerlink" title="代码:"></a>代码:</h3><pre><code>package com.yang.algo.leetcode;
+
+import java.util.Stack;
+
+/**
+ * Evaluate the value of an arithmetic expression in Reverse Polish Notation.
+ *
+ * Valid operators are+,-,*,/. Each operand may be an integer or another expression.
+ *
+ * Some examples:
+ *
+ *   [&quot;2&quot;, &quot;1&quot;, &quot;+&quot;, &quot;3&quot;, &quot;*&quot;] -&gt; ((2 + 1) * 3) -&gt; 9
+ *   [&quot;4&quot;, &quot;13&quot;, &quot;5&quot;, &quot;/&quot;, &quot;+&quot;] -&gt; (4 + (13 / 5)) -&gt; 6
+ *
+ * */
+public class EvaluateReversePolishNotation {
+
+//    public static int getNum(String[] token){
+//        Stack&lt;Integer&gt; stack = new Stack&lt;&gt;();
+//        for (int i = 0; i &lt; token.length; i ++){
+//            try {
+//                int num = Integer.parseInt(token[i]);
+//                stack.push(num);
+//            }catch (Exception e){
+//                int num1 = stack.pop();
+//                int num2 = stack.pop();
+//                stack.push(evaluateNum(num1, num2, token[i]));
+//            }
+//        }
+//        return stack.pop();
+//    }
+//
+//    public static int evaluateNum(int num1, int num2, String operator){
+//        switch (operator){
+//            case &quot;+&quot;:
+//                return num1 + num2;
+//            case &quot;-&quot;:
+//                return num2 / num1;
+//            case &quot;*&quot;:
+//                return num1 * num2;
+//            case &quot;/&quot;:
+//                return num2 / num1;
+//            default:
+//                return 0;
+//        }
+//    }
+
+    public int evalRPN(String[] tokens){
+        if (tokens == null || tokens.length == 0){
+            return 0;
+        }
+        Stack&lt;Integer&gt; stack = new Stack&lt;&gt;();
+        for (int i = 0; i &lt; tokens.length; i ++){
+            String cur = tokens[i];
+            if (cur.equals(&quot;+&quot;) || cur.equals(&quot;-&quot;) || cur.equals(&quot;*&quot;) || cur.equals(&quot;/&quot;)){
+                if (stack.size() &lt; 2){
+                    return 0;
+                }
+                int num1 = stack.pop();
+                int num2 = stack.pop();
+                if (cur.equals(&quot;+&quot;)){
+                    stack.push(num1 + num2);
+                }
+                if (cur.equals(&quot;-&quot;)){
+                    stack.push(num2 - num1);
+                }
+                if (cur.equals(&quot;*&quot;)){
+                    stack.push(num1 * num2);
+                }
+                if (cur.equals(&quot;/&quot;)){
+                    stack.push(num2 / num1);
+                }
+            }else {
+                try {
+                    int num = Integer.parseInt(cur);
+                    stack.push(num);
+                }catch (NumberFormatException e){
+                    return 0;
+                }
+            }
+        }
+        return stack.size() == 1 ? stack.pop() : 0;
+    }
+
+}</code></pre><h2 id="max-points-on-a-line"><a href="#max-points-on-a-line" class="headerlink" title="max-points-on-a-line"></a>max-points-on-a-line</h2><h3 id="描述-2"><a href="#描述-2" class="headerlink" title="描述"></a>描述</h3><p>Given n points on a 2D plane, find the maximum number of points that lie on the same straight line.</p>
+<h3 id="思路-1"><a href="#思路-1" class="headerlink" title="思路"></a>思路</h3><p>先确定第i位置上点和i-1位置上的点的截距信息。再遍历数组，确定点是否在这条直线上。</p>
+<h3 id="代码-1"><a href="#代码-1" class="headerlink" title="代码"></a>代码</h3><pre><code>package com.yang.algo.leetcode;
+
+/**
+ *Given n points on a 2D plane,
+ * find the maximum number of points that lie on the same straight line.
+ * */
+
+public class MaxPointsOnALine {
+    public static class Point{
+        int x;
+        int y;
+
+        public Point(){
+            this.x = 0;
+            this.y = 0;
+        }
+
+        public Point(int x, int y) {
+            this.x = x;
+            this.y = y;
+        }
+    }
+
+    public static int maxPoints(Point[] points){
+        if (points == null || points.length &lt; 3){
+            return points.length;
+        }
+        int res = 0;
+        for (int i = 1; i &lt; points.length; i ++){
+            int count = 0;
+            int a = points[i].x;
+            int b = points[i].y;
+            int dx = a - points[i - 1].x;
+            int dy = b - points[i - 1].y;
+            if (dx == 0 &amp;&amp; dy == 0){
+                for (int j = 0; j &lt; points.length; j ++){
+                    if (points[j].x == a &amp;&amp; points[j].y == b){
+                        count ++;
+                    }
+                }
+            }else {
+                for (int j = 0; j &lt; points.length; j ++){
+                    if ((points[j].x - a) * dy == (points[j].y - b) * dx) {
+                        count++;
+                    }
+                }
+            }
+            res = Math.max(res,count);
+        }
+        return res;
+    }
+}</code></pre><p>重点：<strong><em>(points[j].x - a) * dy == (points[j].y - b) * dx</em></strong></p>
+<h2 id="sort-list"><a href="#sort-list" class="headerlink" title="sort-list"></a>sort-list</h2><h3 id="描述-3"><a href="#描述-3" class="headerlink" title="描述"></a>描述</h3><p>Sort a linked list in O(n log n) time using constant space complexity.</p>
+<h3 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h3><p>归并排序的一般步骤为：</p>
+<p>1）将待排序数组（链表）取中点并一分为二；</p>
+<p>2）递归地对左半部分进行归并排序；</p>
+<p>3）递归地对右半部分进行归并排序；</p>
+<p>4）将两个半部分进行合并（merge）,得到结果。</p>
+<h3 id="代码-2"><a href="#代码-2" class="headerlink" title="代码"></a>代码</h3><pre><code>package com.yang.algo.leetcode;
+
+/**
+ * Sort a linked list in O(n log n) time using constant space complexity.
+ * */
+
+public class SortList {
+
+    public static class ListNode{
+        int val;
+        ListNode next;
+
+        public ListNode(int val) {
+            this.val = val;
+            this.next = null;
+        }
+    }
+
+    public ListNode sortList(ListNode head) {
+        if (head == null || head.next == null){
+            return head;
+        }
+        ListNode mid = getMid(head);
+        ListNode midNext = mid.next;
+        mid.next = null;        //断开链表
+        return mergeSort(sortList(head),sortList(midNext));     //这和数组不一样的，链表只需头节点即可。数组还要指定末尾，范围
+    }
+
+    private ListNode mergeSort(ListNode listNode1, ListNode listNode2) {
+        ListNode preHead = new ListNode(0);     //前驱节点，用于找头节点       不要直接在链表上处理，用指针去处理
+        ListNode cur = preHead;
+        ListNode cur1 = listNode1;
+        ListNode cur2 = listNode2;
+        while (cur1 != null &amp;&amp; cur2 != null){
+            if (cur1.val &lt; cur2.val){
+                cur.next = cur1;
+                cur1 = cur1.next;
+            }else {
+                cur.next = cur2;
+                cur2 = cur2.next;
+            }
+            cur = cur.next;
+        }
+        cur.next = cur1 == null ? cur2 : cur1;
+        return preHead.next;
+    }
+
+    private static ListNode getMid(ListNode head) {
+        if (head == null || head.next == null){
+            return head;
+        }
+        ListNode slow = head;
+        ListNode fast = head;
+        while (fast.next != null &amp;&amp; fast.next.next != null){
+            slow = slow.next;
+            fast = fast.next.next;
+        }
+        return slow;
+    }
 }</code></pre>
       
 
@@ -400,7 +630,7 @@ public class Solution {
                 </span>
                 <span class="tooltip-content">
                     <div class="toc-article">
-                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#minimum-depth-of-binary-tree"><span class="toc-number">1.</span> <span class="toc-text">minimum-depth-of-binary-tree</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#描述"><span class="toc-number">1.1.</span> <span class="toc-text">描述</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#递归解法"><span class="toc-number">1.2.</span> <span class="toc-text">递归解法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#非递归-使用BFS"><span class="toc-number">1.3.</span> <span class="toc-text">非递归,使用BFS</span></a></li></ol></li></ol>
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#minimum-depth-of-binary-tree"><span class="toc-number">1.</span> <span class="toc-text">minimum-depth-of-binary-tree</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#描述"><span class="toc-number">1.1.</span> <span class="toc-text">描述</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#递归解法"><span class="toc-number">1.2.</span> <span class="toc-text">递归解法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#非递归-使用BFS"><span class="toc-number">1.3.</span> <span class="toc-text">非递归,使用BFS</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#evaluate-reverse-polish-notation"><span class="toc-number">2.</span> <span class="toc-text">evaluate-reverse-polish-notation</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#描述-1"><span class="toc-number">2.1.</span> <span class="toc-text">描述</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#思路"><span class="toc-number">2.2.</span> <span class="toc-text">思路</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#代码"><span class="toc-number">2.3.</span> <span class="toc-text">代码:</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#max-points-on-a-line"><span class="toc-number">3.</span> <span class="toc-text">max-points-on-a-line</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#描述-2"><span class="toc-number">3.1.</span> <span class="toc-text">描述</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#思路-1"><span class="toc-number">3.2.</span> <span class="toc-text">思路</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#代码-1"><span class="toc-number">3.3.</span> <span class="toc-text">代码</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#sort-list"><span class="toc-number">4.</span> <span class="toc-text">sort-list</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#描述-3"><span class="toc-number">4.1.</span> <span class="toc-text">描述</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#分析"><span class="toc-number">4.2.</span> <span class="toc-text">分析</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#代码-2"><span class="toc-number">4.3.</span> <span class="toc-text">代码</span></a></li></ol></li></ol>
                     </div>
                 </span>
             </div>
@@ -532,15 +762,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">JavaScript</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">Java基础</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">算法</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">JavaScript</a>
               </li>
              
               <li class="article-tag-list-item">

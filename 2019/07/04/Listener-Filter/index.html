@@ -37,7 +37,13 @@
 <meta property="og:image" content="https://github.com/YangCoFi/IMG/raw/master/hh1.png">
 <meta property="og:image" content="https://github.com/YangCoFi/IMG/raw/master/hh2.png">
 <meta property="og:image" content="https://github.com/YangCoFi/IMG/raw/master/hh3.png">
-<meta property="og:updated_time" content="2019-07-05T08:24:15.352Z">
+<meta property="og:image" content="https://github.com/YangCoFi/IMG/raw/master/filter1.png">
+<meta property="og:image" content="https://github.com/YangCoFi/IMG/raw/master/filter2.png">
+<meta property="og:image" content="https://github.com/YangCoFi/IMG/raw/master/filter3.png">
+<meta property="og:image" content="https://github.com/YangCoFi/IMG/raw/master/filter4.png">
+<meta property="og:image" content="https://github.com/YangCoFi/IMG/raw/master/filter5.png">
+<meta property="og:image" content="https://github.com/YangCoFi/IMG/raw/master/filter6.png">
+<meta property="og:updated_time" content="2019-07-06T09:27:12.200Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Listener&amp;Filter">
 <meta name="twitter:description" content="Listener内部机制：接口回调 接口回调现在有一个类A： public class A {      public void print(B b){         for (int i = 0; i &amp;lt; 10; i++) {             System.out.println(&amp;quot;循环到了--&amp;quot;+i);             if(i == 5){">
@@ -601,8 +607,147 @@ public class Bean01 implements HttpSessionBindingListener {
 <li>活化 （反序列化）        重启服务器</li>
 </ul>
 <blockquote>
+<p>注意，要去实现Serializable接口才可以将硬盘上的数据读入到内存中。</p>
+</blockquote>
+<blockquote>
 <p>把硬盘中的数据读取到内存中。</p>
 </blockquote>
+<ul>
+<li>session的钝化活化的用意何在</li>
+</ul>
+<blockquote>
+<p> session中的值可能会很多， 并且我们有很长一段时间不使用这个内存中的值， 那么可以考虑把session的值可以存储到硬盘上【钝化】，等下一次在使用的时候，在从硬盘上提取出来。 【活化】</p>
+</blockquote>
+<ul>
+<li>如何让session的在一定时间内钝化. </li>
+</ul>
+<blockquote>
+<p>做配置即可</p>
+</blockquote>
+<pre><code>1. 在tomcat里面 conf/context.xml 里面配置
+
+        对所有的运行在这个服务器的项目生效  
+
+2. 在conf/Catalina/localhost/context.xml 配置
+
+        对 localhost生效。  localhost:8080
+
+3. 在自己的web工程项目中的 META-INF/context.xml
+
+        只对当前的工程生效。
+
+    maxIdleSwap ： 1分钟不用就钝化
+    directory ：  钝化后的那个文件存放的目录位置。 
+
+        D:\tomcat\apache-tomcat-7.0.52\work\Catalina\localhost\ListenerDemo\itheima
+
+    &lt;Context&gt;
+        &lt;Manager className=&quot;org.apache.catalina.session.PersistentManager&quot; maxIdleSwap=&quot;1&quot;&gt;
+            &lt;Store className=&quot;org.apache.catalina.session.FileStore&quot; directory=&quot;itheima&quot;/&gt;
+        &lt;/Manager&gt;
+    &lt;/Context&gt;</code></pre><h2 id="Filter"><a href="#Filter" class="headerlink" title="Filter"></a>Filter</h2><p>几乎每个项目都会有，因为它可以完成自动登陆的功能。</p>
+<blockquote>
+<p>过滤器 ， 其实就是对客户端发出来的请求进行过滤。 浏览器发出， 然后服务器派servlet处理。  在中间就可以过滤， 其实过滤器起到的是拦截的作用。</p>
+</blockquote>
+<ul>
+<li><p>作用</p>
+<ol>
+<li><p>对一些敏感词汇进行过滤</p>
+</li>
+<li><p>统一设置编码</p>
+</li>
+<li><p>自动登录</p>
+<p>…</p>
+</li>
+</ol>
+</li>
+</ul>
+<p>我们传数据过去，每回都得在servlet里面写个request.set()  –&gt;字符串的编码是UTF-8，写100个servlet就要写100个这个，这样我们就可以用到过滤器，提前设置好。</p>
+<h3 id="如何使用过滤器"><a href="#如何使用过滤器" class="headerlink" title="如何使用过滤器"></a>如何使用过滤器</h3><p>新建一个项目FilterDemo</p>
+<p><img src="https://github.com/YangCoFi/IMG/raw/master/filter1.png" alt="image"></p>
+<p>新建一个filter:</p>
+<pre><code>package com.yangcofi.filter;
+
+import javax.servlet.*;
+import javax.servlet.annotation.WebFilter;
+import java.io.IOException;
+
+@WebFilter(filterName = &quot;FilterDemo01&quot;,urlPatterns = &quot;/*&quot;)
+public class FilterDemo01 implements Filter {
+    public void destroy() {
+    }
+
+    public void doFilter(ServletRequest req, ServletResponse resp, FilterChain chain) throws ServletException, IOException {
+        System.out.println(&quot;来到过滤器了...&quot;);
+        chain.doFilter(req, resp);
+    }
+
+    public void init(FilterConfig config) throws ServletException {
+
+    }
+
+}</code></pre><p>###Filter的生命周期</p>
+<ul>
+<li>创建</li>
+</ul>
+<blockquote>
+<p>在服务器启动的时候就创建。 </p>
+</blockquote>
+<ul>
+<li>销毁</li>
+</ul>
+<blockquote>
+<p>服务器停止的时候。</p>
+</blockquote>
+<p>过滤器可以写多个，多个服务器就会有先后顺序了。</p>
+<pre><code>chain.doFilter(req, resp);        //用于放行        </code></pre><p><img src="https://github.com/YangCoFi/IMG/raw/master/filter2.png" alt="image"></p>
+<p>这里我们在filter02上放行，而在filter03和filter04上都未放行，结果页面是出不来的：</p>
+<p><img src="https://github.com/YangCoFi/IMG/raw/master/filter3.png" alt="image"></p>
+<p><img src="https://github.com/YangCoFi/IMG/raw/master/filter4.png" alt="image"></p>
+<p>Question:多个过滤器，为什么02在前面呢？顺序喝什么有关呢？</p>
+<p>和filter-mapping有关。</p>
+<p><img src="https://github.com/YangCoFi/IMG/raw/master/filter5.png" alt="image"></p>
+<p>同样的，filter也可以拦截response,我们在代码中加入:</p>
+<pre><code>public void doFilter(ServletRequest req, ServletResponse resp, FilterChain chain) throws ServletException, IOException {
+    System.out.println(&quot;来到了过滤器filter04  before&quot;);
+    chain.doFilter(req, resp);
+    System.out.println(&quot;来到了过滤器filter04  after&quot;);
+}</code></pre><p>重启服务器，浏览器里打开<a href="http://127.0.0.1:8080/filterDemo/demo01/demo02.jsp" target="_blank" rel="noopener">http://127.0.0.1:8080/filterDemo/demo01/demo02.jsp</a></p>
+<p>可以看到结果：</p>
+<p><img src="https://github.com/YangCoFi/IMG/raw/master/filter6.png" alt="image"></p>
+<p>###Filter执行顺序</p>
+<ol>
+<li><p>客户端发出请求，先经过过滤器， 如果过滤器放行，那么才能到servlet</p>
+</li>
+<li><p>如果有多个过滤器， 那么他们会按照注册的映射顺序 来 排队。 只要有一个过滤器， 不放行，那么后面排队的过滤器以及咱们的servlet都不会收到请求。</p>
+</li>
+</ol>
+<p>##Filter细节：</p>
+<ol>
+<li><p>init方法的参数 FilterConfig , 可以用于获取filter在注册的名字 以及初始化参数。  其实这里的设计的初衷与ServletConfig是一样的。</p>
+</li>
+<li><p>如果想放行，那么在doFilter 方法里面操作，使用参数 chain</p>
+</li>
+</ol>
+<pre><code>chain.doFilter(request, response); 放行， 让请求到达下一个目标。</code></pre><ol start="3">
+<li><p><url-pattern>/*</url-pattern> 写法格式与servlet一样。</p>
+<ol>
+<li><p>全路径匹配  以 /  开始 </p>
+<pre><code>/LoginServlet</code></pre></li>
+<li><p>以目录匹配 以 / 开始  以 * 结束</p>
+<p> /demo01/*  </p>
+</li>
+<li><p>以后缀名匹配  以 * 开始 以后缀名结束</p>
+<p> *.jsp  *.html *.do </p>
+</li>
+</ol>
+</li>
+<li><p>针对 dispatcher 设置</p>
+<pre><code>REQUEST ： 只要是请求过来，都拦截，默认就是REQUEST 
+FORWARD : 只要是转发都拦截。 
+ERROR ： 页面出错发生跳转 
+INCLUDE ： 包含页面的时候就拦截。</code></pre></li>
+</ol>
 
       
 
@@ -755,7 +900,7 @@ public class Bean01 implements HttpSessionBindingListener {
                 </span>
                 <span class="tooltip-content">
                     <div class="toc-article">
-                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Listener"><span class="toc-number">1.</span> <span class="toc-text">Listener</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#接口回调"><span class="toc-number">1.1.</span> <span class="toc-text">接口回调</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Web监听器"><span class="toc-number">1.2.</span> <span class="toc-text">Web监听器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#监听三个作用域属性状态变更"><span class="toc-number">1.3.</span> <span class="toc-text">监听三个作用域属性状态变更</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#监听httpSession里面存值的状态变更"><span class="toc-number">1.4.</span> <span class="toc-text">监听httpSession里面存值的状态变更</span></a></li></ol></li></ol>
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Listener"><span class="toc-number">1.</span> <span class="toc-text">Listener</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#接口回调"><span class="toc-number">1.1.</span> <span class="toc-text">接口回调</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Web监听器"><span class="toc-number">1.2.</span> <span class="toc-text">Web监听器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#监听三个作用域属性状态变更"><span class="toc-number">1.3.</span> <span class="toc-text">监听三个作用域属性状态变更</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#监听httpSession里面存值的状态变更"><span class="toc-number">1.4.</span> <span class="toc-text">监听httpSession里面存值的状态变更</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Filter"><span class="toc-number">2.</span> <span class="toc-text">Filter</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#如何使用过滤器"><span class="toc-number">2.1.</span> <span class="toc-text">如何使用过滤器</span></a></li></ol></li></ol>
                     </div>
                 </span>
             </div>
@@ -887,15 +1032,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">JavaScript</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">Java基础</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">算法</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">JavaScript</a>
               </li>
              
               <li class="article-tag-list-item">

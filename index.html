@@ -207,27 +207,29 @@ public class Solution {
 </blockquote>
 <h3 id="非递归-使用BFS"><a href="#非递归-使用BFS" class="headerlink" title="非递归,使用BFS"></a>非递归,使用BFS</h3><p>LinkedList的一些API:</p>
 <blockquote>
-<p>add        增加一个元索                     如果队列已满，则抛出一个IIIegaISlabEepeplian异常</p>
+<p>add        增加一个元索                     如果队列已满，则抛出一个&gt;IIIegaISlabEepeplian异常</p>
 </blockquote>
+<blockquote>
 <p>remove   移除并返回队列头部的元素    如果队列为空，则抛出一个NoSuchElementException异常</p>
-<blockquote>
 </blockquote>
+<blockquote>
 <p>element  返回队列头部的元素             如果队列为空，则抛出一个NoSuchElementException异常</p>
-<blockquote>
 </blockquote>
+<blockquote>
 <p>offer       添加一个元素并返回true       如果队列已满，则返回false</p>
-<blockquote>
 </blockquote>
+<blockquote>
 <p>poll         移除并返问队列头部的元素    如果队列为空，则返回null</p>
-<blockquote>
 </blockquote>
+<blockquote>
 <p>peek       返回队列头部的元素             如果队列为空，则返回null</p>
-<blockquote>
 </blockquote>
+<blockquote>
 <p>put         添加一个元素                      如果队列满，则阻塞</p>
-<blockquote>
 </blockquote>
+<blockquote>
 <p>take        移除并返回队列头部的元素     如果队列为空，则阻塞</p>
+</blockquote>
 <p>代码:</p>
 <pre><code>public static int run2(TreeNode root){
     if (root == null){
@@ -257,6 +259,234 @@ public class Solution {
         }
     }
     return 0;
+}</code></pre><h2 id="evaluate-reverse-polish-notation"><a href="#evaluate-reverse-polish-notation" class="headerlink" title="evaluate-reverse-polish-notation"></a>evaluate-reverse-polish-notation</h2><h3 id="描述-1"><a href="#描述-1" class="headerlink" title="描述"></a>描述</h3><p>Evaluate the value of an arithmetic expression in Reverse Polish Notation.</p>
+<p>Valid operators are+,-,*,/. Each operand may be an integer or another expression.</p>
+<p>Some examples:</p>
+<p>  [“2”, “1”, “+”, “3”, “*”] -&gt; ((2 + 1) * 3) -&gt; 9</p>
+<p>  [“4”, “13”, “5”, “/“, “+”] -&gt; (4 + (13 / 5)) -&gt; 6</p>
+<h3 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h3><blockquote>
+<p>Stack中的add和push方法</p>
+</blockquote>
+<blockquote>
+<p>add是继承自Vector的方法，且返回值类型是boolean。</p>
+</blockquote>
+<blockquote>
+<p>push是Stack自身的方法，返回值类型是参数类类型。</p>
+</blockquote>
+<p>思路：</p>
+<ul>
+<li><p>遇到操作数就出栈，把计算结果入栈</p>
+<pre><code>计算结果时，stack至少2个数，否则不合法，返回0</code></pre></li>
+<li><p>遇到数字就入栈</p>
+<pre><code>如果不是操作数，也无法转换为数字，就返回0，这里用try catch</code></pre></li>
+<li><p>结果要合法：</p>
+<pre><code>如果遍历完成,stack的元素不止1个，说明不合法，返回0
+
+当stack元素只有一个的时候，返回结果</code></pre></li>
+</ul>
+<h3 id="代码"><a href="#代码" class="headerlink" title="代码:"></a>代码:</h3><pre><code>package com.yang.algo.leetcode;
+
+import java.util.Stack;
+
+/**
+ * Evaluate the value of an arithmetic expression in Reverse Polish Notation.
+ *
+ * Valid operators are+,-,*,/. Each operand may be an integer or another expression.
+ *
+ * Some examples:
+ *
+ *   [&quot;2&quot;, &quot;1&quot;, &quot;+&quot;, &quot;3&quot;, &quot;*&quot;] -&gt; ((2 + 1) * 3) -&gt; 9
+ *   [&quot;4&quot;, &quot;13&quot;, &quot;5&quot;, &quot;/&quot;, &quot;+&quot;] -&gt; (4 + (13 / 5)) -&gt; 6
+ *
+ * */
+public class EvaluateReversePolishNotation {
+
+//    public static int getNum(String[] token){
+//        Stack&lt;Integer&gt; stack = new Stack&lt;&gt;();
+//        for (int i = 0; i &lt; token.length; i ++){
+//            try {
+//                int num = Integer.parseInt(token[i]);
+//                stack.push(num);
+//            }catch (Exception e){
+//                int num1 = stack.pop();
+//                int num2 = stack.pop();
+//                stack.push(evaluateNum(num1, num2, token[i]));
+//            }
+//        }
+//        return stack.pop();
+//    }
+//
+//    public static int evaluateNum(int num1, int num2, String operator){
+//        switch (operator){
+//            case &quot;+&quot;:
+//                return num1 + num2;
+//            case &quot;-&quot;:
+//                return num2 / num1;
+//            case &quot;*&quot;:
+//                return num1 * num2;
+//            case &quot;/&quot;:
+//                return num2 / num1;
+//            default:
+//                return 0;
+//        }
+//    }
+
+    public int evalRPN(String[] tokens){
+        if (tokens == null || tokens.length == 0){
+            return 0;
+        }
+        Stack&lt;Integer&gt; stack = new Stack&lt;&gt;();
+        for (int i = 0; i &lt; tokens.length; i ++){
+            String cur = tokens[i];
+            if (cur.equals(&quot;+&quot;) || cur.equals(&quot;-&quot;) || cur.equals(&quot;*&quot;) || cur.equals(&quot;/&quot;)){
+                if (stack.size() &lt; 2){
+                    return 0;
+                }
+                int num1 = stack.pop();
+                int num2 = stack.pop();
+                if (cur.equals(&quot;+&quot;)){
+                    stack.push(num1 + num2);
+                }
+                if (cur.equals(&quot;-&quot;)){
+                    stack.push(num2 - num1);
+                }
+                if (cur.equals(&quot;*&quot;)){
+                    stack.push(num1 * num2);
+                }
+                if (cur.equals(&quot;/&quot;)){
+                    stack.push(num2 / num1);
+                }
+            }else {
+                try {
+                    int num = Integer.parseInt(cur);
+                    stack.push(num);
+                }catch (NumberFormatException e){
+                    return 0;
+                }
+            }
+        }
+        return stack.size() == 1 ? stack.pop() : 0;
+    }
+
+}</code></pre><h2 id="max-points-on-a-line"><a href="#max-points-on-a-line" class="headerlink" title="max-points-on-a-line"></a>max-points-on-a-line</h2><h3 id="描述-2"><a href="#描述-2" class="headerlink" title="描述"></a>描述</h3><p>Given n points on a 2D plane, find the maximum number of points that lie on the same straight line.</p>
+<h3 id="思路-1"><a href="#思路-1" class="headerlink" title="思路"></a>思路</h3><p>先确定第i位置上点和i-1位置上的点的截距信息。再遍历数组，确定点是否在这条直线上。</p>
+<h3 id="代码-1"><a href="#代码-1" class="headerlink" title="代码"></a>代码</h3><pre><code>package com.yang.algo.leetcode;
+
+/**
+ *Given n points on a 2D plane,
+ * find the maximum number of points that lie on the same straight line.
+ * */
+
+public class MaxPointsOnALine {
+    public static class Point{
+        int x;
+        int y;
+
+        public Point(){
+            this.x = 0;
+            this.y = 0;
+        }
+
+        public Point(int x, int y) {
+            this.x = x;
+            this.y = y;
+        }
+    }
+
+    public static int maxPoints(Point[] points){
+        if (points == null || points.length &lt; 3){
+            return points.length;
+        }
+        int res = 0;
+        for (int i = 1; i &lt; points.length; i ++){
+            int count = 0;
+            int a = points[i].x;
+            int b = points[i].y;
+            int dx = a - points[i - 1].x;
+            int dy = b - points[i - 1].y;
+            if (dx == 0 &amp;&amp; dy == 0){
+                for (int j = 0; j &lt; points.length; j ++){
+                    if (points[j].x == a &amp;&amp; points[j].y == b){
+                        count ++;
+                    }
+                }
+            }else {
+                for (int j = 0; j &lt; points.length; j ++){
+                    if ((points[j].x - a) * dy == (points[j].y - b) * dx) {
+                        count++;
+                    }
+                }
+            }
+            res = Math.max(res,count);
+        }
+        return res;
+    }
+}</code></pre><p>重点：<strong><em>(points[j].x - a) * dy == (points[j].y - b) * dx</em></strong></p>
+<h2 id="sort-list"><a href="#sort-list" class="headerlink" title="sort-list"></a>sort-list</h2><h3 id="描述-3"><a href="#描述-3" class="headerlink" title="描述"></a>描述</h3><p>Sort a linked list in O(n log n) time using constant space complexity.</p>
+<h3 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h3><p>归并排序的一般步骤为：</p>
+<p>1）将待排序数组（链表）取中点并一分为二；</p>
+<p>2）递归地对左半部分进行归并排序；</p>
+<p>3）递归地对右半部分进行归并排序；</p>
+<p>4）将两个半部分进行合并（merge）,得到结果。</p>
+<h3 id="代码-2"><a href="#代码-2" class="headerlink" title="代码"></a>代码</h3><pre><code>package com.yang.algo.leetcode;
+
+/**
+ * Sort a linked list in O(n log n) time using constant space complexity.
+ * */
+
+public class SortList {
+
+    public static class ListNode{
+        int val;
+        ListNode next;
+
+        public ListNode(int val) {
+            this.val = val;
+            this.next = null;
+        }
+    }
+
+    public ListNode sortList(ListNode head) {
+        if (head == null || head.next == null){
+            return head;
+        }
+        ListNode mid = getMid(head);
+        ListNode midNext = mid.next;
+        mid.next = null;        //断开链表
+        return mergeSort(sortList(head),sortList(midNext));     //这和数组不一样的，链表只需头节点即可。数组还要指定末尾，范围
+    }
+
+    private ListNode mergeSort(ListNode listNode1, ListNode listNode2) {
+        ListNode preHead = new ListNode(0);     //前驱节点，用于找头节点       不要直接在链表上处理，用指针去处理
+        ListNode cur = preHead;
+        ListNode cur1 = listNode1;
+        ListNode cur2 = listNode2;
+        while (cur1 != null &amp;&amp; cur2 != null){
+            if (cur1.val &lt; cur2.val){
+                cur.next = cur1;
+                cur1 = cur1.next;
+            }else {
+                cur.next = cur2;
+                cur2 = cur2.next;
+            }
+            cur = cur.next;
+        }
+        cur.next = cur1 == null ? cur2 : cur1;
+        return preHead.next;
+    }
+
+    private static ListNode getMid(ListNode head) {
+        if (head == null || head.next == null){
+            return head;
+        }
+        ListNode slow = head;
+        ListNode fast = head;
+        while (fast.next != null &amp;&amp; fast.next.next != null){
+            slow = slow.next;
+            fast = fast.next.next;
+        }
+        return slow;
+    }
 }</code></pre>
       
 
@@ -740,8 +970,147 @@ public class Bean01 implements HttpSessionBindingListener {
 <li>活化 （反序列化）        重启服务器</li>
 </ul>
 <blockquote>
+<p>注意，要去实现Serializable接口才可以将硬盘上的数据读入到内存中。</p>
+</blockquote>
+<blockquote>
 <p>把硬盘中的数据读取到内存中。</p>
 </blockquote>
+<ul>
+<li>session的钝化活化的用意何在</li>
+</ul>
+<blockquote>
+<p> session中的值可能会很多， 并且我们有很长一段时间不使用这个内存中的值， 那么可以考虑把session的值可以存储到硬盘上【钝化】，等下一次在使用的时候，在从硬盘上提取出来。 【活化】</p>
+</blockquote>
+<ul>
+<li>如何让session的在一定时间内钝化. </li>
+</ul>
+<blockquote>
+<p>做配置即可</p>
+</blockquote>
+<pre><code>1. 在tomcat里面 conf/context.xml 里面配置
+
+        对所有的运行在这个服务器的项目生效  
+
+2. 在conf/Catalina/localhost/context.xml 配置
+
+        对 localhost生效。  localhost:8080
+
+3. 在自己的web工程项目中的 META-INF/context.xml
+
+        只对当前的工程生效。
+
+    maxIdleSwap ： 1分钟不用就钝化
+    directory ：  钝化后的那个文件存放的目录位置。 
+
+        D:\tomcat\apache-tomcat-7.0.52\work\Catalina\localhost\ListenerDemo\itheima
+
+    &lt;Context&gt;
+        &lt;Manager className=&quot;org.apache.catalina.session.PersistentManager&quot; maxIdleSwap=&quot;1&quot;&gt;
+            &lt;Store className=&quot;org.apache.catalina.session.FileStore&quot; directory=&quot;itheima&quot;/&gt;
+        &lt;/Manager&gt;
+    &lt;/Context&gt;</code></pre><h2 id="Filter"><a href="#Filter" class="headerlink" title="Filter"></a>Filter</h2><p>几乎每个项目都会有，因为它可以完成自动登陆的功能。</p>
+<blockquote>
+<p>过滤器 ， 其实就是对客户端发出来的请求进行过滤。 浏览器发出， 然后服务器派servlet处理。  在中间就可以过滤， 其实过滤器起到的是拦截的作用。</p>
+</blockquote>
+<ul>
+<li><p>作用</p>
+<ol>
+<li><p>对一些敏感词汇进行过滤</p>
+</li>
+<li><p>统一设置编码</p>
+</li>
+<li><p>自动登录</p>
+<p>…</p>
+</li>
+</ol>
+</li>
+</ul>
+<p>我们传数据过去，每回都得在servlet里面写个request.set()  –&gt;字符串的编码是UTF-8，写100个servlet就要写100个这个，这样我们就可以用到过滤器，提前设置好。</p>
+<h3 id="如何使用过滤器"><a href="#如何使用过滤器" class="headerlink" title="如何使用过滤器"></a>如何使用过滤器</h3><p>新建一个项目FilterDemo</p>
+<p><img src="https://github.com/YangCoFi/IMG/raw/master/filter1.png" alt="image"></p>
+<p>新建一个filter:</p>
+<pre><code>package com.yangcofi.filter;
+
+import javax.servlet.*;
+import javax.servlet.annotation.WebFilter;
+import java.io.IOException;
+
+@WebFilter(filterName = &quot;FilterDemo01&quot;,urlPatterns = &quot;/*&quot;)
+public class FilterDemo01 implements Filter {
+    public void destroy() {
+    }
+
+    public void doFilter(ServletRequest req, ServletResponse resp, FilterChain chain) throws ServletException, IOException {
+        System.out.println(&quot;来到过滤器了...&quot;);
+        chain.doFilter(req, resp);
+    }
+
+    public void init(FilterConfig config) throws ServletException {
+
+    }
+
+}</code></pre><p>###Filter的生命周期</p>
+<ul>
+<li>创建</li>
+</ul>
+<blockquote>
+<p>在服务器启动的时候就创建。 </p>
+</blockquote>
+<ul>
+<li>销毁</li>
+</ul>
+<blockquote>
+<p>服务器停止的时候。</p>
+</blockquote>
+<p>过滤器可以写多个，多个服务器就会有先后顺序了。</p>
+<pre><code>chain.doFilter(req, resp);        //用于放行        </code></pre><p><img src="https://github.com/YangCoFi/IMG/raw/master/filter2.png" alt="image"></p>
+<p>这里我们在filter02上放行，而在filter03和filter04上都未放行，结果页面是出不来的：</p>
+<p><img src="https://github.com/YangCoFi/IMG/raw/master/filter3.png" alt="image"></p>
+<p><img src="https://github.com/YangCoFi/IMG/raw/master/filter4.png" alt="image"></p>
+<p>Question:多个过滤器，为什么02在前面呢？顺序喝什么有关呢？</p>
+<p>和filter-mapping有关。</p>
+<p><img src="https://github.com/YangCoFi/IMG/raw/master/filter5.png" alt="image"></p>
+<p>同样的，filter也可以拦截response,我们在代码中加入:</p>
+<pre><code>public void doFilter(ServletRequest req, ServletResponse resp, FilterChain chain) throws ServletException, IOException {
+    System.out.println(&quot;来到了过滤器filter04  before&quot;);
+    chain.doFilter(req, resp);
+    System.out.println(&quot;来到了过滤器filter04  after&quot;);
+}</code></pre><p>重启服务器，浏览器里打开<a href="http://127.0.0.1:8080/filterDemo/demo01/demo02.jsp" target="_blank" rel="noopener">http://127.0.0.1:8080/filterDemo/demo01/demo02.jsp</a></p>
+<p>可以看到结果：</p>
+<p><img src="https://github.com/YangCoFi/IMG/raw/master/filter6.png" alt="image"></p>
+<p>###Filter执行顺序</p>
+<ol>
+<li><p>客户端发出请求，先经过过滤器， 如果过滤器放行，那么才能到servlet</p>
+</li>
+<li><p>如果有多个过滤器， 那么他们会按照注册的映射顺序 来 排队。 只要有一个过滤器， 不放行，那么后面排队的过滤器以及咱们的servlet都不会收到请求。</p>
+</li>
+</ol>
+<p>##Filter细节：</p>
+<ol>
+<li><p>init方法的参数 FilterConfig , 可以用于获取filter在注册的名字 以及初始化参数。  其实这里的设计的初衷与ServletConfig是一样的。</p>
+</li>
+<li><p>如果想放行，那么在doFilter 方法里面操作，使用参数 chain</p>
+</li>
+</ol>
+<pre><code>chain.doFilter(request, response); 放行， 让请求到达下一个目标。</code></pre><ol start="3">
+<li><p><url-pattern>/*</url-pattern> 写法格式与servlet一样。</p>
+<ol>
+<li><p>全路径匹配  以 /  开始 </p>
+<pre><code>/LoginServlet</code></pre></li>
+<li><p>以目录匹配 以 / 开始  以 * 结束</p>
+<p> /demo01/*  </p>
+</li>
+<li><p>以后缀名匹配  以 * 开始 以后缀名结束</p>
+<p> *.jsp  *.html *.do </p>
+</li>
+</ol>
+</li>
+<li><p>针对 dispatcher 设置</p>
+<pre><code>REQUEST ： 只要是请求过来，都拦截，默认就是REQUEST 
+FORWARD : 只要是转发都拦截。 
+ERROR ： 页面出错发生跳转 
+INCLUDE ： 包含页面的时候就拦截。</code></pre></li>
+</ol>
 
       
 
@@ -4198,15 +4567,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">JavaScript</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">Java基础</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">算法</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">JavaScript</a>
               </li>
              
               <li class="article-tag-list-item">

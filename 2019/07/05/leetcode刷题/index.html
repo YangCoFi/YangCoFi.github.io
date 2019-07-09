@@ -9,14 +9,14 @@
   <title>leetcode(牛客网) | 阿yang</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description" content="minimum-depth-of-binary-tree描述Given a binary tree, find its minimum depth.The minimum depth is the number of nodes along the shortest path from the root node down to the nearest leaf node. 递归解法/**  *">
-<meta name="keywords" content="算法">
+<meta name="keywords" content="算法,leetcode">
 <meta property="og:type" content="article">
 <meta property="og:title" content="leetcode(牛客网)">
 <meta property="og:url" content="http://yoursite.com/2019/07/05/leetcode刷题/index.html">
 <meta property="og:site_name" content="阿yang">
 <meta property="og:description" content="minimum-depth-of-binary-tree描述Given a binary tree, find its minimum depth.The minimum depth is the number of nodes along the shortest path from the root node down to the nearest leaf node. 递归解法/**  *">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2019-07-07T04:59:07.280Z">
+<meta property="og:updated_time" content="2019-07-09T08:24:17.740Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="leetcode(牛客网)">
 <meta name="twitter:description" content="minimum-depth-of-binary-tree描述Given a binary tree, find its minimum depth.The minimum depth is the number of nodes along the shortest path from the root node down to the nearest leaf node. 递归解法/**  *">
@@ -487,7 +487,174 @@ public class SortList {
         }
         return slow;
     }
-}</code></pre>
+}</code></pre><h2 id="insertion-sort-list"><a href="#insertion-sort-list" class="headerlink" title="insertion-sort-list"></a>insertion-sort-list</h2><h3 id="描述-4"><a href="#描述-4" class="headerlink" title="描述"></a>描述</h3><p>Sort a linked list using insertion sort</p>
+<blockquote>
+<p>插入排序</p>
+</blockquote>
+<pre><code>public static void insertSort(int[] arr){
+    if(arr == null || arr.length &lt; 2){
+        return;
+    }
+    for(int i = 0; i &lt; arr.length; i ++){
+        //从右往左依次插进去，打扑克牌
+        for(int j = i - 1; j &gt;= 0 &amp;&amp; arr[j] &gt; arr[j + 1]; j --){
+            swap(j, j + 1);
+        }
+    }
+}
+
+public static void swap(int[] arr, int i, int j){
+    arr[i] = arr[i] ^ arr[j];
+    arr[j] = arr[i] ^ arr[j];
+    arr[i] = arr[i] ^ arr[j];
+}</code></pre><h3 id="代码-3"><a href="#代码-3" class="headerlink" title="代码"></a>代码</h3><pre><code>package com.yang.algo.leetcode;
+import java.util.List;
+
+/**
+ * Sort a linked list using insertion sort.
+ * */
+
+public class InsertionSortList {
+
+    public static class ListNode{
+        int val;
+        ListNode next;
+        ListNode(int val){
+            this.val = val;
+            this.next = null;
+        }
+    }
+
+    public ListNode insertionSortList(ListNode head) {
+        ListNode dumyNode = new ListNode(0);
+        ListNode cur = head;
+        ListNode pre = dumyNode;
+        while(cur != null){
+            ListNode next = cur.next;
+            pre = dumyNode;
+            while (pre.next != null &amp;&amp; pre.next.val &lt; cur.val){
+                pre = pre.next;
+            }
+            cur.next = pre.next;
+            pre.next = cur;
+            cur = next;
+        }
+        return dumyNode.next;
+    }
+}</code></pre><h2 id="binary-tree-postorder-traversal"><a href="#binary-tree-postorder-traversal" class="headerlink" title="binary-tree-postorder-traversal"></a>binary-tree-postorder-traversal</h2><h3 id="描述-5"><a href="#描述-5" class="headerlink" title="描述"></a>描述</h3><p>Given a binary tree, return the postorder traversal of its nodes’ values.</p>
+<p>For example:<br>Given binary tree{1,#,2,3},</p>
+<pre><code>1
+
+ \
+
+  2
+
+ /
+
+3</code></pre><p>return[3,2,1].</p>
+<p>Note: Recursive solution is trivial, could you do it iteratively? </p>
+<h3 id="递归实现"><a href="#递归实现" class="headerlink" title="递归实现"></a>递归实现</h3><pre><code>//    public ArrayList&lt;Integer&gt; postorderTraversal(TreeNode root) {
+//        ArrayList&lt;Integer&gt; arrayList = new ArrayList&lt;&gt;();
+//        if (root == null){
+//            return arrayList;
+//        }
+//        completeList(root, arrayList);
+//        return arrayList;
+//    }
+
+//    public static void completeList(TreeNode node, ArrayList&lt;Integer&gt; arrayList){
+//        if (node.left != null){
+//            completeList(node.left, arrayList);
+//        }
+//        if (node.right != null){
+//            completeList(node.right, arrayList);
+//        }
+//        arrayList.add(node.val);
+//    }</code></pre><h3 id="非递归实现"><a href="#非递归实现" class="headerlink" title="非递归实现"></a>非递归实现</h3><p>左不为空先压左，右不为空后压右。</p>
+<pre><code>//非递归
+//左不为空先压左，右不为空后压右
+public static ArrayList&lt;Integer&gt; postorderTraversal(TreeNode root) {
+    ArrayList&lt;Integer&gt; list = new ArrayList&lt;&gt;();
+    if (root == null){
+        return list;
+    }
+    Stack&lt;TreeNode&gt; s1 = new Stack&lt;&gt;();
+    Stack&lt;TreeNode&gt; s2 = new Stack&lt;&gt;();
+    s1.push(root);
+    while (!s1.isEmpty()){
+        root = s1.pop();
+        if (root.left != null){
+            s1.push(root.left);
+        }
+        if (root.right != null){
+            s1.push(root.right);
+        }
+        s2.push(root);
+    }
+    while (!s2.isEmpty()){
+        list.add(s2.pop().val);
+    }
+    return list;
+}
+
+public static void main(String[] args) {
+    TreeNode head = new TreeNode(5);
+    head.left = new TreeNode(3);
+    head.right = new TreeNode(8);
+    head.left.left = new TreeNode(2);
+    head.left.right = new TreeNode(4);
+    head.left.left.left = new TreeNode(1);
+    head.right.left = new TreeNode(7);
+    head.right.left.left = new TreeNode(6);
+    head.right.right = new TreeNode(10);
+    head.right.right.left = new TreeNode(9);
+    head.right.right.right = new TreeNode(11);
+
+    ArrayList&lt;Integer&gt; list = postorderTraversal(head);
+    System.out.println(list);
+}</code></pre><h3 id="结果"><a href="#结果" class="headerlink" title="结果"></a>结果</h3><p>[1, 2, 4, 3, 6, 7, 9, 11, 10, 8, 5]</p>
+<blockquote>
+<p>/**</p>
+<ul>
+<li>　　实际上，将list转化为array的时候，第二种重构方法更方便，用法如下：</li>
+<li></li>
+<li>String[] array =new String[list.size()];</li>
+<li></li>
+<li>list.toArray(array);</li>
+<li></li>
+<li>List<object> object = getSession().createSQLQuery(sql).list();</object></li>
+<li></li>
+<li>Set<string> set = new HashSet<string>();</string></string></li>
+<li></li>
+<li>for (int i = 0; i &lt; object.size(); i++) {</li>
+<li></li>
+<li>set.add(object.get(i).toString());//object里有重复的数据，采用set去除重</li>
+<li></li>
+<li>复的数据</li>
+<li></li>
+<li>}</li>
+<li></li>
+<li>String[] devOnlyIds = new String[set.size()]; </li>
+<li></li>
+<li>//Set–&gt;数组    </li>
+<li></li>
+<li>set.toArray(devOnlyIds); </li>
+<li></li>
+<li>return devOnlyIds;</li>
+<li></li>
+<li>}</li>
+<li></li>
+<li>复制代码</li>
+<li></li>
+<li>总结：</li>
+<li></li>
+<li>　　1、集合转数组用方法，比如：list.toArray(new String[list.size()])；</li>
+<li></li>
+<li>　　2、利用set去除list里面重复的数据</li>
+<li>*/</li>
+</ul>
+</blockquote>
+<h2 id="binary-tree-preorder-traversal"><a href="#binary-tree-preorder-traversal" class="headerlink" title="binary-tree-preorder-traversal"></a>binary-tree-preorder-traversal</h2>
       
 
       
@@ -532,6 +699,10 @@ public class SortList {
 			 
         		<li class="article-tag-list-item">
         			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">算法</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">leetcode</a>
         		</li>
       		
 		</ul>
@@ -601,6 +772,15 @@ public class SortList {
   
 <nav id="article-nav">
   
+    <a href="/2019/07/07/nowcoder校招第十章算法笔记/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          leetcode(牛客网)
+        
+      </div>
+    </a>
+  
   
     <a href="/2019/07/04/Listener-Filter/" id="article-nav-older" class="article-nav-link-wrap">
       <div class="article-nav-title">Listener&amp;Filter</div>
@@ -630,7 +810,7 @@ public class SortList {
                 </span>
                 <span class="tooltip-content">
                     <div class="toc-article">
-                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#minimum-depth-of-binary-tree"><span class="toc-number">1.</span> <span class="toc-text">minimum-depth-of-binary-tree</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#描述"><span class="toc-number">1.1.</span> <span class="toc-text">描述</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#递归解法"><span class="toc-number">1.2.</span> <span class="toc-text">递归解法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#非递归-使用BFS"><span class="toc-number">1.3.</span> <span class="toc-text">非递归,使用BFS</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#evaluate-reverse-polish-notation"><span class="toc-number">2.</span> <span class="toc-text">evaluate-reverse-polish-notation</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#描述-1"><span class="toc-number">2.1.</span> <span class="toc-text">描述</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#思路"><span class="toc-number">2.2.</span> <span class="toc-text">思路</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#代码"><span class="toc-number">2.3.</span> <span class="toc-text">代码:</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#max-points-on-a-line"><span class="toc-number">3.</span> <span class="toc-text">max-points-on-a-line</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#描述-2"><span class="toc-number">3.1.</span> <span class="toc-text">描述</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#思路-1"><span class="toc-number">3.2.</span> <span class="toc-text">思路</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#代码-1"><span class="toc-number">3.3.</span> <span class="toc-text">代码</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#sort-list"><span class="toc-number">4.</span> <span class="toc-text">sort-list</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#描述-3"><span class="toc-number">4.1.</span> <span class="toc-text">描述</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#分析"><span class="toc-number">4.2.</span> <span class="toc-text">分析</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#代码-2"><span class="toc-number">4.3.</span> <span class="toc-text">代码</span></a></li></ol></li></ol>
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#minimum-depth-of-binary-tree"><span class="toc-number">1.</span> <span class="toc-text">minimum-depth-of-binary-tree</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#描述"><span class="toc-number">1.1.</span> <span class="toc-text">描述</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#递归解法"><span class="toc-number">1.2.</span> <span class="toc-text">递归解法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#非递归-使用BFS"><span class="toc-number">1.3.</span> <span class="toc-text">非递归,使用BFS</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#evaluate-reverse-polish-notation"><span class="toc-number">2.</span> <span class="toc-text">evaluate-reverse-polish-notation</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#描述-1"><span class="toc-number">2.1.</span> <span class="toc-text">描述</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#思路"><span class="toc-number">2.2.</span> <span class="toc-text">思路</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#代码"><span class="toc-number">2.3.</span> <span class="toc-text">代码:</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#max-points-on-a-line"><span class="toc-number">3.</span> <span class="toc-text">max-points-on-a-line</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#描述-2"><span class="toc-number">3.1.</span> <span class="toc-text">描述</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#思路-1"><span class="toc-number">3.2.</span> <span class="toc-text">思路</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#代码-1"><span class="toc-number">3.3.</span> <span class="toc-text">代码</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#sort-list"><span class="toc-number">4.</span> <span class="toc-text">sort-list</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#描述-3"><span class="toc-number">4.1.</span> <span class="toc-text">描述</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#分析"><span class="toc-number">4.2.</span> <span class="toc-text">分析</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#代码-2"><span class="toc-number">4.3.</span> <span class="toc-text">代码</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#insertion-sort-list"><span class="toc-number">5.</span> <span class="toc-text">insertion-sort-list</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#描述-4"><span class="toc-number">5.1.</span> <span class="toc-text">描述</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#代码-3"><span class="toc-number">5.2.</span> <span class="toc-text">代码</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#binary-tree-postorder-traversal"><span class="toc-number">6.</span> <span class="toc-text">binary-tree-postorder-traversal</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#描述-5"><span class="toc-number">6.1.</span> <span class="toc-text">描述</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#递归实现"><span class="toc-number">6.2.</span> <span class="toc-text">递归实现</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#非递归实现"><span class="toc-number">6.3.</span> <span class="toc-text">非递归实现</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#结果"><span class="toc-number">6.4.</span> <span class="toc-text">结果</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#binary-tree-preorder-traversal"><span class="toc-number">7.</span> <span class="toc-text">binary-tree-preorder-traversal</span></a></li></ol>
                     </div>
                 </span>
             </div>
@@ -754,11 +934,19 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">JavaWeb</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">React</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">Java</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">算法</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -770,11 +958,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">算法</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">JavaWeb</a>
+                <a href="javascript:void(0)" class="js-tag color4">leetcode</a>
               </li>
              
               <li class="article-tag-list-item">

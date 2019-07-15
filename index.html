@@ -149,6 +149,183 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-反射" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/07/15/反射/">反射</a>
+    </h1>
+  
+
+        
+        <a href="/2019/07/15/反射/" class="archive-article-date">
+  	<time datetime="2019-07-15T09:21:58.243Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-07-15</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="反射知识点"><a href="#反射知识点" class="headerlink" title="反射知识点"></a>反射知识点</h2><ul>
+<li>框架：半成品软件，可以在框架的基础上进行软件开发，简化编码。</li>
+<li>反射：将类的各个组成部分封装为其他对象，这就是反射机制。</li>
+</ul>
+<p>反射好处：</p>
+<blockquote>
+<p>可以在程序运行过程中，操作这些对象(如在IDEA程序运行中，可以自动为我们提示某一个类有哪些方法)。</p>
+<p>可以解耦，提高程序的可扩展性。</p>
+</blockquote>
+<h3 id="class对象功能："><a href="#class对象功能：" class="headerlink" title="class对象功能："></a>class对象功能：</h3><pre><code>获取功能：
+    1.获取成员变量们
+        Field[] getFields():获取所有public修饰符修饰的成员变量
+        Field getField(String name):获取指定名称的public修饰的成员变量
+
+        Field[] getDeclaredFields():获取所有的成员变量，不考虑修饰符
+        Field getDeclaredField(String name)
+
+    2.获取构造方法
+        Constructor&lt;?&gt;[] getConstructors()
+        Constructor&lt;T&gt; getConstructor(类&lt;?&gt;... parameterTypes)
+
+        Constructor&lt;?&gt;[] getDeclaredConstructors()
+        Constructor&lt;T&gt; getDeclaredConstructor(类&lt;?&gt;... parameterTypes)
+
+    3.获取成员方法们
+        Method[] getMethods()
+        Method getMethod(String name, 类&lt;?&gt;... parameterTypes)
+
+        Method[] getDeclaredMethods()
+        Method getDeclaredMethod(String name, 类&lt;?&gt;... parameterTypes)
+
+    4.获取类名
+        String getName()</code></pre><h3 id="成员变量"><a href="#成员变量" class="headerlink" title="成员变量"></a>成员变量</h3><pre><code>操作：
+    1.设置值
+        void set(Object obj, Object value)
+    2.获取值
+        get(Object obj)
+    3.忽略访问权限修饰符的安全检查
+        setAccessible(true):暴力反射</code></pre><h3 id="Constructor构造方法"><a href="#Constructor构造方法" class="headerlink" title="Constructor构造方法"></a>Constructor构造方法</h3><pre><code>创建对象
+    T newInstance(Object... initargs)
+
+    如果使用空参数构造方法创建对象，操作可以简化:Class对象的newInstance()方法</code></pre><h3 id="Method方法对象"><a href="#Method方法对象" class="headerlink" title="Method方法对象"></a>Method方法对象</h3><pre><code>执行方法：
+    Object invoke(Object obj, Object... args)
+
+获取方法的名称
+    String getName:获取方法名
+
+获取类名
+String className = personClass.getName();
+System.out.println(className);</code></pre><h2 id="案例"><a href="#案例" class="headerlink" title="案例"></a>案例</h2><pre><code>需求
+    写一个“框架”，在不能改变任意代码的前提下，可以帮助我们创建任意类的对象，并执行其中任意方法。
+实现
+    配置文件
+    反射
+步骤
+    将需要创建对象的全类名和需要执行的方法定义在配置文件中
+    在程序中去加载读取配置文件
+    使用反射技术来加载类文件进内存
+    创建对象
+    执行方法</code></pre><h3 id="案例代码"><a href="#案例代码" class="headerlink" title="案例代码"></a>案例代码</h3><pre><code>package com.yangcofi.reflect.reflect;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.lang.reflect.Method;
+import java.util.Properties;
+
+/**
+ * @ClassName ReflectTest
+ * @Description 框架类
+ * @Author YangC
+ * @Date 2019/7/15 15:14
+ **/
+public class ReflectTest {
+    public static void main(String[] args) throws Exception {
+        //可以创建任意类的对象，可以去执行任意方法
+        //前提：不能改变该类的任意代码
+
+        //1.加载配置文件
+        //1.1创建properties对象
+        Properties properties = new Properties();
+        //1.2加载配置文件，转换欸一个集合
+        //1.2.1获取class目录下的配置文件
+        ClassLoader classLoader = ReflectTest.class.getClassLoader(); //获得这个字节码文件对应的类加载器,是由这个类加载器将其加载进入内存的
+        InputStream is = classLoader.getResourceAsStream(&quot;application.properties&quot;);       //返回这个资源的字节流
+        properties.load(is);
+
+        //2.获取配置文件中定义的数据
+        String className = properties.getProperty(&quot;className&quot;);
+        String methodNmae = properties.getProperty(&quot;methodName&quot;);
+
+//        System.out.println(&quot;className: &quot;+className+&quot; methodName: &quot;+methodNmae);
+
+        //3.加载该类进内存
+        Class clazz = Class.forName(className);
+        //4.创建对象
+        Object object = clazz.newInstance();
+        //5.获取方法对象
+        Method method = clazz.getMethod(methodNmae);
+        //6.执行方法
+        method.invoke(object);
+    }
+
+}</code></pre><p>配置文件</p>
+<pre><code>className=com.yangcofi.reflect.domain.Person
+methodName=eat</code></pre>
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">Java</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/07/15/反射/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-JSP" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -894,7 +1071,182 @@ public static void main(String[] args) {
 <li>*/</li>
 </ul>
 </blockquote>
-<h2 id="binary-tree-preorder-traversal"><a href="#binary-tree-preorder-traversal" class="headerlink" title="binary-tree-preorder-traversal"></a>binary-tree-preorder-traversal</h2>
+<h2 id="binary-tree-preorder-traversal"><a href="#binary-tree-preorder-traversal" class="headerlink" title="binary-tree-preorder-traversal"></a>binary-tree-preorder-traversal</h2><h3 id="描述-6"><a href="#描述-6" class="headerlink" title="描述"></a>描述</h3><p>Given a binary tree, return the preorder traversal of its nodes’ values.</p>
+<p>For example:<br>Given binary tree{1,#,2,3},</p>
+<pre><code>1
+
+ \
+
+  2
+
+ /
+
+3</code></pre><p>return[1,2,3].</p>
+<p>Note: Recursive solution is trivial, could you do it iteratively?</p>
+<h3 id="代码-非递归"><a href="#代码-非递归" class="headerlink" title="代码(非递归)"></a>代码(非递归)</h3><pre><code>package com.yang.algo.leetcode;
+
+import java.util.ArrayList;
+import java.util.Stack;
+
+/**
+ * Given a binary tree, return the preorder traversal of its nodes&apos; values.
+ *
+ * For example:
+ * Given binary tree{1,#,2,3},
+ *
+ *    1
+ *     \
+ *      2
+ *     /
+ *    3
+ *
+ * return[1,2,3].
+ *
+ * Note: Recursive solution is trivial, could you do it iteratively?
+ * */
+
+public class BinaryTreePreOrderTraversal {
+    public static class TreeNode{
+        int val;
+        TreeNode left;
+        TreeNode right;
+        TreeNode(int val){
+            this.val = val;
+        }
+    }
+
+    public ArrayList&lt;Integer&gt; preorderTraversal(TreeNode root) {
+        ArrayList&lt;Integer&gt; list = new ArrayList&lt;&gt;();
+        if (root == null){
+            return list;
+        }
+        Stack&lt;TreeNode&gt; stack = new Stack&lt;&gt;();
+        stack.push(root);
+        while (!stack.isEmpty()){
+            root = stack.pop();
+            list.add(root.val);
+            if (root.right != null){
+                stack.push(root.right);
+            }
+            if (root.left != null){
+                stack.push(root.left);
+            }
+        }
+        return list;
+    }
+}</code></pre><h2 id="reorder-list"><a href="#reorder-list" class="headerlink" title="reorder-list"></a>reorder-list</h2><h3 id="描述-7"><a href="#描述-7" class="headerlink" title="描述"></a>描述</h3><p>Given a singly linked list L: L 0→L 1→…→L n-1→L n,</p>
+<p>reorder it to: L 0→L n →L 1→L n-1→L 2→L n-2→…</p>
+<p>You must do this in-place without altering the nodes’ values.</p>
+<p>For example,<br>Given{1,2,3,4}, reorder it to{1,4,2,3}.</p>
+<h3 id="思路-2"><a href="#思路-2" class="headerlink" title="思路"></a>思路</h3><ul>
+<li>快满指针找到中间节点</li>
+<li>拆分链表，并反转中间节点之后的链表</li>
+<li>合并两个链表</li>
+</ul>
+<h3 id="代码-4"><a href="#代码-4" class="headerlink" title="代码"></a>代码</h3><pre><code>package com.yang.algo.leetcode;
+
+import java.util.List;
+
+/**
+ * Given a singly linked list L: L 0→L 1→…→L n-1→L n,
+ * reorder it to: L 0→L n →L 1→L n-1→L 2→L n-2→…
+ *
+ * You must do this in-place without altering the nodes&apos; values.
+ *
+ * For example,
+ * Given{1,2,3,4}, reorder it to{1,4,2,3}.
+ * */
+
+public class ReorderList {
+
+    public static class ListNode{
+        int val;
+        ListNode next;
+        ListNode(int val){
+            this.val = val;
+        }
+    }
+
+    public void reorderList(ListNode head) {
+        if (head == null || head.next == null || head.next.next == null) {
+            return;
+        }
+        ListNode fast = head;
+        ListNode slow = head;
+        while (fast.next != null &amp;&amp; fast.next.next != null) {
+            slow = slow.next;
+            fast = fast.next.next;
+        }
+        ListNode sechead = slow.next;
+        slow.next = null;
+        ListNode pre = null;
+        while (sechead != null) {
+            ListNode next = sechead.next;
+            sechead.next = pre;
+            pre = sechead;
+            sechead = next;
+        }
+        sechead = pre;
+
+        while (head != null &amp;&amp; sechead != null) {
+            ListNode onetemp = head.next;
+            ListNode twotemp = sechead.next;
+
+
+            head.next = sechead;
+            head = onetemp;
+            sechead.next = head;
+            sechead = twotemp;
+        }
+    }
+}</code></pre><h2 id="linked-list-cycle-ii"><a href="#linked-list-cycle-ii" class="headerlink" title="linked-list-cycle-ii"></a>linked-list-cycle-ii</h2><h3 id="描述-8"><a href="#描述-8" class="headerlink" title="描述"></a>描述</h3><p>Given a linked list, return the node where the cycle begins. If there is no cycle, return null.</p>
+<p>Follow up:<br>Can you solve it without using extra space?</p>
+<h3 id="代码-5"><a href="#代码-5" class="headerlink" title="代码"></a>代码</h3><pre><code>package com.yang.algo.leetcode;
+
+import java.util.List;
+
+/**
+ * Given a linked list, return the node where the cycle begins. If there is no cycle, returnnull.
+ * Follow up:
+ * Can you solve it without using extra space?
+ * */
+
+public class LinkedListCycleII {
+    public static class ListNode{
+        int val;
+        ListNode next;
+        public ListNode(int val) {
+            this.val = val;
+        }
+    }
+
+    public ListNode detectCycle(ListNode head) {
+        if (head == null){
+            return null;
+        }
+        ListNode slow = head;
+        ListNode fast = head;
+        do {
+            slow = slow.next;
+            if (fast.next == null || fast.next.next == null){
+                return null;        //无环
+            }else {
+                fast = fast.next.next;
+            }
+        }while (fast != slow);
+        fast = head;
+        while (fast != slow){
+            slow = slow.next;
+            fast = fast.next;
+        }
+        return slow;
+    }
+}</code></pre><h2 id="linked-list-cycle"><a href="#linked-list-cycle" class="headerlink" title="linked-list-cycle"></a>linked-list-cycle</h2><h3 id="描述-9"><a href="#描述-9" class="headerlink" title="描述"></a>描述</h3><p>Given a linked list, determine if it has a cycle in it.</p>
+<p>Follow up:<br>Can you solve it without using extra space?</p>
+<h3 id="代码-6"><a href="#代码-6" class="headerlink" title="代码"></a>代码</h3><blockquote>
+<p>快慢指针能相遇说明有环！<br>首先，slow指针和fast指针都会进入环内，就像在环形跑道内不同位置的两个人。slow指针在后面，fast指针在前面，但实际上fast指针也在追slow指针，希望能超slow指针一圈。那么fast指针总会追上slow指针的。那么fast指针会不会跳过slow指针呢？不会的，因为fast每次走2步，slow每次走1步，假设两者在环内的距离差为N，那么每次走动，距离差N都会缩小一步，因为fast与slow指针的步长差是1。最终，N会减少到0，也就是两者会相遇。</p>
+</blockquote>
+
       
 
       
@@ -1970,11 +2322,11 @@ public class MaxEorBasePreTree {
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">Java</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">算法</a>
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">算法</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">Java</a>
         		</li>
       		
 		</ul>
@@ -4508,207 +4860,6 @@ public class ListTest {
 
 
   
-    <article id="post-TOP-K" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/06/30/TOP-K/">TOP K</a>
-    </h1>
-  
-
-        
-        <a href="/2019/06/30/TOP-K/" class="archive-article-date">
-  	<time datetime="2019-06-30T12:22:50.293Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-06-30</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="问题描述"><a href="#问题描述" class="headerlink" title="问题描述"></a>问题描述</h1><p>数组中，1出现了5次，2出现了4次，3出现了3次，4出现了3次，5出现了3次。<br>打印最先最多次数的3个数字。结果：1，2，4 or 1,2,3 or 1,2,5</p>
-<h1 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h1><p>一个数组遍历一遍，用一个hash表记录下每一个数字出现的词频，哈希表的增删改查认为是O(1)的，hash弄完之后，我们求得是TOP K的问题，用一个小根堆(维持出现次数最大的K个)即可搞定。以出现的次数作为原则组建这个小根堆。</p>
-<p><img src="https://github.com/YangCoFi/IMG/raw/master/TOP_K.png" alt="image"><br>1,6 2,5 3,7 组成大小为3的小根堆<br>接下来遇到4 它出现了9次。怎么确定这个4要不要进这个小根堆呢？堆顶是目前找到的top3里面出现次数最少的，发现4，9起码可以将堆顶淘汰掉，之后就牵扯到堆的调整操作。4，9就往下沉，有下一个top3次数最少的就浮上来。最终打印这个堆。</p>
-<h1 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h1><pre><code> //为什么我们要建小根堆，因为我们是要找最大的三个。堆建完之后，之后加入的节点必须和我的根节点作比较，如果它比根节点还小，你肯定进不去这个堆。
-//可以保证将最大的三个保持在堆里面，如果你选建大根堆，那么从hashMap中开始的三个组成堆，之后的元素必须要比堆顶大才能进入，好，万一我此时要进入的没有堆顶大
-//但实际上我是原数组中出现次数第二多的，就出错了。
-public class Problem_03_TopKTimes1 {
-
-    public static class Node {
-        public String str;
-        public int times;
-
-        public Node(String s, int t) {
-            str = s;
-            times = t;
-        }
-    }
-
-    public static void printTopKAndRank(String[] arr, int topK) {
-        if (arr == null || topK &lt; 1) {
-            return;
-        }
-        HashMap&lt;String, Integer&gt; map = new HashMap&lt;String, Integer&gt;();
-        for (int i = 0; i != arr.length; i++) {
-            String cur = arr[i];
-            if (!map.containsKey(cur)) {
-                map.put(cur, 1);
-            } else {
-                map.put(cur, map.get(cur) + 1);
-            }
-        }
-        Node[] heap = new Node[topK];
-        int index = 0;
-        for (Entry&lt;String, Integer&gt; entry : map.entrySet()) {
-            String str = entry.getKey();
-            int times = entry.getValue();
-            Node node = new Node(str, times);
-            if (index != topK) {
-                heap[index] = node;
-                heapInsert(heap, index++);
-            } else {
-                if (heap[0].times &lt; node.times) {
-                    heap[0] = node;
-                    heapify(heap, 0, topK);
-                }
-            }
-        }
-        for (int i = index - 1; i != 0; i--) {
-            swap(heap, 0, i);
-            heapify(heap, 0, i);
-        }
-        for (int i = 0; i != heap.length; i++) {
-            if (heap[i] == null) {
-                break;
-            } else {
-                System.out.print(&quot;No.&quot; + (i + 1) + &quot;: &quot;);
-                System.out.print(heap[i].str + &quot;, times: &quot;);
-                System.out.println(heap[i].times);
-            }
-        }
-    }
-
-    public static void heapInsert(Node[] heap, int index) {
-        while (index != 0) {
-            int parent = (index - 1) / 2;
-            if (heap[index].times &lt; heap[parent].times) {
-                swap(heap, parent, index);
-                index = parent;
-            } else {
-                break;
-            }
-        }
-    }
-
-    public static void heapify(Node[] heap, int index, int heapSize) {
-        int left = index * 2 + 1;
-        int right = index * 2 + 2;
-        int smallest = index;
-        while (left &lt; heapSize) {
-            if (heap[left].times &lt; heap[index].times) {
-                smallest = left;
-            }
-            if (right &lt; heapSize &amp;&amp; heap[right].times &lt; heap[smallest].times) {
-                smallest = right;
-            }
-            if (smallest != index) {
-                swap(heap, smallest, index);
-            } else {
-                break;
-            }
-            index = smallest;
-            left = index * 2 + 1;
-            right = index * 2 + 2;
-        }
-    }
-
-    public static void swap(Node[] heap, int index1, int index2) {
-        Node tmp = heap[index1];
-        heap[index1] = heap[index2];
-        heap[index2] = tmp;
-    }
-
-    public static String[] generateRandomArray(int len, int max) {
-        String[] res = new String[len];
-        for (int i = 0; i != len; i++) {
-            res[i] = String.valueOf((int) (Math.random() * (max + 1)));
-        }
-        return res;
-    }
-
-    public static void printArray(String[] arr) {
-        for (int i = 0; i != arr.length; i++) {
-            System.out.print(arr[i] + &quot; &quot;);
-        }
-        System.out.println();
-    }
-
-    public static void main(String[] args) {
-        String[] arr = generateRandomArray(50, 10);
-        int topK = 3;
-        printArray(arr);
-        printTopKAndRank(arr, topK);
-
-    }
-}</code></pre>
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">React</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">Java</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/06/30/TOP-K/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
       <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
@@ -4822,6 +4973,14 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">Java基础</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">算法</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">React</a>
               </li>
              
@@ -4830,15 +4989,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">算法</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">JavaScript</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">Java基础</a>
               </li>
              
               <li class="article-tag-list-item">

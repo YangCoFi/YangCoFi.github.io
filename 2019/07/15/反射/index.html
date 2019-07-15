@@ -6,50 +6,20 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Listener&amp;Filter | 阿yang</title>
+  <title>反射 | 阿yang</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="Listener内部机制：接口回调 接口回调现在有一个类A： public class A {      public void print(B b){         for (int i = 0; i &amp;lt; 10; i++) {             System.out.println(&amp;quot;循环到了--&amp;quot;+i);             if(i == 5){">
-<meta name="keywords" content="JavaWeb">
+  <meta name="description" content="反射知识点 框架：半成品软件，可以在框架的基础上进行软件开发，简化编码。 反射：将类的各个组成部分封装为其他对象，这就是反射机制。  反射好处：  可以在程序运行过程中，操作这些对象(如在IDEA程序运行中，可以自动为我们提示某一个类有哪些方法)。 可以解耦，提高程序的可扩展性。  class对象功能：获取功能：     1.获取成员变量们         Field[] getFields():">
+<meta name="keywords" content="Java">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Listener&amp;Filter">
-<meta property="og:url" content="http://yoursite.com/2019/07/04/Listener-Filter/index.html">
+<meta property="og:title" content="反射">
+<meta property="og:url" content="http://yoursite.com/2019/07/15/反射/index.html">
 <meta property="og:site_name" content="阿yang">
-<meta property="og:description" content="Listener内部机制：接口回调 接口回调现在有一个类A： public class A {      public void print(B b){         for (int i = 0; i &amp;lt; 10; i++) {             System.out.println(&amp;quot;循环到了--&amp;quot;+i);             if(i == 5){">
+<meta property="og:description" content="反射知识点 框架：半成品软件，可以在框架的基础上进行软件开发，简化编码。 反射：将类的各个组成部分封装为其他对象，这就是反射机制。  反射好处：  可以在程序运行过程中，操作这些对象(如在IDEA程序运行中，可以自动为我们提示某一个类有哪些方法)。 可以解耦，提高程序的可扩展性。  class对象功能：获取功能：     1.获取成员变量们         Field[] getFields():">
 <meta property="og:locale" content="default">
-<meta property="og:image" content="https://github.com/YangCoFi/IMG/raw/master/InterfaceRecall.png">
-<meta property="og:image" content="https://github.com/YangCoFi/IMG/raw/master/result.png">
-<meta property="og:image" content="https://github.com/YangCoFi/IMG/raw/master/result2.png">
-<meta property="og:image" content="https://github.com/YangCoFi/IMG/raw/master/result3.png">
-<meta property="og:image" content="https://github.com/YangCoFi/IMG/raw/master/result4.png">
-<meta property="og:image" content="https://github.com/YangCoFi/IMG/raw/master/result5.png">
-<meta property="og:image" content="https://github.com/YangCoFi/IMG/raw/master/result6.png">
-<meta property="og:image" content="https://github.com/YangCoFi/IMG/raw/master/result7.png">
-<meta property="og:image" content="https://github.com/YangCoFi/IMG/raw/master/result8.png">
-<meta property="og:image" content="https://github.com/YangCoFi/IMG/raw/master/result12.png">
-<meta property="og:image" content="https://github.com/YangCoFi/IMG/raw/master/result10.png">
-<meta property="og:image" content="https://github.com/YangCoFi/IMG/raw/master/result11.png">
-<meta property="og:image" content="https://github.com/YangCoFi/IMG/raw/master/result12.png">
-<meta property="og:image" content="https://github.com/YangCoFi/IMG/raw/master/result12.png">
-<meta property="og:image" content="https://github.com/YangCoFi/IMG/raw/master/ServletContextAttributeListener.png">
-<meta property="og:image" content="https://github.com/YangCoFi/IMG/raw/master/ServletRequestAttributeListener.png">
-<meta property="og:image" content="https://github.com/YangCoFi/IMG/raw/master/HttpSessionAttributeListener.png">
-<meta property="og:image" content="https://github.com/YangCoFi/IMG/raw/master/hh.png">
-<meta property="og:image" content="https://github.com/YangCoFi/IMG/raw/master/hh1.png">
-<meta property="og:image" content="https://github.com/YangCoFi/IMG/raw/master/hh2.png">
-<meta property="og:image" content="https://github.com/YangCoFi/IMG/raw/master/hh3.png">
-<meta property="og:image" content="https://github.com/YangCoFi/IMG/raw/master/filter1.png">
-<meta property="og:image" content="https://github.com/YangCoFi/IMG/raw/master/filter2.png">
-<meta property="og:image" content="https://github.com/YangCoFi/IMG/raw/master/filter3.png">
-<meta property="og:image" content="https://github.com/YangCoFi/IMG/raw/master/filter4.png">
-<meta property="og:image" content="https://github.com/YangCoFi/IMG/raw/master/filter5.png">
-<meta property="og:image" content="https://github.com/YangCoFi/IMG/raw/master/filter6.png">
-<meta property="og:image" content="https://github.com/YangCoFi/IMG/raw/master/autoLogin.png">
-<meta property="og:image" content="http://yoursite.com/2019/07/04/Listener-Filter/img/img05.png">
-<meta property="og:updated_time" content="2019-07-08T09:00:04.157Z">
+<meta property="og:updated_time" content="2019-07-15T09:22:41.845Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Listener&amp;Filter">
-<meta name="twitter:description" content="Listener内部机制：接口回调 接口回调现在有一个类A： public class A {      public void print(B b){         for (int i = 0; i &amp;lt; 10; i++) {             System.out.println(&amp;quot;循环到了--&amp;quot;+i);             if(i == 5){">
-<meta name="twitter:image" content="https://github.com/YangCoFi/IMG/raw/master/InterfaceRecall.png">
+<meta name="twitter:title" content="反射">
+<meta name="twitter:description" content="反射知识点 框架：半成品软件，可以在框架的基础上进行软件开发，简化编码。 反射：将类的各个组成部分封装为其他对象，这就是反射机制。  反射好处：  可以在程序运行过程中，操作这些对象(如在IDEA程序运行中，可以自动为我们提示某一个类有哪些方法)。 可以解耦，提高程序的可扩展性。  class对象功能：获取功能：     1.获取成员变量们         Field[] getFields():">
   
     <link rel="alternative" href="/atom.xml" title="阿yang" type="application/atom+xml">
   
@@ -179,757 +149,131 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-Listener-Filter" class="article article-type-post " itemscope itemprop="blogPost">
+            <article id="post-反射" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 class="article-title" itemprop="name">
-      Listener&amp;Filter
+      反射
     </h1>
   
 
         
-        <a href="/2019/07/04/Listener-Filter/" class="archive-article-date">
-  	<time datetime="2019-07-04T07:14:25.706Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-07-04</time>
+        <a href="/2019/07/15/反射/" class="archive-article-date">
+  	<time datetime="2019-07-15T09:21:58.243Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-07-15</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="Listener"><a href="#Listener" class="headerlink" title="Listener"></a>Listener</h2><p>内部机制：接口回调</p>
-<h3 id="接口回调"><a href="#接口回调" class="headerlink" title="接口回调"></a>接口回调</h3><p>现在有一个类A：</p>
-<pre><code>public class A {
-
-    public void print(B b){
-        for (int i = 0; i &lt; 10; i++) {
-            System.out.println(&quot;循环到了--&quot;+i);
-            if(i == 5){
-                System.out.println(&quot;循环到了5了，该通知B 了。&quot;);
-                B b = new B();
-                b.printFive();
-            }
-        }
-    }
-}</code></pre><p>类B：</p>
-<pre><code>public class B  implements PrintListener{
-
-    /*public void printFive(){
-        System.out.println(&quot;A已经循环到了5， 所以B的这个方法将被调用&quot;);
-    }*/
-
-    @Override
-    public void print() {
-        System.out.println(&quot;2018年。。。A已经循环到了5， 所以B的这个方法将被调用&quot;);
-    }
-}</code></pre><p>这个类是很久之前写的，在这个print方法中需要使用B类的实例，但当时还不知道有这个B类。</p>
-<ol>
-<li><p>不能直接new B。因为此时还没有这个类。</p>
-</li>
-<li><p>不能传递B的实例进来。</p>
-</li>
-</ol>
-<p>那怎么办呢？ <strong><em>传一个接口进来</em></strong></p>
-<p>在定义这个方法的时候，不管未来写的是B类， 还是C类，还是D类，为了通用，定义了一种接口，只要让未来的那些类，实现这个接口。 然后这个方法的参数写 接口类型即可。</p>
-<p>接口：</p>
-<pre><code>public interface PrintListener {
-
-    /**
-     * 一旦出现了某一种事件， 达到了某一个状态，就调用这个方法。
-     */
-    void print();
-}</code></pre><p>A类中的print()方法：</p>
-<pre><code>public void print(PrintListener listener){
-    for (int i = 0; i &lt; 10; i++) {
-        System.out.println(&quot;我在1988年就开始打印这个语句了。。循环到了--&quot;+i);
-        if(i == 5){
-            System.out.println(&quot;循环到了5了，该通知B 了。&quot;);
-            listener.print();    //不是调用接口的方法，而是接口的实现类的方法
-            /*B b = new B();
-            b.printFive();*/
-        }
-    }
-}</code></pre><p>让B实现这个接口：</p>
-<pre><code>@Override
-public void print() {
-    System.out.println(&quot;2018年。。。A已经循环到了5， 所以B的这个方法将被调用&quot;);
-}</code></pre><p>我们测试一下：</p>
-<p>public class Test {</p>
-<pre><code>public static void main(String[] args) {
-    A a = new A();
-
-    //参数为什么可以接受B？
-    //这是多态的体现，
-
-    /*
-     * 这个方法咋i1988年就定义了要收 printlistener 这个接口的类型。
-     * 在2018年的时候有一个类 B 实现了这个接口printlistener ，
-     * 所以现在可以传递B（这个接口的实现类）进来。
-     */
-    a.print(new B());
-}</code></pre><p>过程表示：</p>
-<p><img src="https://github.com/YangCoFi/IMG/raw/master/InterfaceRecall.png" alt="image"></p>
-<h3 id="Web监听器"><a href="#Web监听器" class="headerlink" title="Web监听器"></a>Web监听器</h3><blockquote>
-<p>总共有8个,分为三种类型</p>
-</blockquote>
-<p>Listener创建:</p>
-<blockquote>
-<ol>
-<li>定义一个类，实现接口</li>
-</ol>
-</blockquote>
-<blockquote>
-<ol start="2">
-<li>注册 | 配置监听器</li>
-</ol>
-</blockquote>
-<ul>
-<li><p>监听三个作用域的创建与销毁</p>
-<p>  request  —httpServletRequest</p>
-<p>  session     —httpSession</p>
-<p>  application  —ServletContext</p>
-</li>
+        <h2 id="反射知识点"><a href="#反射知识点" class="headerlink" title="反射知识点"></a>反射知识点</h2><ul>
+<li>框架：半成品软件，可以在框架的基础上进行软件开发，简化编码。</li>
+<li>反射：将类的各个组成部分封装为其他对象，这就是反射机制。</li>
 </ul>
+<p>反射好处：</p>
 <blockquote>
-<p>ServletContext,是一个全局的储存信息的空间，服务器开始，其就存在，服务器关闭，其才释放。request，一个用户可有多个；session，一个用户一个；而servletContext，所有用户共用一个。所以，为了节省空间，提高效率，ServletContext中，要放必须的、重要的、所有用户需要共享的线程又是安全的一些信息。如，做一个购物类的网站，要从数据库中提取物品信息，如果用session保存这些物品信息，每个用户都访问一便数据库，效率就太低了；所以要用来Servlet上下文来保存，在服务器开始时，就访问数据库，将物品信息存入Servlet上下文中，这样，每个用户只用从上下文中读入物品信息就行了。</p>
+<p>可以在程序运行过程中，操作这些对象(如在IDEA程序运行中，可以自动为我们提示某一个类有哪些方法)。</p>
+<p>可以解耦，提高程序的可扩展性。</p>
 </blockquote>
-<p>1.ServletContextListener</p>
-<ul>
-<li><p>servletcontext创建：启动服务器的时候</p>
-</li>
-<li><p>servletContext销毁：关闭服务器. 从服务器移除项目</p>
-</li>
-</ul>
-<p>新建类:</p>
-<pre><code>package com.yangcofi.listener;
-import javax.servlet.ServletContextEvent;
-import javax.servlet.ServletContextListener;
+<h3 id="class对象功能："><a href="#class对象功能：" class="headerlink" title="class对象功能："></a>class对象功能：</h3><pre><code>获取功能：
+    1.获取成员变量们
+        Field[] getFields():获取所有public修饰符修饰的成员变量
+        Field getField(String name):获取指定名称的public修饰的成员变量
 
-public class MyServletContextListener implements ServletContextListener {
+        Field[] getDeclaredFields():获取所有的成员变量，不考虑修饰符
+        Field getDeclaredField(String name)
 
-    // Public constructor is required by servlet spec
-    public MyServletContextListener() {
-    }
+    2.获取构造方法
+        Constructor&lt;?&gt;[] getConstructors()
+        Constructor&lt;T&gt; getConstructor(类&lt;?&gt;... parameterTypes)
 
-    // -------------------------------------------------------
-    // ServletContextListener implementation
-    // -------------------------------------------------------
-    public void contextInitialized(ServletContextEvent sce) {
-      /* This method is called when the servlet context is
-         initialized(when the Web application is deployed). 
-         You can initialize servlet context related data here.
-      */
+        Constructor&lt;?&gt;[] getDeclaredConstructors()
+        Constructor&lt;T&gt; getDeclaredConstructor(类&lt;?&gt;... parameterTypes)
 
-        System.out.println(&quot;servletContext初始化了...&quot;);
-    }
+    3.获取成员方法们
+        Method[] getMethods()
+        Method getMethod(String name, 类&lt;?&gt;... parameterTypes)
 
-    public void contextDestroyed(ServletContextEvent sce) {
-      /* This method is invoked when the Servlet Context 
-         (the Web application) is undeployed or 
-         Application Server shuts down.
-      */
-        System.out.println(&quot;servletContext销毁了...&quot;);
-    }
-}</code></pre><p>到xml注册:</p>
-<pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
-&lt;web-app xmlns=&quot;http://xmlns.jcp.org/xml/ns/javaee&quot;
-         xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;
-         xsi:schemaLocation=&quot;http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd&quot;
-         version=&quot;4.0&quot;&gt;
-    &lt;listener&gt;
-        &lt;listener-class&gt;com.yangcofi.listener.MyServletContextListener&lt;/listener-class&gt;
-    &lt;/listener&gt;
-&lt;/web-app&gt;</code></pre><p>2.ServletRequestListener</p>
-<p>request创建:</p>
-<pre><code>访问服务器上的任意资源都会有请求出现。
+        Method[] getDeclaredMethods()
+        Method getDeclaredMethod(String name, 类&lt;?&gt;... parameterTypes)
 
-访问 html： 会
-访问 jsp:    会
-访问 servlet : 会 </code></pre><p>创建Listener类:</p>
-<pre><code>package com.yangcofi.listener;
+    4.获取类名
+        String getName()</code></pre><h3 id="成员变量"><a href="#成员变量" class="headerlink" title="成员变量"></a>成员变量</h3><pre><code>操作：
+    1.设置值
+        void set(Object obj, Object value)
+    2.获取值
+        get(Object obj)
+    3.忽略访问权限修饰符的安全检查
+        setAccessible(true):暴力反射</code></pre><h3 id="Constructor构造方法"><a href="#Constructor构造方法" class="headerlink" title="Constructor构造方法"></a>Constructor构造方法</h3><pre><code>创建对象
+    T newInstance(Object... initargs)
 
-import javax.servlet.*;
-import javax.servlet.annotation.WebListener;
-import javax.servlet.http.HttpSessionAttributeListener;
-import javax.servlet.http.HttpSessionEvent;
-import javax.servlet.http.HttpSessionListener;
-import javax.servlet.http.HttpSessionBindingEvent;
+    如果使用空参数构造方法创建对象，操作可以简化:Class对象的newInstance()方法</code></pre><h3 id="Method方法对象"><a href="#Method方法对象" class="headerlink" title="Method方法对象"></a>Method方法对象</h3><pre><code>执行方法：
+    Object invoke(Object obj, Object... args)
 
-@WebListener()
-public class MyRequestListener implements ServletRequestListener{
+获取方法的名称
+    String getName:获取方法名
 
-    // Public constructor is required by servlet spec
-    public MyRequestListener() {
-    }
+获取类名
+String className = personClass.getName();
+System.out.println(className);</code></pre><h2 id="案例"><a href="#案例" class="headerlink" title="案例"></a>案例</h2><pre><code>需求
+    写一个“框架”，在不能改变任意代码的前提下，可以帮助我们创建任意类的对象，并执行其中任意方法。
+实现
+    配置文件
+    反射
+步骤
+    将需要创建对象的全类名和需要执行的方法定义在配置文件中
+    在程序中去加载读取配置文件
+    使用反射技术来加载类文件进内存
+    创建对象
+    执行方法</code></pre><h3 id="案例代码"><a href="#案例代码" class="headerlink" title="案例代码"></a>案例代码</h3><pre><code>package com.yangcofi.reflect.reflect;
 
-    @Override
-    public void requestDestroyed(ServletRequestEvent servletRequestEvent) {
-        System.out.println(&quot;servletRequest销毁了...&quot;);
-    }
-
-    @Override
-    public void requestInitialized(ServletRequestEvent servletRequestEvent) {
-        System.out.println(&quot;servletRequest初始化了...&quot;);
-    }
-}</code></pre><blockquote>
-<p>由于直接用注解的方式@WebListener()进行注册了,所以不用再web.xml中进行Listener的注册.</p>
-</blockquote>
-<p>在web文件夹下新建demo01文件夹,在demo01文件夹里面新建index.html,运行tomcat.</p>
-<p>结果:</p>
-<p>访问TestServlet结果:</p>
-<p><img src="https://github.com/YangCoFi/IMG/raw/master/result.png" alt="image"></p>
-<p><img src="https://github.com/YangCoFi/IMG/raw/master/result2.png" alt="image"></p>
-<p>访问网页结果:</p>
-<p><img src="https://github.com/YangCoFi/IMG/raw/master/result3.png" alt="image"></p>
-<p><img src="https://github.com/YangCoFi/IMG/raw/master/result4.png" alt="image"></p>
-<p>3.HttpSessionListener</p>
-<pre><code>session的创建
-    只要调用getSession
-    html:        不会
-    jsp:        会      getSession();
-    servlet:     会
-
-session的销毁
-    超时  30分钟
-    非正常关闭 销毁
-    正常关闭服务器(序列化)</code></pre><p>创建一个类:MySessionListener</p>
-<pre><code>package com.yangcofi.listener;
-import javax.servlet.annotation.WebListener;
-import javax.servlet.http.HttpSessionEvent;
-import javax.servlet.http.HttpSessionListener;
-
-@WebListener()
-public class MySessionListener implements HttpSessionListener{
-
-    @Override
-    public void sessionCreated(HttpSessionEvent httpSessionEvent) {
-        System.out.println(&quot;创建Session了...&quot;);
-    }
-
-    @Override
-    public void sessionDestroyed(HttpSessionEvent httpSessionEvent) {
-        System.out.println(&quot;销毁Session了...&quot;);
-    }
-}</code></pre><p>同样的,我们访问index.html</p>
-<p><img src="https://github.com/YangCoFi/IMG/raw/master/result5.png" alt="image"></p>
-<p><img src="https://github.com/YangCoFi/IMG/raw/master/result6.png" alt="image"></p>
-<p>可以看到,html的访问并不会为我们创建一个session.</p>
-<p>再访问一下index.jsp:</p>
-<p><img src="https://github.com/YangCoFi/IMG/raw/master/result7.png" alt="image"></p>
-<p><img src="https://github.com/YangCoFi/IMG/raw/master/result8.png" alt="image"></p>
-<p>创建了session…</p>
-<p>最后再看一下servlet的访问:</p>
-<p><img src="https://github.com/YangCoFi/IMG/raw/master/result12.png" alt="image"></p>
-<p><img src="https://github.com/YangCoFi/IMG/raw/master/result10.png" alt="image"></p>
-<p>并未创建session</p>
-<blockquote>
-<p>那么怎么样才会为我们创建session呢?</p>
-</blockquote>
-<p>我们在TestServlet中:</p>
-<p><img src="https://github.com/YangCoFi/IMG/raw/master/result11.png" alt="image"></p>
-<p><img src="https://github.com/YangCoFi/IMG/raw/master/result12.png" alt="image"></p>
-<p><img src="https://github.com/YangCoFi/IMG/raw/master/result12.png" alt="image"></p>
-<p>这些Listener的作用：</p>
-<pre><code>ServletContextListener
-
-    利用它来，在servletcontext创建的时候， 
-        1. 完成自己想要的初始化工作
-
-        2. 执行自定义任务调度。 执行某一个任务。 Timer  
-
-HttpSessionListener
-
-    统计在线人数.</code></pre><h3 id="监听三个作用域属性状态变更"><a href="#监听三个作用域属性状态变更" class="headerlink" title="监听三个作用域属性状态变更"></a>监听三个作用域属性状态变更</h3><p>这种监听器是在三个作用域存值的时候</p>
-<blockquote>
-<p>这个值被添加了</p>
-</blockquote>
-<blockquote>
-<p>这个值被替换了</p>
-</blockquote>
-<blockquote>
-<p>这个值被删除了</p>
-</blockquote>
-<ul>
-<li><p>servletContext — ServletContextAttributeListener(上下文的属性监听器)</p>
-</li>
-<li><p><img src="https://github.com/YangCoFi/IMG/raw/master/ServletContextAttributeListener.png" alt="image"></p>
-</li>
-<li><p>request — ServletRequestAttributeListener</p>
-</li>
-</ul>
-<p><img src="https://github.com/YangCoFi/IMG/raw/master/ServletRequestAttributeListener.png" alt="image"></p>
-<ul>
-<li>session — HttpSessionAttributeListener</li>
-</ul>
-<p><img src="https://github.com/YangCoFi/IMG/raw/master/HttpSessionAttributeListener.png" alt="image"></p>
-<p>往session里面存值:setAttribute(“name”,aa)<br>移除这个值:removeAttribute()<br>替换这个值:setAttribute(“name”,bb)        —&gt;将值进行了覆盖</p>
-<p>因为三个作用域属性监听器的方法基本是一样的,所以我们测试其中一个:</p>
-<p>新建一个Listener,名为MyHttpSessionListener,并实现了HttpSessionAttributeListener接口:</p>
-<pre><code>package com.yangcofi.listener02;
-
-import javax.servlet.ServletContextEvent;
-import javax.servlet.annotation.WebListener;
-import javax.servlet.http.HttpSessionAttributeListener;
-import javax.servlet.http.HttpSessionEvent;
-import javax.servlet.http.HttpSessionBindingEvent;
-
-@WebListener()
-public class MyHttpSessionListener implements  HttpSessionAttributeListener {
-
-    // Public constructor is required by servlet spec
-    public MyHttpSessionListener() {
-    }
-
-    // -------------------------------------------------------
-    // HttpSessionAttributeListener implementation
-    // -------------------------------------------------------
-
-    public void attributeAdded(HttpSessionBindingEvent sbe) {
-      /* This method is called when an attribute 
-         is added to a session.
-      */
-        System.out.println(&quot;属性被添加了...&quot;);
-    }
-
-    public void attributeRemoved(HttpSessionBindingEvent sbe) {
-      /* This method is called when an attribute
-         is removed from a session.
-      */
-        System.out.println(&quot;属性被移除了...&quot;);
-    }
-
-    public void attributeReplaced(HttpSessionBindingEvent sbe) {
-      /* This method is invoked when an attibute
-         is replaced in a session.
-      */
-        System.out.println(&quot;属性被替换了...&quot;);
-    }
-}</code></pre><p>我们在web目录下新建demo02文件夹,在demo02文件夹里面新建一个demo02.jsp,</p>
-<pre><code>&lt;%--
-  Created by IntelliJ IDEA.
-  User: YangCoFi
-  Date: 2019/7/5 0005
-  Time: 12:29
-  To change this template use File | Settings | File Templates.
---%&gt;
-&lt;%@ page contentType=&quot;text/html;charset=UTF-8&quot; language=&quot;java&quot; %&gt;
-&lt;html&gt;
-&lt;head&gt;
-    &lt;title&gt;Demo01&lt;/title&gt;
-&lt;/head&gt;
-&lt;body&gt;
-    &lt;%
-      session.setAttribute(&quot;name&quot;,&quot;van&quot;);
-      session.setAttribute(&quot;name&quot;,&quot;mumu&quot;);
-      session.removeAttribute(&quot;name&quot;);
-    %&gt;
-&lt;/body&gt;
-&lt;/html&gt;</code></pre><p>接下来运行tomcat,结果:</p>
-<p><img src="https://github.com/YangCoFi/IMG/raw/master/hh.png" alt="image"></p>
-<p><img src="https://github.com/YangCoFi/IMG/raw/master/hh1.png" alt="image"></p>
-<p><strong><em>这类监听器用的不是很多</em></strong></p>
-<h3 id="监听httpSession里面存值的状态变更"><a href="#监听httpSession里面存值的状态变更" class="headerlink" title="监听httpSession里面存值的状态变更"></a>监听httpSession里面存值的状态变更</h3><blockquote>
-<p>这一类监听器不用注册。</p>
-</blockquote>
-<ul>
-<li>HttpSessionBindingListener(监听对象和session绑定与解除绑定的动作)</li>
-</ul>
-<blockquote>
-<p>监听对象与session 绑定和解除绑定 的动作</p>
-</blockquote>
-<p>新建一个类,实现HttpSessionBindingListener</p>
-<pre><code>package com.yangcofi.bean;
-
-import javax.servlet.http.HttpSessionBindingEvent;
-import javax.servlet.http.HttpSessionBindingListener;
-
-public class Bean01 implements HttpSessionBindingListener {
-
-    private String name;
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    @Override
-    public void valueBound(HttpSessionBindingEvent httpSessionBindingEvent) {
-        System.out.println(&quot;对象被绑定进来了...&quot;);
-    }
-
-    @Override
-    public void valueUnbound(HttpSessionBindingEvent httpSessionBindingEvent) {
-        System.out.println(&quot;对象解除绑定...&quot;);
-    }
-}</code></pre><p>同样,在web下新建一个demo03文件夹,在demo03文件夹里面新建demo03.jsp文件:</p>
-<pre><code>&lt;%@ page import=&quot;com.yangcofi.bean.Bean01&quot; %&gt;&lt;%--
-  Created by IntelliJ IDEA.
-  User: Administrator
-  Date: 2019/7/5 0005
-  Time: 14:37
-  To change this template use File | Settings | File Templates.
---%&gt;
-&lt;%@ page contentType=&quot;text/html;charset=UTF-8&quot; language=&quot;java&quot; %&gt;
-&lt;html&gt;
-&lt;head&gt;
-    &lt;title&gt;Demo03&lt;/title&gt;
-&lt;/head&gt;
-&lt;body&gt;
-    这是demo03.jsp
-    &lt;%
-        Bean01 bean01 = new Bean01();
-        bean01.setName(&quot;kangp&quot;);
-        session.setAttribute(&quot;bean&quot;,bean01);
-    %&gt;
-&lt;/body&gt;
-&lt;/html&gt;</code></pre><p><img src="https://github.com/YangCoFi/IMG/raw/master/hh2.png" alt="image"></p>
-<p><img src="https://github.com/YangCoFi/IMG/raw/master/hh3.png" alt="image"></p>
-<p>那么什么时候会调用valueUnbound()呢?</p>
-<p>我们在demo03.jsp里面继续写:</p>
-<pre><code>session.removeAttribute(&quot;bean&quot;);    </code></pre><p>再运行可以看到:</p>
-<pre><code>对象绑定...
-对象解除绑定...</code></pre><blockquote>
-<p>HttpSessionActivationListener(激活监听器)</p>
-</blockquote>
-<blockquote>
-<p>用于监听现在session的值 是 钝化 （序列化）还是活化 （反序列化）的动作</p>
-</blockquote>
-<ul>
-<li>钝化 （序列化）         关闭服务器即可</li>
-</ul>
-<blockquote>
-<p>把内存中的数据 存储到硬盘上</p>
-</blockquote>
-<ul>
-<li>活化 （反序列化）        重启服务器</li>
-</ul>
-<blockquote>
-<p>注意，要去实现Serializable接口才可以将硬盘上的数据读入到内存中。</p>
-</blockquote>
-<blockquote>
-<p>把硬盘中的数据读取到内存中。</p>
-</blockquote>
-<ul>
-<li>session的钝化活化的用意何在</li>
-</ul>
-<blockquote>
-<p> session中的值可能会很多， 并且我们有很长一段时间不使用这个内存中的值， 那么可以考虑把session的值可以存储到硬盘上【钝化】，等下一次在使用的时候，在从硬盘上提取出来。 【活化】</p>
-</blockquote>
-<ul>
-<li>如何让session的在一定时间内钝化. </li>
-</ul>
-<blockquote>
-<p>做配置即可</p>
-</blockquote>
-<pre><code>1. 在tomcat里面 conf/context.xml 里面配置
-
-        对所有的运行在这个服务器的项目生效  
-
-2. 在conf/Catalina/localhost/context.xml 配置
-
-        对 localhost生效。  localhost:8080
-
-3. 在自己的web工程项目中的 META-INF/context.xml
-
-        只对当前的工程生效。
-
-    maxIdleSwap ： 1分钟不用就钝化
-    directory ：  钝化后的那个文件存放的目录位置。 
-
-        D:\tomcat\apache-tomcat-7.0.52\work\Catalina\localhost\ListenerDemo\itheima
-
-    &lt;Context&gt;
-        &lt;Manager className=&quot;org.apache.catalina.session.PersistentManager&quot; maxIdleSwap=&quot;1&quot;&gt;
-            &lt;Store className=&quot;org.apache.catalina.session.FileStore&quot; directory=&quot;itheima&quot;/&gt;
-        &lt;/Manager&gt;
-    &lt;/Context&gt;</code></pre><h2 id="Filter"><a href="#Filter" class="headerlink" title="Filter"></a>Filter</h2><p>几乎每个项目都会有，因为它可以完成自动登陆的功能。</p>
-<blockquote>
-<p>过滤器 ， 其实就是对客户端发出来的请求进行过滤。 浏览器发出， 然后服务器派servlet处理。  在中间就可以过滤， 其实过滤器起到的是拦截的作用。</p>
-</blockquote>
-<ul>
-<li><p>作用</p>
-<ol>
-<li><p>对一些敏感词汇进行过滤</p>
-</li>
-<li><p>统一设置编码</p>
-</li>
-<li><p>自动登录</p>
-<p>…</p>
-</li>
-</ol>
-</li>
-</ul>
-<p>我们传数据过去，每回都得在servlet里面写个request.set()  –&gt;字符串的编码是UTF-8，写100个servlet就要写100个这个，这样我们就可以用到过滤器，提前设置好。</p>
-<h3 id="如何使用过滤器"><a href="#如何使用过滤器" class="headerlink" title="如何使用过滤器"></a>如何使用过滤器</h3><p>新建一个项目FilterDemo</p>
-<p><img src="https://github.com/YangCoFi/IMG/raw/master/filter1.png" alt="image"></p>
-<p>新建一个filter:</p>
-<pre><code>package com.yangcofi.filter;
-
-import javax.servlet.*;
-import javax.servlet.annotation.WebFilter;
 import java.io.IOException;
-
-@WebFilter(filterName = &quot;FilterDemo01&quot;,urlPatterns = &quot;/*&quot;)
-public class FilterDemo01 implements Filter {
-    public void destroy() {
-    }
-
-    public void doFilter(ServletRequest req, ServletResponse resp, FilterChain chain) throws ServletException, IOException {
-        System.out.println(&quot;来到过滤器了...&quot;);
-        chain.doFilter(req, resp);
-    }
-
-    public void init(FilterConfig config) throws ServletException {
-
-    }
-
-}</code></pre><p>###Filter的生命周期</p>
-<ul>
-<li>创建</li>
-</ul>
-<blockquote>
-<p>在服务器启动的时候就创建。 </p>
-</blockquote>
-<ul>
-<li>销毁</li>
-</ul>
-<blockquote>
-<p>服务器停止的时候。</p>
-</blockquote>
-<p>过滤器可以写多个，多个服务器就会有先后顺序了。</p>
-<pre><code>chain.doFilter(req, resp);        //用于放行        </code></pre><p><img src="https://github.com/YangCoFi/IMG/raw/master/filter2.png" alt="image"></p>
-<p>这里我们在filter02上放行，而在filter03和filter04上都未放行，结果页面是出不来的：</p>
-<p><img src="https://github.com/YangCoFi/IMG/raw/master/filter3.png" alt="image"></p>
-<p><img src="https://github.com/YangCoFi/IMG/raw/master/filter4.png" alt="image"></p>
-<p>Question:多个过滤器，为什么02在前面呢？顺序喝什么有关呢？</p>
-<p>和filter-mapping有关。</p>
-<p><img src="https://github.com/YangCoFi/IMG/raw/master/filter5.png" alt="image"></p>
-<p>同样的，filter也可以拦截response,我们在代码中加入:</p>
-<pre><code>public void doFilter(ServletRequest req, ServletResponse resp, FilterChain chain) throws ServletException, IOException {
-    System.out.println(&quot;来到了过滤器filter04  before&quot;);
-    chain.doFilter(req, resp);
-    System.out.println(&quot;来到了过滤器filter04  after&quot;);
-}</code></pre><p>重启服务器，浏览器里打开<a href="http://127.0.0.1:8080/filterDemo/demo01/demo02.jsp" target="_blank" rel="noopener">http://127.0.0.1:8080/filterDemo/demo01/demo02.jsp</a></p>
-<p>可以看到结果：</p>
-<p><img src="https://github.com/YangCoFi/IMG/raw/master/filter6.png" alt="image"></p>
-<p>###Filter执行顺序</p>
-<ol>
-<li><p>客户端发出请求，先经过过滤器， 如果过滤器放行，那么才能到servlet</p>
-</li>
-<li><p>如果有多个过滤器， 那么他们会按照注册的映射顺序 来 排队。 只要有一个过滤器， 不放行，那么后面排队的过滤器以及咱们的servlet都不会收到请求。</p>
-</li>
-</ol>
-<p>##Filter细节：</p>
-<ol>
-<li><p>init方法的参数 FilterConfig , 可以用于获取filter在注册的名字 以及初始化参数。  其实这里的设计的初衷与ServletConfig是一样的。</p>
-</li>
-<li><p>如果想放行，那么在doFilter 方法里面操作，使用参数 chain</p>
-</li>
-</ol>
-<pre><code>chain.doFilter(request, response); 放行， 让请求到达下一个目标。</code></pre><ol start="3">
-<li><p><url-pattern>/*</url-pattern> 写法格式与servlet一样。</p>
-<ol>
-<li><p>全路径匹配  以 /  开始 </p>
-<pre><code>/LoginServlet</code></pre></li>
-<li><p>以目录匹配 以 / 开始  以 * 结束</p>
-<p> /demo01/*  </p>
-</li>
-<li><p>以后缀名匹配  以 * 开始 以后缀名结束</p>
-<p> *.jsp  *.html *.do </p>
-</li>
-</ol>
-</li>
-<li><p>针对 dispatcher 设置</p>
-<pre><code>REQUEST ： 只要是请求过来，都拦截，默认就是REQUEST 
-FORWARD : 只要是转发都拦截。 
-ERROR ： 页面出错发生跳转 
-INCLUDE ： 包含页面的时候就拦截。</code></pre></li>
-</ol>
-<h2 id="自动登陆"><a href="#自动登陆" class="headerlink" title="自动登陆"></a>自动登陆</h2><p><img src="https://github.com/YangCoFi/IMG/raw/master/autoLogin.png" alt="image"></p>
-<ul>
-<li>需求分析</li>
-</ul>
-<p><img src="img/img05.png" alt="icon"></p>
-<p>####1. 搭建环境</p>
-<ol>
-<li><p>搭建数据库</p>
-</li>
-<li><p>搭建页面</p>
-</li>
-</ol>
-<p>###登录servlet代码</p>
-<pre><code>    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
-    try {
-        String userName = request.getParameter(&quot;username&quot;);
-        String password = request.getParameter(&quot;password&quot;);
-        String autoLogin = request.getParameter(&quot;auto_login&quot;);
-        UserBean user = new UserBean();
-        user.setUsername(userName);
-        user.setPassword(password);
-
-        UserDao dao = new UserDaoImpl();
-        UserBean userBean = dao.login(user);
-
-        if(userBean != null){
-            //成功了，进入首页
-            request.getSession().setAttribute(&quot;userBean&quot;, userBean);
-            response.sendRedirect(&quot;index.jsp&quot;);
-        }else{
-            //不成功...
-            request.getRequestDispatcher(&quot;login.jsp&quot;).forward(request, response);
-        }
-
-    } catch (SQLException e) {
-        e.printStackTrace();
-    }
-}</code></pre><p>##过滤器代码</p>
-<blockquote>
-<p> 过滤器的核心不是完成拦截不给 ， 还是放行显示。 它的核心是在放行之前，帮用户完成登录的功能。 </p>
-</blockquote>
-<ul>
-<li>实现思路</li>
-</ul>
-<ol>
-<li><p>先判断session是否有效， 如果有效，就不用取cookie了，直接放行。</p>
-</li>
-<li><p>如果session失效了，那么就取 cookie。</p>
-<ol>
-<li><p>没有cookie  放行 </p>
-</li>
-<li><p>有cookie </p>
-<pre><code>1. 取出来cookie的值，然后完成登录
-2. 把这个用户的值存储到session中
-
-3. 放行。
+import java.io.InputStream;
+import java.lang.reflect.Method;
+import java.util.Properties;
 
 /**
- * @see Filter#doFilter(ServletRequest, ServletResponse, FilterChain)
- */
-public void doFilter(ServletRequest req, ServletResponse response, FilterChain chain) throws IOException, ServletException {
+ * @ClassName ReflectTest
+ * @Description 框架类
+ * @Author YangC
+ * @Date 2019/7/15 15:14
+ **/
+public class ReflectTest {
+    public static void main(String[] args) throws Exception {
+        //可以创建任意类的对象，可以去执行任意方法
+        //前提：不能改变该类的任意代码
 
-try {
-    HttpServletRequest request = (HttpServletRequest) req;
+        //1.加载配置文件
+        //1.1创建properties对象
+        Properties properties = new Properties();
+        //1.2加载配置文件，转换欸一个集合
+        //1.2.1获取class目录下的配置文件
+        ClassLoader classLoader = ReflectTest.class.getClassLoader(); //获得这个字节码文件对应的类加载器,是由这个类加载器将其加载进入内存的
+        InputStream is = classLoader.getResourceAsStream(&quot;application.properties&quot;);       //返回这个资源的字节流
+        properties.load(is);
 
-    //先判断，现在session中还有没有那个userBean.
-    UserBean userBean = (UserBean) request.getSession().getAttribute(&quot;userBean&quot;);
-    //还有，有效。
-    if(userBean != null){
-        chain.doFilter(request, response);
-    }else{
-        //代表session失效了。
+        //2.获取配置文件中定义的数据
+        String className = properties.getProperty(&quot;className&quot;);
+        String methodNmae = properties.getProperty(&quot;methodName&quot;);
 
-        //2. 看cookie。
+//        System.out.println(&quot;className: &quot;+className+&quot; methodName: &quot;+methodNmae);
 
-        //1. 来请求的时候，先从请求里面取出cookie , 但是cookie有很多的key-value
-        Cookie[] cookies = request.getCookies();
-        //2. 从一堆的cookie里面找出我们以前给浏览器发的那个cookie
-        Cookie cookie = CookieUtil.findCookie(cookies, &quot;auto_login&quot;);
-
-        //第一次来
-        if(cookie  == null){
-            chain.doFilter(request, response);
-        }else{
-
-            //不是第一次。
-
-            String value = cookie.getValue();
-            String username = value.split(&quot;#itheima#&quot;)[0];
-            String password = value.split(&quot;#itheima#&quot;)[1];
-
-            //完成登录
-            UserBean user = new UserBean();
-            user.setUsername(username);
-            user.setPassword(password);
-
-            UserDao dao = new UserDaoImpl();
-            userBean = dao.login(user);
-
-            //使用session存这个值到域中，方便下一次未过期前还可以用。
-            request.getSession().setAttribute(&quot;userBean&quot;, userBean);
-
-            chain.doFilter(request, response);
-        }
-
+        //3.加载该类进内存
+        Class clazz = Class.forName(className);
+        //4.创建对象
+        Object object = clazz.newInstance();
+        //5.获取方法对象
+        Method method = clazz.getMethod(methodNmae);
+        //6.执行方法
+        method.invoke(object);
     }
 
-    } catch (Exception e) {
-        e.printStackTrace();
-        chain.doFilter(req, response);
-    }
-    }</code></pre></li>
-</ol>
-</li>
-</ol>
-<p>###BeanUtils的使用</p>
-<blockquote>
-<p>BeanUtils.populate(bean, map);    </p>
-</blockquote>
-<pre><code>//注册自己的日期转换器
-ConvertUtils.register(new MyDateConverter(), Date.class);
-
-
-//转化数据
-Map map = request.getParameterMap();
-UserBean bean = new UserBean();
-
-转化map中的数据，放置到bean对象身上
-BeanUtils.populate(bean, map);    </code></pre><p>#总结</p>
-<p>##Listener</p>
-<pre><code>8个 
-
-三种类型  
-    针对三个作用域的创建和销毁
-    针对三个作用域的值改变 【添加 | 替换 | 移除】
-    针对session中的值 【钝化 活化】 ， 【绑定  解绑】
-
-钝化 ( 序列化 ) 
-    内存中的对象存储到硬盘 
-
-    超时失效。 session销毁了。 
-
-非正常关闭服务器， 钝化  。 正常关闭服务器 销毁
-
-设置了session，多久时间。 context.xml
-
-
-活化 (反序列化)
-    从硬盘里面读取到内存</code></pre><p>ServletContextListner  ： 应用被部署的时候， 服务器加载这个项目的时候，做一些初始化工作， 任务调度。<br>HttpSessionListener    ： 统计在线人数<br>HttpSessionActivationListener  ： 钝化活化处理</p>
-<p>##Filter </p>
-<blockquote>
-<p>使用频率更高</p>
-</blockquote>
-<ul>
-<li>如果要写一个过滤器。</li>
-</ul>
-<blockquote>
-<ol>
-<li>定义一个类，实现接口 Filter</li>
-</ol>
-</blockquote>
-<blockquote>
-<ol start="2">
-<li>注册 . web.xml . 与servlet相似。</li>
-</ol>
-</blockquote>
-<ul>
-<li>过滤器放行。 </li>
-</ul>
-<blockquote>
-<p>chain.doFilter(request, response);</p>
-</blockquote>
-<ul>
-<li><p>过滤器生命周期</p>
-<p>  创建： 服务器加载这个项目的时候创建实例</p>
-<p>  销毁： 关闭服务器或者从服务器中移除项目的时候。</p>
-</li>
-</ul>
-
+}</code></pre><p>配置文件</p>
+<pre><code>className=com.yangcofi.reflect.domain.Person
+methodName=eat</code></pre>
       
 
       
@@ -973,7 +317,7 @@ BeanUtils.populate(bean, map);    </code></pre><p>#总结</p>
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">JavaWeb</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">Java</a>
         		</li>
       		
 		</ul>
@@ -1029,7 +373,7 @@ BeanUtils.populate(bean, map);    </code></pre><p>#总结</p>
     <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2019/07/04/Listener-Filter/" alt="微信分享二维码">
+      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2019/07/15/反射/" alt="微信分享二维码">
     </div>
 </div>
 
@@ -1043,18 +387,9 @@ BeanUtils.populate(bean, map);    </code></pre><p>#总结</p>
   
 <nav id="article-nav">
   
-    <a href="/2019/07/05/leetcode刷题/" id="article-nav-newer" class="article-nav-link-wrap">
-      <i class="icon-circle-left"></i>
-      <div class="article-nav-title">
-        
-          leetcode(牛客网)
-        
-      </div>
-    </a>
   
-  
-    <a href="/2019/07/03/最大异或和的子数组/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">MAX_EOR</div>
+    <a href="/2019/07/09/JSP/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">JSP</div>
       <i class="icon-circle-right"></i>
     </a>
   
@@ -1081,7 +416,7 @@ BeanUtils.populate(bean, map);    </code></pre><p>#总结</p>
                 </span>
                 <span class="tooltip-content">
                     <div class="toc-article">
-                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Listener"><span class="toc-number">1.</span> <span class="toc-text">Listener</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#接口回调"><span class="toc-number">1.1.</span> <span class="toc-text">接口回调</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Web监听器"><span class="toc-number">1.2.</span> <span class="toc-text">Web监听器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#监听三个作用域属性状态变更"><span class="toc-number">1.3.</span> <span class="toc-text">监听三个作用域属性状态变更</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#监听httpSession里面存值的状态变更"><span class="toc-number">1.4.</span> <span class="toc-text">监听httpSession里面存值的状态变更</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Filter"><span class="toc-number">2.</span> <span class="toc-text">Filter</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#如何使用过滤器"><span class="toc-number">2.1.</span> <span class="toc-text">如何使用过滤器</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#自动登陆"><span class="toc-number">3.</span> <span class="toc-text">自动登陆</span></a></li></ol>
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#反射知识点"><span class="toc-number">1.</span> <span class="toc-text">反射知识点</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#class对象功能："><span class="toc-number">1.1.</span> <span class="toc-text">class对象功能：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#成员变量"><span class="toc-number">1.2.</span> <span class="toc-text">成员变量</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Constructor构造方法"><span class="toc-number">1.3.</span> <span class="toc-text">Constructor构造方法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Method方法对象"><span class="toc-number">1.4.</span> <span class="toc-text">Method方法对象</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#案例"><span class="toc-number">2.</span> <span class="toc-text">案例</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#案例代码"><span class="toc-number">2.1.</span> <span class="toc-text">案例代码</span></a></li></ol></li></ol>
                     </div>
                 </span>
             </div>

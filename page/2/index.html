@@ -149,6 +149,207 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-TOP-K" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/06/30/TOP-K/">TOP K</a>
+    </h1>
+  
+
+        
+        <a href="/2019/06/30/TOP-K/" class="archive-article-date">
+  	<time datetime="2019-06-30T12:22:50.293Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-06-30</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="问题描述"><a href="#问题描述" class="headerlink" title="问题描述"></a>问题描述</h1><p>数组中，1出现了5次，2出现了4次，3出现了3次，4出现了3次，5出现了3次。<br>打印最先最多次数的3个数字。结果：1，2，4 or 1,2,3 or 1,2,5</p>
+<h1 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h1><p>一个数组遍历一遍，用一个hash表记录下每一个数字出现的词频，哈希表的增删改查认为是O(1)的，hash弄完之后，我们求得是TOP K的问题，用一个小根堆(维持出现次数最大的K个)即可搞定。以出现的次数作为原则组建这个小根堆。</p>
+<p><img src="https://github.com/YangCoFi/IMG/raw/master/TOP_K.png" alt="image"><br>1,6 2,5 3,7 组成大小为3的小根堆<br>接下来遇到4 它出现了9次。怎么确定这个4要不要进这个小根堆呢？堆顶是目前找到的top3里面出现次数最少的，发现4，9起码可以将堆顶淘汰掉，之后就牵扯到堆的调整操作。4，9就往下沉，有下一个top3次数最少的就浮上来。最终打印这个堆。</p>
+<h1 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h1><pre><code> //为什么我们要建小根堆，因为我们是要找最大的三个。堆建完之后，之后加入的节点必须和我的根节点作比较，如果它比根节点还小，你肯定进不去这个堆。
+//可以保证将最大的三个保持在堆里面，如果你选建大根堆，那么从hashMap中开始的三个组成堆，之后的元素必须要比堆顶大才能进入，好，万一我此时要进入的没有堆顶大
+//但实际上我是原数组中出现次数第二多的，就出错了。
+public class Problem_03_TopKTimes1 {
+
+    public static class Node {
+        public String str;
+        public int times;
+
+        public Node(String s, int t) {
+            str = s;
+            times = t;
+        }
+    }
+
+    public static void printTopKAndRank(String[] arr, int topK) {
+        if (arr == null || topK &lt; 1) {
+            return;
+        }
+        HashMap&lt;String, Integer&gt; map = new HashMap&lt;String, Integer&gt;();
+        for (int i = 0; i != arr.length; i++) {
+            String cur = arr[i];
+            if (!map.containsKey(cur)) {
+                map.put(cur, 1);
+            } else {
+                map.put(cur, map.get(cur) + 1);
+            }
+        }
+        Node[] heap = new Node[topK];
+        int index = 0;
+        for (Entry&lt;String, Integer&gt; entry : map.entrySet()) {
+            String str = entry.getKey();
+            int times = entry.getValue();
+            Node node = new Node(str, times);
+            if (index != topK) {
+                heap[index] = node;
+                heapInsert(heap, index++);
+            } else {
+                if (heap[0].times &lt; node.times) {
+                    heap[0] = node;
+                    heapify(heap, 0, topK);
+                }
+            }
+        }
+        for (int i = index - 1; i != 0; i--) {
+            swap(heap, 0, i);
+            heapify(heap, 0, i);
+        }
+        for (int i = 0; i != heap.length; i++) {
+            if (heap[i] == null) {
+                break;
+            } else {
+                System.out.print(&quot;No.&quot; + (i + 1) + &quot;: &quot;);
+                System.out.print(heap[i].str + &quot;, times: &quot;);
+                System.out.println(heap[i].times);
+            }
+        }
+    }
+
+    public static void heapInsert(Node[] heap, int index) {
+        while (index != 0) {
+            int parent = (index - 1) / 2;
+            if (heap[index].times &lt; heap[parent].times) {
+                swap(heap, parent, index);
+                index = parent;
+            } else {
+                break;
+            }
+        }
+    }
+
+    public static void heapify(Node[] heap, int index, int heapSize) {
+        int left = index * 2 + 1;
+        int right = index * 2 + 2;
+        int smallest = index;
+        while (left &lt; heapSize) {
+            if (heap[left].times &lt; heap[index].times) {
+                smallest = left;
+            }
+            if (right &lt; heapSize &amp;&amp; heap[right].times &lt; heap[smallest].times) {
+                smallest = right;
+            }
+            if (smallest != index) {
+                swap(heap, smallest, index);
+            } else {
+                break;
+            }
+            index = smallest;
+            left = index * 2 + 1;
+            right = index * 2 + 2;
+        }
+    }
+
+    public static void swap(Node[] heap, int index1, int index2) {
+        Node tmp = heap[index1];
+        heap[index1] = heap[index2];
+        heap[index2] = tmp;
+    }
+
+    public static String[] generateRandomArray(int len, int max) {
+        String[] res = new String[len];
+        for (int i = 0; i != len; i++) {
+            res[i] = String.valueOf((int) (Math.random() * (max + 1)));
+        }
+        return res;
+    }
+
+    public static void printArray(String[] arr) {
+        for (int i = 0; i != arr.length; i++) {
+            System.out.print(arr[i] + &quot; &quot;);
+        }
+        System.out.println();
+    }
+
+    public static void main(String[] args) {
+        String[] arr = generateRandomArray(50, 10);
+        int topK = 3;
+        printArray(arr);
+        printTopKAndRank(arr, topK);
+
+    }
+}</code></pre>
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">React</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">Java</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/06/30/TOP-K/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-RussianDollEnvelopes" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -436,11 +637,11 @@
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">Java</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">算法</a>
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">算法</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">Java</a>
         		</li>
       		
 		</ul>
@@ -685,6 +886,14 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">Java基础</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">算法</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">React</a>
               </li>
              
@@ -693,15 +902,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">算法</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">JavaScript</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">Java基础</a>
               </li>
              
               <li class="article-tag-list-item">

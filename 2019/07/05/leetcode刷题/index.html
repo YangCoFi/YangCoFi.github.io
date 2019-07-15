@@ -16,7 +16,7 @@
 <meta property="og:site_name" content="阿yang">
 <meta property="og:description" content="minimum-depth-of-binary-tree描述Given a binary tree, find its minimum depth.The minimum depth is the number of nodes along the shortest path from the root node down to the nearest leaf node. 递归解法/**  *">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2019-07-15T09:37:10.563Z">
+<meta property="og:updated_time" content="2019-07-15T09:50:45.537Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="leetcode(牛客网)">
 <meta name="twitter:description" content="minimum-depth-of-binary-tree描述Given a binary tree, find its minimum depth.The minimum depth is the number of nodes along the shortest path from the root node down to the nearest leaf node. 递归解法/**  *">
@@ -827,7 +827,42 @@ public class LinkedListCycleII {
 <h3 id="代码-6"><a href="#代码-6" class="headerlink" title="代码"></a>代码</h3><blockquote>
 <p>快慢指针能相遇说明有环！<br>首先，slow指针和fast指针都会进入环内，就像在环形跑道内不同位置的两个人。slow指针在后面，fast指针在前面，但实际上fast指针也在追slow指针，希望能超slow指针一圈。那么fast指针总会追上slow指针的。那么fast指针会不会跳过slow指针呢？不会的，因为fast每次走2步，slow每次走1步，假设两者在环内的距离差为N，那么每次走动，距离差N都会缩小一步，因为fast与slow指针的步长差是1。最终，N会减少到0，也就是两者会相遇。</p>
 </blockquote>
+<pre><code>package com.yang.algo.leetcode;
 
+/**
+ *Given a linked list, determine if it has a cycle in it.
+ * Follow up:
+ * Can you solve it without using extra space?
+ * */
+
+public class LinkedListCycle {
+
+    public static class ListNode{
+        int val;
+        ListNode next;
+        public ListNode(int val) {
+            this.val = val;
+        }
+    }
+
+    //快慢指针能相遇，则说明有环
+    public boolean hasCycle(ListNode head) {
+        if (head == null){
+            return false;
+        }
+        ListNode fast = head;
+        ListNode slow = head;
+        do {
+            slow = slow.next;
+            if (fast.next == null || fast.next.next == null){
+                //说明无环
+                return false;
+            }
+            fast = fast.next.next;
+        }while (slow != fast);
+        return true;
+    }
+}</code></pre>
       
 
       
@@ -1123,11 +1158,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">JavaScript</a>
+                <a href="javascript:void(0)" class="js-tag color3">算法</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">算法</a>
+                <a href="javascript:void(0)" class="js-tag color1">JavaScript</a>
               </li>
              
               <li class="article-tag-list-item">

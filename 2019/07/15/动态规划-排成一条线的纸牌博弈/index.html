@@ -6,22 +6,20 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>俄罗斯信封问题 | 阿yang</title>
+  <title>纸牌博弈问题 | 阿yang</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="俄罗斯信封问题问题描述 如：给信封[[5,4],[6,4],[6,7],[2,3]]，最大的值为3([2,3] =&amp;gt; [5,4] =&amp;gt; [6,7])必须w和h都比另一个大才行 w相等或h相等都不行！！ 思路 假定所有的信封的长度和宽度都是不重复的   将这些信封按照w从小到大排序，此时h会组成一个数组，在这个h组成的数组上找最长递增子序列，解决。  如果是可以相等，如何解决？   将w">
-<meta name="keywords" content="React,Java">
+  <meta name="description" content="纸牌博弈问题代码package com.yang.algo.advan.seven; /**  * @ClassName CardGameProblem  * @Description TODO  * @Author YangC  * @Date 2019/7/11 15:42  **/ public class CardGameProblem {     //暴力递归     public st">
+<meta name="keywords" content="算法">
 <meta property="og:type" content="article">
-<meta property="og:title" content="俄罗斯信封问题">
-<meta property="og:url" content="http://yoursite.com/2019/06/30/RussianDollEnvelopes/index.html">
+<meta property="og:title" content="纸牌博弈问题">
+<meta property="og:url" content="http://yoursite.com/2019/07/15/动态规划-排成一条线的纸牌博弈/index.html">
 <meta property="og:site_name" content="阿yang">
-<meta property="og:description" content="俄罗斯信封问题问题描述 如：给信封[[5,4],[6,4],[6,7],[2,3]]，最大的值为3([2,3] =&amp;gt; [5,4] =&amp;gt; [6,7])必须w和h都比另一个大才行 w相等或h相等都不行！！ 思路 假定所有的信封的长度和宽度都是不重复的   将这些信封按照w从小到大排序，此时h会组成一个数组，在这个h组成的数组上找最长递增子序列，解决。  如果是可以相等，如何解决？   将w">
+<meta property="og:description" content="纸牌博弈问题代码package com.yang.algo.advan.seven; /**  * @ClassName CardGameProblem  * @Description TODO  * @Author YangC  * @Date 2019/7/11 15:42  **/ public class CardGameProblem {     //暴力递归     public st">
 <meta property="og:locale" content="default">
-<meta property="og:image" content="https://github.com/YangCoFi/IMG/raw/master/RussianEnvelopes.png">
-<meta property="og:updated_time" content="2019-07-02T13:18:52.121Z">
+<meta property="og:updated_time" content="2019-07-15T09:57:00.151Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="俄罗斯信封问题">
-<meta name="twitter:description" content="俄罗斯信封问题问题描述 如：给信封[[5,4],[6,4],[6,7],[2,3]]，最大的值为3([2,3] =&amp;gt; [5,4] =&amp;gt; [6,7])必须w和h都比另一个大才行 w相等或h相等都不行！！ 思路 假定所有的信封的长度和宽度都是不重复的   将这些信封按照w从小到大排序，此时h会组成一个数组，在这个h组成的数组上找最长递增子序列，解决。  如果是可以相等，如何解决？   将w">
-<meta name="twitter:image" content="https://github.com/YangCoFi/IMG/raw/master/RussianEnvelopes.png">
+<meta name="twitter:title" content="纸牌博弈问题">
+<meta name="twitter:description" content="纸牌博弈问题代码package com.yang.algo.advan.seven; /**  * @ClassName CardGameProblem  * @Description TODO  * @Author YangC  * @Date 2019/7/11 15:42  **/ public class CardGameProblem {     //暴力递归     public st">
   
     <link rel="alternative" href="/atom.xml" title="阿yang" type="application/atom+xml">
   
@@ -151,93 +149,96 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-RussianDollEnvelopes" class="article article-type-post " itemscope itemprop="blogPost">
+            <article id="post-动态规划-排成一条线的纸牌博弈" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 class="article-title" itemprop="name">
-      俄罗斯信封问题
+      纸牌博弈问题
     </h1>
   
 
         
-        <a href="/2019/06/30/RussianDollEnvelopes/" class="archive-article-date">
-  	<time datetime="2019-06-30T08:44:09.350Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-06-30</time>
+        <a href="/2019/07/15/动态规划-排成一条线的纸牌博弈/" class="archive-article-date">
+  	<time datetime="2019-07-15T09:51:34.018Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-07-15</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h1 id="俄罗斯信封问题"><a href="#俄罗斯信封问题" class="headerlink" title="俄罗斯信封问题"></a>俄罗斯信封问题</h1><h2 id="问题描述"><a href="#问题描述" class="headerlink" title="问题描述"></a>问题描述</h2><p> <img src="https://github.com/YangCoFi/IMG/raw/master/RussianEnvelopes.png" alt="image"><br>如：给信封[[5,4],[6,4],[6,7],[2,3]]，最大的值为3<br>([2,3] =&gt; [5,4] =&gt; [6,7])<br>必须w和h都比另一个大才行 w相等或h相等都不行！！</p>
-<h2 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h2><ul>
-<li><p>假定所有的信封的长度和宽度都是不重复的</p>
-<p>  将这些信封按照w从小到大排序，此时h会组成一个数组，在这个h组成的数组上找最长递增子序列，解决。</p>
-</li>
-<li><p>如果是可以相等，如何解决？</p>
-<p>  将w按照递增进行排序 再将每一个w相应的h从大到小进行排序。</p>
-</li>
-</ul>
-<h2 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h2><pre><code>public class Problem_02_RussianDollEnvelopes {
-
-    public static class Dot {
-        public int w;
-        public int h;
-
-        public Dot(int weight, int hight) {
-            w = weight;
-            h = hight;
-        }
+        <h2 id="纸牌博弈问题"><a href="#纸牌博弈问题" class="headerlink" title="纸牌博弈问题"></a>纸牌博弈问题</h2><h3 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h3><pre><code>package com.yang.algo.advan.seven;
+/**
+ * @ClassName CardGameProblem
+ * @Description TODO
+ * @Author YangC
+ * @Date 2019/7/11 15:42
+ **/
+public class CardGameProblem {
+    //暴力递归
+    public static int maxScoreOfWinner(int[] arr){
+       if (arr == null){
+           return 0;
+       }
+       return Math.max(f(arr, 0, arr.length - 1), s(arr, 0, arr.length - 1));
     }
 
-    public static class DotComparator implements Comparator&lt;Dot&gt; {
-        @Override
-        public int compare(Dot arg0, Dot arg1) {
-            if (arg0.w != arg1.w) {
-                return arg0.w - arg1.w;
-            } else {
-                return arg1.h - arg0.h;
-            }
+    private static int f(int[] arr, int beginIndex, int endIndex) {
+        if (beginIndex == endIndex){
+            return arr[beginIndex];
         }
+        return Math.max(arr[beginIndex] + s(arr, beginIndex + 1, endIndex),
+                arr[endIndex] + s(arr, beginIndex, endIndex - 1));
     }
 
-    public static int maxEnvelopes(int[][] es) {
-        if (es == null || es.length == 0 || es[0] == null || es[0].length != 2) {
+    private static int s(int[] arr, int beginIndex, int endIndex) {
+        if (beginIndex == endIndex){
             return 0;
         }
-        Dot[] dots = new Dot[es.length];
-        for (int i = 0; i &lt; es.length; i++) {
-            dots[i] = new Dot(es[i][0], es[i][1]);
+        return Math.min(f(arr, beginIndex + 1, endIndex),
+                f(arr, beginIndex, endIndex - 1));          //先拿者A绝顶聪明，拿完后会让B拿的时候最小
+    }
+
+
+    //DP版本
+    public static int maxScoreOfWinnerDp(int[] arr){
+        if (arr == null || arr.length == 0){
+            return 0;
         }
-        Arrays.sort(dots, new DotComparator());
-        int[] ends = new int[es.length];
-        ends[0] = dots[0].h;
-        int right = 0;
-        int l = 0;
-        int r = 0;
-        int m = 0;
-        for (int i = 1; i &lt; dots.length; i++) {
-            l = 0;
-            r = right;
-            while (l &lt;= r) {
-                m = (l + r) / 2;
-                if (dots[i].h &gt; ends[m]) {
-                    l = m + 1;
-                } else {
-                    r = m - 1;
+        int[][] f = new int[arr.length][arr.length];       //横纵坐标分别相当于递归版本的beginIndex和endIndex
+        int[][] s = new int[arr.length][arr.length];
+        //不被依赖的位置，对角线上的位置先填好
+        for (int i = 0; i &lt; arr.length; i ++){
+            for (int j = 0; j &lt;arr.length; j ++ ){
+                if (i == j){
+                    f[i][j] = arr[i];
                 }
             }
-            right = Math.max(right, l);
-            ends[l] = dots[i].h;
         }
-        return right + 1;
+        //状态依赖
+        for (int i = 1; i &lt; arr.length; i ++){
+            for (int row = 0; row &lt; arr.length - i; row ++){
+                int col = row + i;
+                f[row][col] = Math.max(arr[row] + s[row + 1][col], arr[col] + s[row][col - 1]);
+                s[row][col] = Math.min(f[row + 1][col], f[row][col - 1]);
+            }
+        }
+        return Math.max(f[0][arr.length - 1], s[0][arr.length - 1]);
     }
 
     public static void main(String[] args) {
-        int[][] test = { { 4, 3 }, { 1, 2 }, { 5, 7 }, { 5, 3 }, { 1, 1 }, { 4, 9 } };
-        System.out.println(maxEnvelopes(test));
+        int arr[] = {1, 2, 100, 4, 29, 27, 45, 92, 273, 36, 32, 266, 231, 435, 32423, 234};
+        long startTime1 = System.currentTimeMillis();
+        int temp1 = maxScoreOfWinner(arr);
+        long endTime1 = System.currentTimeMillis();
+        System.out.println(temp1 + &quot;---&gt;运行时间:&quot; + (endTime1 - startTime1) + &quot;ms&quot;);
+
+        long startTime2 = System.currentTimeMillis();
+        int temp2 = maxScoreOfWinnerDp(arr);
+        long endTime2 = System.currentTimeMillis();
+        System.out.println(temp2 + &quot;---&gt;运行时间:&quot; + (endTime2 - startTime2) + &quot;ms&quot;);
     }
 }</code></pre>
       
@@ -283,11 +284,7 @@
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">React</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">Java</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">算法</a>
         		</li>
       		
 		</ul>
@@ -343,7 +340,7 @@
     <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2019/06/30/RussianDollEnvelopes/" alt="微信分享二维码">
+      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2019/07/15/动态规划-排成一条线的纸牌博弈/" alt="微信分享二维码">
     </div>
 </div>
 
@@ -357,18 +354,18 @@
   
 <nav id="article-nav">
   
-    <a href="/2019/06/30/TOP-K/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2019/07/15/计算表达式的值/" id="article-nav-newer" class="article-nav-link-wrap">
       <i class="icon-circle-left"></i>
       <div class="article-nav-title">
         
-          TOP K
+          计算表达式的值
         
       </div>
     </a>
   
   
-    <a href="/2019/06/30/最长递增子序列问题/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">最长递增子序列问题</div>
+    <a href="/2019/07/15/反射/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">反射</div>
       <i class="icon-circle-right"></i>
     </a>
   
@@ -395,7 +392,7 @@
                 </span>
                 <span class="tooltip-content">
                     <div class="toc-article">
-                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#俄罗斯信封问题"><span class="toc-number">1.</span> <span class="toc-text">俄罗斯信封问题</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#问题描述"><span class="toc-number">1.1.</span> <span class="toc-text">问题描述</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#思路"><span class="toc-number">1.2.</span> <span class="toc-text">思路</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#代码"><span class="toc-number">1.3.</span> <span class="toc-text">代码</span></a></li></ol></li></ol>
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#纸牌博弈问题"><span class="toc-number">1.</span> <span class="toc-text">纸牌博弈问题</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#代码"><span class="toc-number">1.1.</span> <span class="toc-text">代码</span></a></li></ol></li></ol>
                     </div>
                 </span>
             </div>

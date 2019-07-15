@@ -6,22 +6,20 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>俄罗斯信封问题 | 阿yang</title>
+  <title>计算表达式的值 | 阿yang</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="俄罗斯信封问题问题描述 如：给信封[[5,4],[6,4],[6,7],[2,3]]，最大的值为3([2,3] =&amp;gt; [5,4] =&amp;gt; [6,7])必须w和h都比另一个大才行 w相等或h相等都不行！！ 思路 假定所有的信封的长度和宽度都是不重复的   将这些信封按照w从小到大排序，此时h会组成一个数组，在这个h组成的数组上找最长递增子序列，解决。  如果是可以相等，如何解决？   将w">
-<meta name="keywords" content="React,Java">
+  <meta name="description" content="计算表达式的值代码package com.yang.algo.advance.six;  import java.util.LinkedList;  public class CalculateTheValueOfExpression {      private static int getValue(String str) {         return value(str.toCharAr">
+<meta name="keywords" content="算法">
 <meta property="og:type" content="article">
-<meta property="og:title" content="俄罗斯信封问题">
-<meta property="og:url" content="http://yoursite.com/2019/06/30/RussianDollEnvelopes/index.html">
+<meta property="og:title" content="计算表达式的值">
+<meta property="og:url" content="http://yoursite.com/2019/07/15/计算表达式的值/index.html">
 <meta property="og:site_name" content="阿yang">
-<meta property="og:description" content="俄罗斯信封问题问题描述 如：给信封[[5,4],[6,4],[6,7],[2,3]]，最大的值为3([2,3] =&amp;gt; [5,4] =&amp;gt; [6,7])必须w和h都比另一个大才行 w相等或h相等都不行！！ 思路 假定所有的信封的长度和宽度都是不重复的   将这些信封按照w从小到大排序，此时h会组成一个数组，在这个h组成的数组上找最长递增子序列，解决。  如果是可以相等，如何解决？   将w">
+<meta property="og:description" content="计算表达式的值代码package com.yang.algo.advance.six;  import java.util.LinkedList;  public class CalculateTheValueOfExpression {      private static int getValue(String str) {         return value(str.toCharAr">
 <meta property="og:locale" content="default">
-<meta property="og:image" content="https://github.com/YangCoFi/IMG/raw/master/RussianEnvelopes.png">
-<meta property="og:updated_time" content="2019-07-02T13:18:52.121Z">
+<meta property="og:updated_time" content="2019-07-15T09:57:03.291Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="俄罗斯信封问题">
-<meta name="twitter:description" content="俄罗斯信封问题问题描述 如：给信封[[5,4],[6,4],[6,7],[2,3]]，最大的值为3([2,3] =&amp;gt; [5,4] =&amp;gt; [6,7])必须w和h都比另一个大才行 w相等或h相等都不行！！ 思路 假定所有的信封的长度和宽度都是不重复的   将这些信封按照w从小到大排序，此时h会组成一个数组，在这个h组成的数组上找最长递增子序列，解决。  如果是可以相等，如何解决？   将w">
-<meta name="twitter:image" content="https://github.com/YangCoFi/IMG/raw/master/RussianEnvelopes.png">
+<meta name="twitter:title" content="计算表达式的值">
+<meta name="twitter:description" content="计算表达式的值代码package com.yang.algo.advance.six;  import java.util.LinkedList;  public class CalculateTheValueOfExpression {      private static int getValue(String str) {         return value(str.toCharAr">
   
     <link rel="alternative" href="/atom.xml" title="阿yang" type="application/atom+xml">
   
@@ -151,93 +149,99 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-RussianDollEnvelopes" class="article article-type-post " itemscope itemprop="blogPost">
+            <article id="post-计算表达式的值" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 class="article-title" itemprop="name">
-      俄罗斯信封问题
+      计算表达式的值
     </h1>
   
 
         
-        <a href="/2019/06/30/RussianDollEnvelopes/" class="archive-article-date">
-  	<time datetime="2019-06-30T08:44:09.350Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-06-30</time>
+        <a href="/2019/07/15/计算表达式的值/" class="archive-article-date">
+  	<time datetime="2019-07-15T09:52:02.342Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-07-15</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h1 id="俄罗斯信封问题"><a href="#俄罗斯信封问题" class="headerlink" title="俄罗斯信封问题"></a>俄罗斯信封问题</h1><h2 id="问题描述"><a href="#问题描述" class="headerlink" title="问题描述"></a>问题描述</h2><p> <img src="https://github.com/YangCoFi/IMG/raw/master/RussianEnvelopes.png" alt="image"><br>如：给信封[[5,4],[6,4],[6,7],[2,3]]，最大的值为3<br>([2,3] =&gt; [5,4] =&gt; [6,7])<br>必须w和h都比另一个大才行 w相等或h相等都不行！！</p>
-<h2 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h2><ul>
-<li><p>假定所有的信封的长度和宽度都是不重复的</p>
-<p>  将这些信封按照w从小到大排序，此时h会组成一个数组，在这个h组成的数组上找最长递增子序列，解决。</p>
-</li>
-<li><p>如果是可以相等，如何解决？</p>
-<p>  将w按照递增进行排序 再将每一个w相应的h从大到小进行排序。</p>
-</li>
-</ul>
-<h2 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h2><pre><code>public class Problem_02_RussianDollEnvelopes {
+        <h2 id="计算表达式的值"><a href="#计算表达式的值" class="headerlink" title="计算表达式的值"></a>计算表达式的值</h2><h3 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h3><pre><code>package com.yang.algo.advance.six;
 
-    public static class Dot {
-        public int w;
-        public int h;
+import java.util.LinkedList;
 
-        public Dot(int weight, int hight) {
-            w = weight;
-            h = hight;
-        }
+public class CalculateTheValueOfExpression {
+
+    private static int getValue(String str) {
+        return value(str.toCharArray(),0)[0];
     }
 
-    public static class DotComparator implements Comparator&lt;Dot&gt; {
-        @Override
-        public int compare(Dot arg0, Dot arg1) {
-            if (arg0.w != arg1.w) {
-                return arg0.w - arg1.w;
-            } else {
-                return arg1.h - arg0.h;
+    /**
+     * @Parm str: char[]数组，永远不变
+     * @Parm i: 从当前i开始
+     * 返回值：int[] 长度一定为2 需要两个信息 arr[0]代表计算结果,arr[1]代表算到了哪个位置
+     * */
+    private static int[] value(char[] c, int i) {
+        LinkedList&lt;String&gt; queue = new LinkedList&lt;&gt;();      //收集
+        int pre = 0;                                //用于收集数字，遇到符号停止
+        int[] result = null;
+        while (i &lt; c.length &amp;&amp; c[i] != &apos;)&apos;){        //进到while里面的必然不是右括号和数组末尾
+            if (c[i] &gt;= &apos;0&apos; &amp;&amp; c[i] &lt;= &apos;9&apos;){        //遇到的一直是数字
+                pre = pre * 10 + c[i ++] - &apos;0&apos;;     //减去0的ASCII值就是个位上的数
+            }else if (c[i] != &apos;c&apos;){                 //遇到了加减乘除
+                //将遇到的数字和符号都收集到栈里去
+                addNum(queue, pre);
+                queue.addLast(String.valueOf(c[i ++]));     //将指定元素插入此双端队列的末尾
+                pre = 0;
+            }else {                                 //当前i位置是左括号，从i+1位置开始，进递归，得出与左括号配对的右括号里面的表达式计算出来返回
+                result = value(c, i + 1);
+                pre = result[0];
+                i = result[1] + 1;
             }
         }
+        addNum(queue, pre);
+        return new int[]{getNum(queue), i};
     }
 
-    public static int maxEnvelopes(int[][] es) {
-        if (es == null || es.length == 0 || es[0] == null || es[0].length != 2) {
-            return 0;
-        }
-        Dot[] dots = new Dot[es.length];
-        for (int i = 0; i &lt; es.length; i++) {
-            dots[i] = new Dot(es[i][0], es[i][1]);
-        }
-        Arrays.sort(dots, new DotComparator());
-        int[] ends = new int[es.length];
-        ends[0] = dots[0].h;
-        int right = 0;
-        int l = 0;
-        int r = 0;
-        int m = 0;
-        for (int i = 1; i &lt; dots.length; i++) {
-            l = 0;
-            r = right;
-            while (l &lt;= r) {
-                m = (l + r) / 2;
-                if (dots[i].h &gt; ends[m]) {
-                    l = m + 1;
-                } else {
-                    r = m - 1;
-                }
+    private static int getNum(LinkedList&lt;String&gt; queue) {
+        int res = 0;
+        boolean add = true;
+        String cur = null;
+        int num = 0;
+        while (!queue.isEmpty()){
+            cur = queue.pollFirst();
+            if (cur.equals(&quot;+&quot;)){
+                add = true;
+            }else if (cur.equals(&quot;-&quot;)){
+                add = false;
+            }else {
+                num = Integer.valueOf(cur);
+                res += add ? num : (-num);
             }
-            right = Math.max(right, l);
-            ends[l] = dots[i].h;
         }
-        return right + 1;
+        return res;
+    }
+
+    private static void addNum(LinkedList&lt;String&gt; queue, int num) {
+        if (!queue.isEmpty()){
+            int cur = 0;
+            String top = queue.pollLast();
+            if (top.equals(&quot;+&quot;) || top.equals(&quot;-&quot;)){
+                queue.addLast(top);
+            }else {
+                cur = Integer.valueOf(queue.pollLast());
+                num = top.equals(&quot;*&quot;) ? (num * cur) : (cur / num);
+            }
+        }
+        queue.addLast(String.valueOf(num));
     }
 
     public static void main(String[] args) {
-        int[][] test = { { 4, 3 }, { 1, 2 }, { 5, 7 }, { 5, 3 }, { 1, 1 }, { 4, 9 } };
-        System.out.println(maxEnvelopes(test));
+        String exp = &quot;48*((70-65)-43)+8*1&quot;;
+        System.out.println(getValue(exp));
     }
 }</code></pre>
       
@@ -283,11 +287,7 @@
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">React</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">Java</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">算法</a>
         		</li>
       		
 		</ul>
@@ -343,7 +343,7 @@
     <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2019/06/30/RussianDollEnvelopes/" alt="微信分享二维码">
+      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2019/07/15/计算表达式的值/" alt="微信分享二维码">
     </div>
 </div>
 
@@ -357,18 +357,9 @@
   
 <nav id="article-nav">
   
-    <a href="/2019/06/30/TOP-K/" id="article-nav-newer" class="article-nav-link-wrap">
-      <i class="icon-circle-left"></i>
-      <div class="article-nav-title">
-        
-          TOP K
-        
-      </div>
-    </a>
   
-  
-    <a href="/2019/06/30/最长递增子序列问题/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">最长递增子序列问题</div>
+    <a href="/2019/07/15/动态规划-排成一条线的纸牌博弈/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">纸牌博弈问题</div>
       <i class="icon-circle-right"></i>
     </a>
   
@@ -395,7 +386,7 @@
                 </span>
                 <span class="tooltip-content">
                     <div class="toc-article">
-                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#俄罗斯信封问题"><span class="toc-number">1.</span> <span class="toc-text">俄罗斯信封问题</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#问题描述"><span class="toc-number">1.1.</span> <span class="toc-text">问题描述</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#思路"><span class="toc-number">1.2.</span> <span class="toc-text">思路</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#代码"><span class="toc-number">1.3.</span> <span class="toc-text">代码</span></a></li></ol></li></ol>
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#计算表达式的值"><span class="toc-number">1.</span> <span class="toc-text">计算表达式的值</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#代码"><span class="toc-number">1.1.</span> <span class="toc-text">代码</span></a></li></ol></li></ol>
                     </div>
                 </span>
             </div>

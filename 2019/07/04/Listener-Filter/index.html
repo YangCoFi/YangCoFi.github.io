@@ -44,8 +44,7 @@
 <meta property="og:image" content="https://github.com/YangCoFi/IMG/raw/master/filter5.png">
 <meta property="og:image" content="https://github.com/YangCoFi/IMG/raw/master/filter6.png">
 <meta property="og:image" content="https://github.com/YangCoFi/IMG/raw/master/autoLogin.png">
-<meta property="og:image" content="http://yoursite.com/2019/07/04/Listener-Filter/img/img05.png">
-<meta property="og:updated_time" content="2019-07-08T09:00:04.157Z">
+<meta property="og:updated_time" content="2019-07-15T09:42:43.445Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Listener&amp;Filter">
 <meta name="twitter:description" content="Listener内部机制：接口回调 接口回调现在有一个类A： public class A {      public void print(B b){         for (int i = 0; i &amp;lt; 10; i++) {             System.out.println(&amp;quot;循环到了--&amp;quot;+i);             if(i == 5){">
@@ -688,8 +687,7 @@ public class FilterDemo01 implements Filter {
 
     }
 
-}</code></pre><p>###Filter的生命周期</p>
-<ul>
+}</code></pre><h3 id="Filter的生命周期"><a href="#Filter的生命周期" class="headerlink" title="Filter的生命周期"></a>Filter的生命周期</h3><ul>
 <li>创建</li>
 </ul>
 <blockquote>
@@ -717,53 +715,29 @@ public class FilterDemo01 implements Filter {
 }</code></pre><p>重启服务器，浏览器里打开<a href="http://127.0.0.1:8080/filterDemo/demo01/demo02.jsp" target="_blank" rel="noopener">http://127.0.0.1:8080/filterDemo/demo01/demo02.jsp</a></p>
 <p>可以看到结果：</p>
 <p><img src="https://github.com/YangCoFi/IMG/raw/master/filter6.png" alt="image"></p>
-<p>###Filter执行顺序</p>
-<ol>
-<li><p>客户端发出请求，先经过过滤器， 如果过滤器放行，那么才能到servlet</p>
-</li>
-<li><p>如果有多个过滤器， 那么他们会按照注册的映射顺序 来 排队。 只要有一个过滤器， 不放行，那么后面排队的过滤器以及咱们的servlet都不会收到请求。</p>
-</li>
-</ol>
-<p>##Filter细节：</p>
-<ol>
-<li><p>init方法的参数 FilterConfig , 可以用于获取filter在注册的名字 以及初始化参数。  其实这里的设计的初衷与ServletConfig是一样的。</p>
-</li>
-<li><p>如果想放行，那么在doFilter 方法里面操作，使用参数 chain</p>
-</li>
-</ol>
-<pre><code>chain.doFilter(request, response); 放行， 让请求到达下一个目标。</code></pre><ol start="3">
-<li><p><url-pattern>/*</url-pattern> 写法格式与servlet一样。</p>
-<ol>
-<li><p>全路径匹配  以 /  开始 </p>
-<pre><code>/LoginServlet</code></pre></li>
-<li><p>以目录匹配 以 / 开始  以 * 结束</p>
-<p> /demo01/*  </p>
-</li>
-<li><p>以后缀名匹配  以 * 开始 以后缀名结束</p>
-<p> *.jsp  *.html *.do </p>
-</li>
-</ol>
-</li>
-<li><p>针对 dispatcher 设置</p>
+<h3 id="Filter执行顺序"><a href="#Filter执行顺序" class="headerlink" title="Filter执行顺序"></a>Filter执行顺序</h3><p>1.客户端发出请求，先经过过滤器， 如果过滤器放行，那么才能到servlet</p>
+<p>2.如果有多个过滤器， 那么他们会按照注册的映射顺序 来 排队。 只要有一个过滤器， 不放行，那么后面排队的过滤器以及咱们的servlet都不会收到请求。</p>
+<h2 id="Filter细节："><a href="#Filter细节：" class="headerlink" title="Filter细节："></a>Filter细节：</h2><p>1.init方法的参数 FilterConfig , 可以用于获取filter在注册的名字 以及初始化参数。  其实这里的设计的初衷与ServletConfig是一样的。</p>
+<p>2.如果想放行，那么在doFilter 方法里面操作，使用参数 chain</p>
+<pre><code>chain.doFilter(request, response); 放行， 让请求到达下一个目标。</code></pre><p>3.<url-pattern>/*</url-pattern> 写法格式与servlet一样。</p>
+<pre><code>A.全路径匹配  以 /  开始 
+
+    /LoginServlet
+
+B.以目录匹配 以 / 开始  以 * 结束
+
+    /demo01/*  
+
+C.以后缀名匹配  以 * 开始 以后缀名结束
+
+    *.jsp  *.html *.do </code></pre><p>4.针对 dispatcher 设置</p>
 <pre><code>REQUEST ： 只要是请求过来，都拦截，默认就是REQUEST 
 FORWARD : 只要是转发都拦截。 
 ERROR ： 页面出错发生跳转 
-INCLUDE ： 包含页面的时候就拦截。</code></pre></li>
-</ol>
-<h2 id="自动登陆"><a href="#自动登陆" class="headerlink" title="自动登陆"></a>自动登陆</h2><p><img src="https://github.com/YangCoFi/IMG/raw/master/autoLogin.png" alt="image"></p>
-<ul>
-<li>需求分析</li>
-</ul>
-<p><img src="img/img05.png" alt="icon"></p>
-<p>####1. 搭建环境</p>
-<ol>
-<li><p>搭建数据库</p>
-</li>
-<li><p>搭建页面</p>
-</li>
-</ol>
-<p>###登录servlet代码</p>
-<pre><code>    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+INCLUDE ： 包含页面的时候就拦截。</code></pre><h2 id="自动登陆"><a href="#自动登陆" class="headerlink" title="自动登陆"></a>自动登陆</h2><p><img src="https://github.com/YangCoFi/IMG/raw/master/autoLogin.png" alt="image"></p>
+<h3 id="搭建环境"><a href="#搭建环境" class="headerlink" title="搭建环境"></a>搭建环境</h3><p>1.搭建数据库</p>
+<p>2.搭建页面</p>
+<h3 id="登录servlet代码"><a href="#登录servlet代码" class="headerlink" title="登录servlet代码"></a>登录servlet代码</h3><pre><code>    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
     try {
         String userName = request.getParameter(&quot;username&quot;);
@@ -788,86 +762,77 @@ INCLUDE ： 包含页面的时候就拦截。</code></pre></li>
     } catch (SQLException e) {
         e.printStackTrace();
     }
-}</code></pre><p>##过滤器代码</p>
-<blockquote>
-<p> 过滤器的核心不是完成拦截不给 ， 还是放行显示。 它的核心是在放行之前，帮用户完成登录的功能。 </p>
+}</code></pre><h2 id="过滤器代码"><a href="#过滤器代码" class="headerlink" title="过滤器代码"></a>过滤器代码</h2><blockquote>
+<p>过滤器的核心不是完成拦截不给 ， 还是放行显示。 它的核心是在放行之前，帮用户完成登录的功能。 </p>
 </blockquote>
 <ul>
 <li>实现思路</li>
 </ul>
-<ol>
-<li><p>先判断session是否有效， 如果有效，就不用取cookie了，直接放行。</p>
-</li>
-<li><p>如果session失效了，那么就取 cookie。</p>
-<ol>
-<li><p>没有cookie  放行 </p>
-</li>
-<li><p>有cookie </p>
-<pre><code>1. 取出来cookie的值，然后完成登录
-2. 把这个用户的值存储到session中
+<p>1.先判断session是否有效， 如果有效，就不用取cookie了，直接放行。</p>
+<p>2.如果session失效了，那么就取 cookie。</p>
+<pre><code>1.没有cookie  放行 
 
-3. 放行。
+2.有cookie 
 
-/**
- * @see Filter#doFilter(ServletRequest, ServletResponse, FilterChain)
- */
-public void doFilter(ServletRequest req, ServletResponse response, FilterChain chain) throws IOException, ServletException {
+        1.取出来cookie的值，然后完成登录
+        2.把这个用户的值存储到session中
+        3.放行。
 
-try {
-    HttpServletRequest request = (HttpServletRequest) req;
+        /**
+         * @see Filter#doFilter(ServletRequest, ServletResponse, FilterChain)
+         */
+        public void doFilter(ServletRequest req, ServletResponse response, FilterChain chain) throws IOException, ServletException {
 
-    //先判断，现在session中还有没有那个userBean.
-    UserBean userBean = (UserBean) request.getSession().getAttribute(&quot;userBean&quot;);
-    //还有，有效。
-    if(userBean != null){
-        chain.doFilter(request, response);
-    }else{
-        //代表session失效了。
+        try {
+            HttpServletRequest request = (HttpServletRequest) req;
 
-        //2. 看cookie。
+            //先判断，现在session中还有没有那个userBean.
+            UserBean userBean = (UserBean) request.getSession().getAttribute(&quot;userBean&quot;);
+            //还有，有效。
+            if(userBean != null){
+                chain.doFilter(request, response);
+            }else{
+                //代表session失效了。
 
-        //1. 来请求的时候，先从请求里面取出cookie , 但是cookie有很多的key-value
-        Cookie[] cookies = request.getCookies();
-        //2. 从一堆的cookie里面找出我们以前给浏览器发的那个cookie
-        Cookie cookie = CookieUtil.findCookie(cookies, &quot;auto_login&quot;);
+                //2. 看cookie。
 
-        //第一次来
-        if(cookie  == null){
-            chain.doFilter(request, response);
-        }else{
+                //1. 来请求的时候，先从请求里面取出cookie , 但是cookie有很多的key-value
+                Cookie[] cookies = request.getCookies();
+                //2. 从一堆的cookie里面找出我们以前给浏览器发的那个cookie
+                Cookie cookie = CookieUtil.findCookie(cookies, &quot;auto_login&quot;);
 
-            //不是第一次。
+                //第一次来
+                if(cookie  == null){
+                    chain.doFilter(request, response);
+                }else{
 
-            String value = cookie.getValue();
-            String username = value.split(&quot;#itheima#&quot;)[0];
-            String password = value.split(&quot;#itheima#&quot;)[1];
+                    //不是第一次。
 
-            //完成登录
-            UserBean user = new UserBean();
-            user.setUsername(username);
-            user.setPassword(password);
+                    String value = cookie.getValue();
+                    String username = value.split(&quot;#itheima#&quot;)[0];
+                    String password = value.split(&quot;#itheima#&quot;)[1];
 
-            UserDao dao = new UserDaoImpl();
-            userBean = dao.login(user);
+                    //完成登录
+                    UserBean user = new UserBean();
+                    user.setUsername(username);
+                    user.setPassword(password);
 
-            //使用session存这个值到域中，方便下一次未过期前还可以用。
-            request.getSession().setAttribute(&quot;userBean&quot;, userBean);
+                    UserDao dao = new UserDaoImpl();
+                    userBean = dao.login(user);
 
-            chain.doFilter(request, response);
-        }
+                    //使用session存这个值到域中，方便下一次未过期前还可以用。
+                    request.getSession().setAttribute(&quot;userBean&quot;, userBean);
 
-    }
+                    chain.doFilter(request, response);
+                }
 
-    } catch (Exception e) {
-        e.printStackTrace();
-        chain.doFilter(req, response);
-    }
-    }</code></pre></li>
-</ol>
-</li>
-</ol>
-<p>###BeanUtils的使用</p>
-<blockquote>
+            }
+
+            } catch (Exception e) {
+                e.printStackTrace();
+                chain.doFilter(req, response);
+            }
+            }</code></pre><h3 id="BeanUtils的使用"><a href="#BeanUtils的使用" class="headerlink" title="BeanUtils的使用"></a>BeanUtils的使用</h3><blockquote>
 <p>BeanUtils.populate(bean, map);    </p>
 </blockquote>
 <pre><code>//注册自己的日期转换器
@@ -879,9 +844,7 @@ Map map = request.getParameterMap();
 UserBean bean = new UserBean();
 
 转化map中的数据，放置到bean对象身上
-BeanUtils.populate(bean, map);    </code></pre><p>#总结</p>
-<p>##Listener</p>
-<pre><code>8个 
+BeanUtils.populate(bean, map);    </code></pre><h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><h2 id="Listener-1"><a href="#Listener-1" class="headerlink" title="Listener"></a>Listener</h2><pre><code>8个 
 
 三种类型  
     针对三个作用域的创建和销毁
@@ -899,9 +862,8 @@ BeanUtils.populate(bean, map);    </code></pre><p>#总结</p>
 
 
 活化 (反序列化)
-    从硬盘里面读取到内存</code></pre><p>ServletContextListner  ： 应用被部署的时候， 服务器加载这个项目的时候，做一些初始化工作， 任务调度。<br>HttpSessionListener    ： 统计在线人数<br>HttpSessionActivationListener  ： 钝化活化处理</p>
-<p>##Filter </p>
-<blockquote>
+    从硬盘里面读取到内存</code></pre><p>ServletContextListner：应用被部署的时候，服务器加载这个项目的时候，做一些初始化工作，任务调度。<br>HttpSessionListener：统计在线人数<br>HttpSessionActivationListener：钝化活化处理</p>
+<h2 id="Filter-1"><a href="#Filter-1" class="headerlink" title="Filter"></a>Filter</h2><blockquote>
 <p>使用频率更高</p>
 </blockquote>
 <ul>
@@ -1081,7 +1043,7 @@ BeanUtils.populate(bean, map);    </code></pre><p>#总结</p>
                 </span>
                 <span class="tooltip-content">
                     <div class="toc-article">
-                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Listener"><span class="toc-number">1.</span> <span class="toc-text">Listener</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#接口回调"><span class="toc-number">1.1.</span> <span class="toc-text">接口回调</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Web监听器"><span class="toc-number">1.2.</span> <span class="toc-text">Web监听器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#监听三个作用域属性状态变更"><span class="toc-number">1.3.</span> <span class="toc-text">监听三个作用域属性状态变更</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#监听httpSession里面存值的状态变更"><span class="toc-number">1.4.</span> <span class="toc-text">监听httpSession里面存值的状态变更</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Filter"><span class="toc-number">2.</span> <span class="toc-text">Filter</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#如何使用过滤器"><span class="toc-number">2.1.</span> <span class="toc-text">如何使用过滤器</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#自动登陆"><span class="toc-number">3.</span> <span class="toc-text">自动登陆</span></a></li></ol>
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Listener"><span class="toc-number">1.</span> <span class="toc-text">Listener</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#接口回调"><span class="toc-number">1.1.</span> <span class="toc-text">接口回调</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Web监听器"><span class="toc-number">1.2.</span> <span class="toc-text">Web监听器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#监听三个作用域属性状态变更"><span class="toc-number">1.3.</span> <span class="toc-text">监听三个作用域属性状态变更</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#监听httpSession里面存值的状态变更"><span class="toc-number">1.4.</span> <span class="toc-text">监听httpSession里面存值的状态变更</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Filter"><span class="toc-number">2.</span> <span class="toc-text">Filter</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#如何使用过滤器"><span class="toc-number">2.1.</span> <span class="toc-text">如何使用过滤器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Filter的生命周期"><span class="toc-number">2.2.</span> <span class="toc-text">Filter的生命周期</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Filter执行顺序"><span class="toc-number">2.3.</span> <span class="toc-text">Filter执行顺序</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Filter细节："><span class="toc-number">3.</span> <span class="toc-text">Filter细节：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#自动登陆"><span class="toc-number">4.</span> <span class="toc-text">自动登陆</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#搭建环境"><span class="toc-number">4.1.</span> <span class="toc-text">搭建环境</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#登录servlet代码"><span class="toc-number">4.2.</span> <span class="toc-text">登录servlet代码</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#过滤器代码"><span class="toc-number">5.</span> <span class="toc-text">过滤器代码</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#BeanUtils的使用"><span class="toc-number">5.1.</span> <span class="toc-text">BeanUtils的使用</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#总结"><span class="toc-number"></span> <span class="toc-text">总结</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Listener-1"><span class="toc-number">1.</span> <span class="toc-text">Listener</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Filter-1"><span class="toc-number">2.</span> <span class="toc-text">Filter</span></a></li></ol>
                     </div>
                 </span>
             </div>
@@ -1209,14 +1171,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">Java基础</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">算法</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">React</a>
               </li>
              
@@ -1225,7 +1179,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">Java基础</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">JavaScript</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">算法</a>
               </li>
              
               <li class="article-tag-list-item">

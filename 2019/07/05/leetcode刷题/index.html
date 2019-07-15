@@ -16,7 +16,7 @@
 <meta property="og:site_name" content="阿yang">
 <meta property="og:description" content="minimum-depth-of-binary-tree描述Given a binary tree, find its minimum depth.The minimum depth is the number of nodes along the shortest path from the root node down to the nearest leaf node. 递归解法/**  *">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2019-07-10T07:36:09.937Z">
+<meta property="og:updated_time" content="2019-07-15T09:37:10.563Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="leetcode(牛客网)">
 <meta name="twitter:description" content="minimum-depth-of-binary-tree描述Given a binary tree, find its minimum depth.The minimum depth is the number of nodes along the shortest path from the root node down to the nearest leaf node. 递归解法/**  *">
@@ -275,14 +275,12 @@ public class Solution {
 </blockquote>
 <p>思路：</p>
 <ul>
-<li><p>遇到操作数就出栈，把计算结果入栈</p>
-<pre><code>计算结果时，stack至少2个数，否则不合法，返回0</code></pre></li>
-<li><p>遇到数字就入栈</p>
-<pre><code>如果不是操作数，也无法转换为数字，就返回0，这里用try catch</code></pre></li>
-<li><p>结果要合法：</p>
-<pre><code>如果遍历完成,stack的元素不止1个，说明不合法，返回0
-
-当stack元素只有一个的时候，返回结果</code></pre></li>
+<li><p>遇到操作数就出栈，把计算结果入栈：计算结果时，stack至少2个数，否则不合法，返回0</p>
+</li>
+<li><p>遇到数字就入栈：如果不是操作数，也无法转换为数字，就返回0，这里用try catch</p>
+</li>
+<li><p>结果要合法：如果遍历完成,stack的元素不止1个，说明不合法，返回0。当stack元素只有一个的时候，返回结果</p>
+</li>
 </ul>
 <h3 id="代码"><a href="#代码" class="headerlink" title="代码:"></a>代码:</h3><pre><code>package com.yang.algo.leetcode;
 
@@ -951,7 +949,7 @@ public class LinkedListCycleII {
       <i class="icon-circle-left"></i>
       <div class="article-nav-title">
         
-          leetcode(牛客网)
+          算法校招高频题
         
       </div>
     </a>
@@ -1113,14 +1111,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">Java基础</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">算法</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">React</a>
               </li>
              
@@ -1129,7 +1119,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">Java基础</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">JavaScript</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">算法</a>
               </li>
              
               <li class="article-tag-list-item">

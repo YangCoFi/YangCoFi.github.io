@@ -6,23 +6,23 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>leetcode(牛客网) | 阿yang</title>
+  <title>算法校招高频题 | 阿yang</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description" content="无限长数字序列描述1，2，2，3，3，3，4，4，4，4，5，5，5，5，5…. 输入一个整数，求这是序列的第几项？ 分析1这个数字以第1项结尾，2这个数字以第3项结尾，3这个数字以第6项结尾，4这个数字以第10项结尾，5这个数字以第15项结尾， 所以k这个数字以？结尾 1+2+3+4…+k S(n) = n*(n+1)  /  2 代表以n这个数字结尾的下标数。 S(n) = n*(n+1)">
 <meta name="keywords" content="算法">
 <meta property="og:type" content="article">
-<meta property="og:title" content="leetcode(牛客网)">
+<meta property="og:title" content="算法校招高频题">
 <meta property="og:url" content="http://yoursite.com/2019/07/07/nowcoder校招第十章算法笔记/index.html">
 <meta property="og:site_name" content="阿yang">
 <meta property="og:description" content="无限长数字序列描述1，2，2，3，3，3，4，4，4，4，5，5，5，5，5…. 输入一个整数，求这是序列的第几项？ 分析1这个数字以第1项结尾，2这个数字以第3项结尾，3这个数字以第6项结尾，4这个数字以第10项结尾，5这个数字以第15项结尾， 所以k这个数字以？结尾 1+2+3+4…+k S(n) = n*(n+1)  /  2 代表以n这个数字结尾的下标数。 S(n) = n*(n+1)">
 <meta property="og:locale" content="default">
-<meta property="og:image" content="https://github.com/YangCoFi/IMG/raw/master/jingdong2.jpg">
-<meta property="og:image" content="https://github.com/YangCoFi/IMG/raw/master/jingdong2-1.jpg">
-<meta property="og:updated_time" content="2019-07-07T09:07:36.330Z">
+<meta property="og:image" content="https://github.com/YangCoFi/IMG/raw/master/jingdong2.JPG">
+<meta property="og:image" content="https://github.com/YangCoFi/IMG/raw/master/jingdong2-1.JPG">
+<meta property="og:updated_time" content="2019-07-15T09:35:36.799Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="leetcode(牛客网)">
+<meta name="twitter:title" content="算法校招高频题">
 <meta name="twitter:description" content="无限长数字序列描述1，2，2，3，3，3，4，4，4，4，5，5，5，5，5…. 输入一个整数，求这是序列的第几项？ 分析1这个数字以第1项结尾，2这个数字以第3项结尾，3这个数字以第6项结尾，4这个数字以第10项结尾，5这个数字以第15项结尾， 所以k这个数字以？结尾 1+2+3+4…+k S(n) = n*(n+1)  /  2 代表以n这个数字结尾的下标数。 S(n) = n*(n+1)">
-<meta name="twitter:image" content="https://github.com/YangCoFi/IMG/raw/master/jingdong2.jpg">
+<meta name="twitter:image" content="https://github.com/YangCoFi/IMG/raw/master/jingdong2.JPG">
   
     <link rel="alternative" href="/atom.xml" title="阿yang" type="application/atom+xml">
   
@@ -159,7 +159,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      leetcode(牛客网)
+      算法校招高频题
     </h1>
   
 
@@ -192,9 +192,9 @@
 <h3 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h3><blockquote>
 <p>背包问题：224 和是8，就是问你有没有一个子集加起来是4<br>左边一排对应着我所有的选择，每个位置可以有，可以没有，上面一排对应着我所有的可能，算一张表。</p>
 </blockquote>
-<p><img src="https://github.com/YangCoFi/IMG/raw/master/jingdong2.jpg" alt="image"></p>
+<p><img src="https://github.com/YangCoFi/IMG/raw/master/jingdong2.JPG" alt="image"></p>
 <p>这张二维表依次从左到右，从上到下来求，我每求完一行，就判断一下当前的sum/2是不是已经被累加到了，按理来说，我是要把整个矩阵都算完看最后一行，什么和能加出来，什么和不能加出来，我才能知道，因为这个时候我是可以自由使用整个数组中所有的数的情况下。但题意只要求一个子集搞出sum/2就可以。</p>
-<p><img src="https://github.com/YangCoFi/IMG/raw/master/jingdong2-1.jpg" alt="image"></p>
+<p><img src="https://github.com/YangCoFi/IMG/raw/master/jingdong2-1.JPG" alt="image"></p>
 <p><strong>一维数组跟新顺序是从右到左，因为如果从左到右，我i+1行的数据跟新到第j列时，此时我需要的时j-i+1的值 结果没了，已经被跟新了，所以从右到左。</strong></p>
 <h3 id="代码："><a href="#代码：" class="headerlink" title="代码："></a>代码：</h3><pre><code>package nowcoder_2017_09_20;
 
@@ -515,14 +515,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">Java基础</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">算法</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">React</a>
               </li>
              
@@ -531,7 +523,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">Java基础</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">JavaScript</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">算法</a>
               </li>
              
               <li class="article-tag-list-item">

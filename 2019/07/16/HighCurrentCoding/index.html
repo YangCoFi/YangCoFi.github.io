@@ -6,22 +6,22 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>集合&amp;迭代器 | 阿yang</title>
+  <title>Java高并发编程 | 阿yang</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="集合体系 在最顶层的父接口Collection中一定定义了所有子类集合的共同属性和方法,因此我们首先需要学习Collection中共性方法,然后再去针对每个子类集合学习它的特有方法 插入图片，如果是把图片放在github上，复制下来的地址把blob改成raw！！！ 案例代码：package com.yang.basic.day17; import java.util.ArrayList; /**">
-<meta name="keywords" content="Java基础">
+  <meta name="description" content="Java高并发编程 转载请注明出处！  马士兵老师高并发编程笔记 基础知识创建线程的三种方式：  继承Thread类创建线程类   定义Thread类的子类，并重写该类的run方法，该run方法的方法体就代表了线程要完成的任务。因此把run()方法称为执行体。 创建Thread子类的实例，即创建了线程对象。 调用线程对象的start()方法来启动该线程。   通过Runnable接口创建线程类">
+<meta name="keywords" content="Java并发">
 <meta property="og:type" content="article">
-<meta property="og:title" content="集合&amp;迭代器">
-<meta property="og:url" content="http://yoursite.com/2019/07/02/集合and迭代器笔记/index.html">
+<meta property="og:title" content="Java高并发编程">
+<meta property="og:url" content="http://yoursite.com/2019/07/16/HighCurrentCoding/index.html">
 <meta property="og:site_name" content="阿yang">
-<meta property="og:description" content="集合体系 在最顶层的父接口Collection中一定定义了所有子类集合的共同属性和方法,因此我们首先需要学习Collection中共性方法,然后再去针对每个子类集合学习它的特有方法 插入图片，如果是把图片放在github上，复制下来的地址把blob改成raw！！！ 案例代码：package com.yang.basic.day17; import java.util.ArrayList; /**">
+<meta property="og:description" content="Java高并发编程 转载请注明出处！  马士兵老师高并发编程笔记 基础知识创建线程的三种方式：  继承Thread类创建线程类   定义Thread类的子类，并重写该类的run方法，该run方法的方法体就代表了线程要完成的任务。因此把run()方法称为执行体。 创建Thread子类的实例，即创建了线程对象。 调用线程对象的start()方法来启动该线程。   通过Runnable接口创建线程类">
 <meta property="og:locale" content="default">
-<meta property="og:image" content="https://github.com/YangCoFi/IMG/raw/master/jihe.png">
-<meta property="og:updated_time" content="2019-07-03T08:15:43.954Z">
+<meta property="og:image" content="https://github.com/YangCoFi/IMG/raw/master/volatile.PNG">
+<meta property="og:updated_time" content="2019-07-16T14:09:30.345Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="集合&amp;迭代器">
-<meta name="twitter:description" content="集合体系 在最顶层的父接口Collection中一定定义了所有子类集合的共同属性和方法,因此我们首先需要学习Collection中共性方法,然后再去针对每个子类集合学习它的特有方法 插入图片，如果是把图片放在github上，复制下来的地址把blob改成raw！！！ 案例代码：package com.yang.basic.day17; import java.util.ArrayList; /**">
-<meta name="twitter:image" content="https://github.com/YangCoFi/IMG/raw/master/jihe.png">
+<meta name="twitter:title" content="Java高并发编程">
+<meta name="twitter:description" content="Java高并发编程 转载请注明出处！  马士兵老师高并发编程笔记 基础知识创建线程的三种方式：  继承Thread类创建线程类   定义Thread类的子类，并重写该类的run方法，该run方法的方法体就代表了线程要完成的任务。因此把run()方法称为执行体。 创建Thread子类的实例，即创建了线程对象。 调用线程对象的start()方法来启动该线程。   通过Runnable接口创建线程类">
+<meta name="twitter:image" content="https://github.com/YangCoFi/IMG/raw/master/volatile.PNG">
   
     <link rel="alternative" href="/atom.xml" title="阿yang" type="application/atom+xml">
   
@@ -151,551 +151,632 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-集合and迭代器笔记" class="article article-type-post " itemscope itemprop="blogPost">
+            <article id="post-HighCurrentCoding" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 class="article-title" itemprop="name">
-      集合&amp;迭代器
+      Java高并发编程
     </h1>
   
 
         
-        <a href="/2019/07/02/集合and迭代器笔记/" class="archive-article-date">
-  	<time datetime="2019-07-02T12:42:23.527Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-07-02</time>
+        <a href="/2019/07/16/HighCurrentCoding/" class="archive-article-date">
+  	<time datetime="2019-07-16T14:08:31.700Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-07-16</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h1 id="集合体系"><a href="#集合体系" class="headerlink" title="集合体系"></a>集合体系</h1><p><img src="https://github.com/YangCoFi/IMG/raw/master/jihe.png" alt="image"></p>
-<p>在最顶层的父接口Collection中一定定义了所有子类集合的共同属性和方法,因此我们首先需要学习Collection中共性方法,然后再去针对每个子类集合学习它的特有方法</p>
-<p><strong><em>插入图片，如果是把图片放在github上，复制下来的地址把blob改成raw！！！</em></strong></p>
-<h2 id="案例代码："><a href="#案例代码：" class="headerlink" title="案例代码："></a>案例代码：</h2><pre><code>package com.yang.basic.day17;
-import java.util.ArrayList;
-/**
- * ArrayList遍历
- * */
-
-//字符串length()方法
-//数组是length属性
-//集合是size()方法
-
-// *  ArrayList
-//         *  集合的体系结构：
-//         *      由于不同的数据结构（数据的组织，存储方式），所以Java为我们提供了不同的集合，
-//         *      但是不同的集合他们的功能都是相似，不断的向上提取，将共性抽取出来，这就是集合体系结构形成的原因
-//         *  体系结构：
-//         *          怎么学习?最顶层开始学习，因为最顶层包含了所有的共性
-//         *          怎么使用？使用最底层，因为最底层就是具体的实现
-
-//List特点：有序，允许重复，而且有索引
-public class Day17_Generics1 {
-    public static void main(String[] args) {
-        //创建集合对象
-        ArrayList al = new ArrayList();
-        //添加元素
-        al.add(&quot;hello&quot;);
-        al.add(&quot;world&quot;);
-        al.add(&quot;java&quot;);
-        //遍历集合 这里用for循环进行遍历
-        for (int i = 0; i &lt; al.size(); i++) {
-            System.out.println(al.get(i));
-        }
-    }
-}</code></pre><p>父类的引用指向子类的对象？</p>
-<p>子类是对父类的一个改进和扩充，所以一般子类在功能上较父类更强大，属性较父类更独特，   定义一个父类类型的引用指向一个子类的对象既可以使用子类强大的功能，又可以抽取父类的共性。 </p>
-<h2 id="collection类里面常见API"><a href="#collection类里面常见API" class="headerlink" title="collection类里面常见API"></a>collection类里面常见API</h2><pre><code>import java.util.ArrayList;
-import java.util.Collection;
-
-/*
- *     Collection     
- *             boolean add(E e)  
- *             void clear()  
- *             boolean contains(Object o)  
- *             boolean isEmpty() 
- *             boolean remove(Object o) 
- *             int size() 
- *             Object[] toArray()  
-
-
- * 
- * 
- * Iterator&lt;E&gt; iterator()  
-
- *         
+        <h1 id="Java高并发编程"><a href="#Java高并发编程" class="headerlink" title="Java高并发编程"></a>Java高并发编程</h1><blockquote>
+<p>转载请注明出处！</p>
+</blockquote>
+<p><strong>马士兵老师高并发编程笔记</strong></p>
+<h2 id="基础知识"><a href="#基础知识" class="headerlink" title="基础知识"></a>基础知识</h2><p>创建线程的三种方式：</p>
+<ul>
+<li>继承Thread类创建线程类</li>
+</ul>
+<blockquote>
+<p>定义Thread类的子类，并重写该类的run方法，该run方法的方法体就代表了线程要完成的任务。因此把run()方法称为执行体。</p>
+<p>创建Thread子类的实例，即创建了线程对象。</p>
+<p>调用线程对象的start()方法来启动该线程。</p>
+</blockquote>
+<ul>
+<li>通过Runnable接口创建线程类</li>
+</ul>
+<blockquote>
+<p>定义runnable接口的实现类，并重写该接口的run()方法，该run()方法的方法体同样是该线程的线程执行体。</p>
+<p>创建 Runnable实现类的实例，并依此实例作为Thread的target来创建Thread对象，该Thread对象才是真正的线程对象。</p>
+<p>调用线程对象的start()方法来启动该线程。</p>
+</blockquote>
+<ul>
+<li>通过Callable和Future创建线程</li>
+</ul>
+<blockquote>
+<p>创建Callable接口的实现类，并实现call()方法，该call()方法将作为线程执行体，并且有返回值。</p>
+<p>创建Callable实现类的实例，使用FutureTask类来包装Callable对象，该FutureTask对象封装了该Callable对象的call()方法的返回值。</p>
+<p>使用FutureTask对象作为Thread对象的target创建并启动新线程。</p>
+<p>调用FutureTask对象的get()方法来获得子线程执行结束后的返回值</p>
+</blockquote>
+<p>优缺点比较：</p>
+<p><strong>实现Runnable、Callable接口的方式创见多线程</strong></p>
+<ul>
+<li><p>优势：</p>
+<p>  线程类只是实现了Runnable接口或Callable接口，还可以继承其他类。</p>
+<p>  在这种方式下，多个线程可以共享同一个target对象，所以非常适合多个相同线程来处理同一份资源的情况，从而可以将CPU、代码和数据分开，形成清晰的模型，较好地体现了面向对象的思想。</p>
+</li>
+<li><p>劣势：</p>
+<p>  编程稍微复杂，如果要访问当前线程，则必须使用Thread.currentThread()方法。</p>
+</li>
+</ul>
+<p><strong>继承Thread类的方式创建多线程</strong></p>
+<ul>
+<li><p>优势：</p>
+<p>  编写简单，如果需要访问当前线程，则无需使用Thread.currentThread()方法，直接使用this即可获得当前线程。</p>
+</li>
+<li><p>劣势：</p>
+<p>  线程类已经继承了Thread类，所以不能再继承其他父类。</p>
+</li>
+</ul>
+<h2 id="第一章"><a href="#第一章" class="headerlink" title="第一章"></a>第一章</h2><h3 id="1"><a href="#1" class="headerlink" title="1"></a>1</h3><p>代码：</p>
+<pre><code>/**
+ * synchronized关键字
+ * 对某个对象加锁
+ * @author mashibing
  */
-public class CollectionDemo2 {
-    public static void main(String[] args) {        
-        //创建集合对象
-        //Collection c = new Collection();//Collection是接口，不能实例化
-        Collection c = new ArrayList();//多态，父类引用指向子类对象  
 
-        //boolean add(E e)  
-        System.out.println(c.add(&quot;hello&quot;));//永远可以添加成功，因为ArrayList他允许重复
-        System.out.println(c.add(&quot;world&quot;));
+package com.yangcofi.yxxy.c_001;
 
-        //void clear()：清空集合
-        //c.clear();
+public class T {
 
-        //boolean contains(Object o)  :判断集合中是否包含指定元素
-        //System.out.println(c.contains(&quot;java&quot;));
+    private int count = 10;
+    private Object o = new Object();
 
-        //boolean isEmpty() :是否为空
-        //System.out.println(c.isEmpty());
-
-
-        //boolean remove(Object o) :删除元素
-        //System.out.println(c.remove(&quot;java&quot;));
-
-        //int size() :返回集合中的元素个数
-        //System.out.println(c.size());
-
-        //Object[] toArray()  :将集合转换成一个Object类型的数组
-        Object[] objs = c.toArray();
-        for (int i = 0; i &lt; objs.length; i++) {
-            System.out.println(objs[i]);
-        }
-        System.out.println(c);
-    }
-}</code></pre><p>怎么去遍历呢？用get(i)？这里是父类的引用，多态，根本就没有ArrayList里面特有的get方法。于是可以将集合转换为object类型的数组，而collection中恰好有toArray这样的API。<br>为什么toArray返回类型是Object呢？因为集合中可以存任意类型的对象。</p>
-<h2 id="集合的遍历方式："><a href="#集合的遍历方式：" class="headerlink" title="集合的遍历方式："></a>集合的遍历方式：</h2><pre><code>1.把集合转换成数组，我们去遍历这个数组。
-2.iterator(),可以返回一个迭代器对象，我们可以通过迭代器对象来迭代集合</code></pre><p>Iterator是一个接口！</p>
-<p>用Iterator去遍历集合Collection:</p>
-<pre><code>package com.yang.basic.day17;
-
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
-
-public class Day_17_Generics3 {
-    /*
-     * 集合的遍历方式：
-     *         1.toArray(),可以把集合转换成数组，然后遍历数组即可
-     *         2.iterator(),可以返回一个迭代器对象，我们可以通过迭代器对象来迭代集合
-     *
-     * Iterator：可以用于遍历集合
-     *     E next()  :返回下一个元素
-     *  boolean hasNext()  ：判断是否有元素可以获取
-     *
-     *  注意：Exception in thread &quot;main&quot; java.util.NoSuchElementException
-     *      使用next方法获取下一个元素，如果没有元素可以获取，则出现NoSuchElementException
-
-     */
-
-    public static void main(String[] args) {
-        //method();
-        //创建集合对象
-        Collection c = new ArrayList();
-        //添加元素
-        c.add(&quot;hello&quot;);
-        c.add(&quot;world&quot;);
-        c.add(&quot;java&quot;);
-
-        //获取迭代器对象
-        Iterator it = c.iterator();
-
-        //Object next()  :返回下一个元素
-        //boolean hasNext()  ：判断是否有元素可以获取
-
-    /*if(it.hasNext())
-        System.out.println(it.next());
-    if(it.hasNext())
-        System.out.println(it.next());
-    if(it.hasNext())
-        System.out.println(it.next());
-    if(it.hasNext())
-        System.out.println(it.next());*/
-
-        while(it.hasNext()) {
-            System.out.println(it.next());
+    public void m() {
+        synchronized(o) { //任何线程要执行下面的代码，必须先拿到o的锁
+            count--;
+            System.out.println(Thread.currentThread().getName() + &quot; count = &quot; + count);
         }
     }
 
-    private static void method() {
-        //创建集合对象
-        Collection c = new ArrayList();
-        //添加元素
-        c.add(&quot;hello&quot;);
-        c.add(&quot;world&quot;);
-        c.add(&quot;java&quot;);
-        //获取数组
-        Object[] objs = c.toArray();
-        //遍历数组
-        for (int i = 0; i &lt; objs.length; i++) {
-            System.out.println(objs[i]);
-        }
-    }
-}</code></pre><h2 id="并发修改异常"><a href="#并发修改异常" class="headerlink" title="并发修改异常"></a>并发修改异常</h2><p>当使用迭代器遍历集合的时候,使用了集合中的 增加/删除 方法,导致并发修改异常。</p>
+}</code></pre><blockquote>
+<p>Thread.currentThread()方法返回当前正在执行的线程对象。GetName()方法返回调用该方法的线程的名字。</p>
+</blockquote>
+<p>o是一个引用，指向堆中的一块内存，此时有线程想访问下面这两句代码：            </p>
+<pre><code>count--;
+
+System.out.println(Thread.currentThread().getName() + &quot; count = &quot; + count);</code></pre><p>则必须要在堆中拿到锁，如果锁已经被一个线程锁定了，其他线程必须要等待锁释放（拿到锁的线程执行完了，即synchronized大括号结束的时候）才可以拿到锁。</p>
+<blockquote>
+<p>这个对象的锁是堆内存里面new出来的对象，而不是引用。<br>synchronized是互斥锁。</p>
+</blockquote>
+<h3 id="2"><a href="#2" class="headerlink" title="2"></a>2</h3><p>上一个o只是用来当锁，太麻烦了。直接synchronized(this)，如果有人要想用这个类里面的m()方法的时候，一定要new一个T出来，指向自身。将自身这个对象锁定。</p>
 <p>代码：</p>
-<pre><code>package com.yang.basic.day17;
-
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.ListIterator;
-
-public class Day_17_Generics4 {
-    /*
-     * 需求：判断集合中是否包含元素java，如果有则添加元素android
-     * Exception in thread &quot;main&quot; java.util.ConcurrentModificationException:并发修改异常
-     * 迭代器是依赖于集合的，相当于集合的一个副本，当迭代器在操作的时候，如果发现和集合不一样(比如说元素个数不一样)，则抛出异常
-     *
-     * 解决方案:
-     *         你就别使用迭代器
-     *         在使用迭代器进行遍历的时候使用迭代器来进行修改。在用迭代器进行遍历的时候，如果我们用集合本身去改，就不一样了。
-     */
-        public static void main(String[] args) {
-            //method();
-
-            //创建集合对象
-            //Collection c = new ArrayList();
-            List c = new ArrayList();
-            //添加元素
-            c.add(&quot;hello&quot;);
-            c.add(&quot;world&quot;);
-            c.add(&quot;java&quot;);
-
-            //我们可以通过遍历来获取集合中的每一个元素，然后进行比较即可
-        /*Iterator it = c.iterator();
-        while(it.hasNext()) {
-            String s = (String)it.next();
-            if(s.equals(&quot;java&quot;)) {
-                c.add(&quot;android&quot;);
-            }
-        }*/
-
-            ListIterator lit = c.listIterator();
-            while(lit.hasNext()) {
-                String s = (String)lit.next();
-                if(s.equals(&quot;java&quot;)) {
-                    lit.add(&quot;android&quot;);     //迭代器去添加，他就会去同步集合
-                }
-            }
-            System.out.println(c);
-        }
-
-        private static void method() {
-            //创建集合对象
-            Collection c = new ArrayList();
-            //添加元素
-            c.add(&quot;hello&quot;);
-            c.add(&quot;world&quot;);
-            c.add(&quot;java&quot;);
-            //判断集合中是否包含元素java
-            if(c.contains(&quot;java&quot;)) {
-                c.add(&quot;android&quot;);
-            }
-            System.out.println(c);
-        }
-
-    }</code></pre><p>ListIterator允许重复，而且有序。</p>
-<h2 id="泛型"><a href="#泛型" class="headerlink" title="泛型"></a>泛型</h2><p>集合中是可以存放任意对象的，只要把对象存储集合后，那么这时他们都会被提升成Object类型。当我们在取出每一个对象，并且进行相应的操作，这时必须采用类型转换</p>
-<p>代码：</p>
-<pre><code>package com.yang.basic.day17;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
-
-/**
- * 使用集合存储自定义对象并遍历
- * 由于集合可以存储任意类型的对象，当我们存储了不同类型的对象，就有可能在转换的时候出现类型转换异常，
- * 所以java为了解决这个问题，给我们提供了一种机制，叫做泛型
- * 把明确数据类型的工作提前到了编译时期，借鉴了数组的特点，类型不一样，不让你通过
- * 避免了类型转换的问题
- *  * 什么时候可以使用泛型？
- *         问API，当我们看到&lt;E&gt;，就可以使用泛型了
- * *
+<pre><code>/**
+ * synchronized关键字
+ * 对某个对象加锁
+ * @author mashibing
  */
-public class Day_17_Generics5 {
-    public static void main(String[] args) {
-        //创建集合对象
-        Collection  c = new ArrayList();
-        //创建元素对象
-        Student s = new Student(&quot;zhangsan&quot;,18);
-        Student s2 = new Student(&quot;lisi&quot;,19);
-        //添加元素对象
-        c.add(s);
-        c.add(s2);
-        //遍历集合对象
 
-        Iterator  it = c.iterator();
-        while(it.hasNext()) {
-            String str = (String)it.next();
-            System.out.println(str);
+package com.yangcofi.yxxy.c_002;
+
+public class T {
+
+    private int count = 10;
+
+    public void m() {
+        synchronized(this) { //任何线程要执行下面的代码，必须先拿到this的锁
+            count--;
+            System.out.println(Thread.currentThread().getName() + &quot; count = &quot; + count);
         }
+    }
+
+}</code></pre><p>这里的synchronized(this)就是把自身当成锁。</p>
+<blockquote>
+<p>synchronized锁定的是一个对象，不是整段代码。这个对象我们可以自己来指定。</p>
+</blockquote>
+<h3 id="3"><a href="#3" class="headerlink" title="3"></a>3</h3><p>如果一段代码在开始的时候就有synchronized(this)，到结束的时候才释放这把锁，那么有一个简单的写法。</p>
+<p>代码：</p>
+<pre><code>/**
+ * synchronized关键字
+ * 对某个对象加锁
+ * @author mashibing
+ */
+
+package com.yangcofi.yxxy.c_003;
+
+public class T {
+
+    private int count = 10;
+
+    public synchronized void m() { //等同于在方法的代码执行时要synchronized(this)
+        count--;
+        System.out.println(Thread.currentThread().getName() + &quot; count = &quot; + count);
+    }
+
+}</code></pre><p><strong><em>直接写在方法的申明上，等同于上面的一个小程序</em></strong></p>
+<h3 id="4"><a href="#4" class="headerlink" title="4"></a>4</h3><p>synchronized()如果用在一个静态方法上。</p>
+<p>代码：</p>
+<pre><code>/**
+ * synchronized关键字
+ * 对某个对象加锁
+ * @author mashibing
+ */
+
+package com.yangcofi.yxxy.c_004;
+
+public class T {
+
+    private static int count = 10;
+
+    public synchronized static void m() { //这里等同于synchronized(yxxy.c_004.T.class)
+        count--;
+        System.out.println(Thread.currentThread().getName() + &quot; count = &quot; + count);
+    }
+
+    public static void mm() {
+        synchronized(T.class) { //考虑一下这里写synchronized(this)是否可以？不可以
+            count --;
+        }
+    }
+}</code></pre><p>静态的时候是没有this可以锁定的的，T.class是Class类的一个对象。</p>
+<blockquote>
+<p>synchronized(T.class)  锁定的是当前这个类的class对象。</p>
+</blockquote>
+<h3 id="5"><a href="#5" class="headerlink" title="5"></a>5</h3><p>代码：</p>
+<pre><code>/**
+ * 分析一下这个程序的输出
+ * @author mashibing
+ */
+
+package com.yangcofi.yxxy.c_005;
+
+public class T implements Runnable {
+
+    private int count = 10;
+
+    public /*synchronized*/ void run() { 
+        count--;
+        System.out.println(Thread.currentThread().getName() + &quot; count = &quot; + count);
+    }
+
+    public static void main(String[] args) {
+        T t = new T();            //这里要理解：不是每个线程new一个T。而是只new了一个对象，很多线程共同访问这个对象。
+        for(int i=0; i&lt;5; i++) {
+            new Thread(t, &quot;THREAD&quot; + i).start();
+        }
+    }
+
+}</code></pre><blockquote>
+<p>问题：线程冲突。第一个线程将对象t里面的count–为9之后，还未打印，第二个线程也来了，将count–，第三个线程可能也来了，将count–……之后第一个线程才执行打印语句，所以最后结果不是9了。</p>
+<p>解决办法：带上synchronized()关键字。</p>
+</blockquote>
+<p><strong><em>一个synchronized()代码块相当于一个原子操作(不可分)。</em></strong></p>
+<h3 id="6"><a href="#6" class="headerlink" title="6"></a>6</h3><p>代码：</p>
+<pre><code>/**
+ * 对比上面一个小程序，分析一下这个程序的输出
+ * @author mashibing
+ */
+
+package com.yangcofi.yxxy.c_006;
+
+public class T implements Runnable {
+
+    private int count = 10;
+
+    public synchronized void run() { 
+        count--;
+        System.out.println(Thread.currentThread().getName() + &quot; count = &quot; + count);
+    }
+
+    public static void main(String[] args) {
+
+        for(int i=0; i&lt;5; i++) {
+            T t = new T();
+            new Thread(t, &quot;THREAD&quot; + i).start();
+        }
+    }
+
+}</code></pre><p>输出结果：</p>
+<pre><code>9
+
+8
+
+7
+
+6
+
+5</code></pre><h3 id="7"><a href="#7" class="headerlink" title="7"></a>7</h3><p>同步方法和非同步方法是否可以同时调用？</p>
+<p>代码：</p>
+<pre><code>/**
+ * 同步和非同步方法是否可以同时调用？
+ * @author mashibing
+ */
+
+package com.yangcofi.yxxy.c_007;
+
+public class T {
+
+    public synchronized void m1() {     
+        System.out.println(Thread.currentThread().getName() + &quot; m1 start...&quot;);
+        try {
+            Thread.sleep(10000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        System.out.println(Thread.currentThread().getName() + &quot; m1 end&quot;);
+    }
+
+    public void m2() {                //m2不需要看那里有没有锁
+        try {
+            Thread.sleep(5000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        System.out.println(Thread.currentThread().getName() + &quot; m2 &quot;);
+    }
+
+    public static void main(String[] args) {
+        T t = new T();
+
+        /*new Thread(()-&gt;t.m1(), &quot;t1&quot;).start();            //lambda写法
+        new Thread(()-&gt;t.m2(), &quot;t2&quot;).start();*/
+
+        new Thread(t::m1, &quot;t1&quot;).start();
+        new Thread(t::m2, &quot;t2&quot;).start();            //第二个线程执行的是t这个对象里的m2方法 
+        /*
+        new Thread(new Runnable() {
+
+            @Override
+            public void run() {
+                t.m1();
+            }    
+        });
+        */
+
+    }    
+}</code></pre><p>代码中，执行第一个方法m1()时，是需要锁定当前对象的，而执行第二个方法的时候，是不需要锁定当前对象的。n那么在执行m1()的过程之中，m2()能否被执行？</p>
+<p>运行结果：</p>
+<pre><code>t1 m1 start...
+t2 m2
+t1 m1 end</code></pre><blockquote>
+<p>在一个synchronized方法执行的过程，非synchronized方法是可以执行的。</p>
+<p>t2不用申请锁，因为执行m2()方法。</p>
+</blockquote>
+<h3 id="8"><a href="#8" class="headerlink" title="8"></a>8</h3><p>代码:</p>
+<pre><code>/**
+ * 对业务写方法加锁
+ * 对业务读方法不加锁
+ * 容易产生脏读问题（dirtyRead）
+ */
+
+package com.yangcofi.yxxy.c_008;
+
+import java.util.concurrent.TimeUnit;
+
+public class Account {
+    String name;
+    double balance;
+
+    public synchronized void set(String name, double balance) {
+        this.name = name;
+        /*
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        */
+
+        this.balance = balance;
+    }
+
+    public /*synchronized*/ double getBalance(String name) {
+        return this.balance;
+    }
+
+
+    public static void main(String[] args) {
+        Account a = new Account();
+        new Thread(()-&gt;a.set(&quot;zhangsan&quot;, 100.0)).start();
+
+        try {
+            TimeUnit.SECONDS.sleep(1);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        System.out.println(a.getBalance(&quot;zhangsan&quot;));
+
+        try {
+            TimeUnit.SECONDS.sleep(2);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        System.out.println(a.getBalance(&quot;zhangsan&quot;));
     }
 }
-
-class Student {
-    String name;
-    int age;
-    public Student(String name,int age) {
-        this.name = name;
-        this.age = age;
-    }
-}</code></pre><p>泛型：</p>
-<p> 当类上定义&lt;&gt;的时候就可以使用泛型,例如ArrayList类的定义:<br> class  ArrayList<e>,那么我们在创建ArrayList对象的时候就可以指定&lt;&gt;中E的类型<br> ArrayList<string> al=new ArrayList<string>(),那么String就把E替换掉了</string></string></e></p>
-<pre><code>import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
-
-/*
- * 使用集合存储自定义对象并遍历
- * 由于集合可以存储任意类型的对象，当我们存储了不同类型的对象，就有可能在转换的时候出现类型转换异常，
- * 所以java为了解决这个问题，给我们提供了一种机制，叫做泛型
- * 
- * 泛型：是一种广泛的类型，把明确数据类型的工作提前到了编译时期，借鉴了数组的特点
- * 泛型好处：
- *             避免了类型转换的问题
- *             可以减少黄色警告线
- *             可以简化我们代码的书写
- * 
- * 什么时候可以使用泛型？
- *         问API，当我们看到&lt;E&gt;，就可以使用泛型了
- *             
- */
-public class GenericDemo {
-    public static void main(String[] args) {
-        //创建集合对象
-        Collection&lt;Student&gt; c = new ArrayList&lt;Student&gt;();
-        //创建元素对象
-        Student s = new Student(&quot;zhangsan&quot;,18);
-        Student s2 = new Student(&quot;lisi&quot;,19);
-        //添加元素对象
-        c.add(s);
-        c.add(s2);
-        //遍历集合对象
-
-        Iterator&lt;Student&gt; it = c.iterator();
-        while(it.hasNext()) {
-            //String str = (String)it.next();
-            //System.out.println(str);
-
-            Student stu = it.next();
-            System.out.println(stu.name);
-        }
-    }
+//0.0  100.0</code></pre><p>在加上下面这段代码的时候，让它睡个2s(放大在线程执行过程中的时间差，帮助我们发现这段程序的问题)，读出来的时候会产生问题。</p>
+<pre><code>/*
+try {
+    Thread.sleep(2000);
+} catch (InterruptedException e) {
+    e.printStackTrace();
 }
-
-class Student {
-    String name;
-    int age;
-
-    public Student(String name,int age) {
-        this.name = name;
-        this.age = age;
-    }
-}</code></pre><h2 id="增强for"><a href="#增强for" class="headerlink" title="增强for"></a>增强for</h2><p>增强for循环是JDK1.5以后出来的一个高级for循环，专门用来遍历数组和集合的。<strong>它的内部原理其实是个Iterator迭代器</strong>，所以在遍历的过程中，不能对集合中的元素进行增删操作。</p>
-<h3 id="格式"><a href="#格式" class="headerlink" title="格式"></a>格式</h3><pre><code>for(元素的数据类型  变量 : Collection集合or数组){
-}</code></pre><p>它用于遍历Collection和数组。通常只进行遍历元素，不要在遍历的过程中对集合元素进行增删操作。</p>
-<p>代码:</p>
-<pre><code>import java.util.ArrayList;
-import java.util.Collection;
-
-/*
- * foreach:增强for循环，一般用于遍历集合或者数组
- * 格式：
- *         for(元素的类型 变量 : 集合或者数组对象) {
- *             可以直接使用变量;
- *         }
-    注意：在增强for循环中不能修改集合，否则会出现并发修改异常。
-
-    public interface Iterable&lt;T&gt;
-    实现这个接口允许对象成为 &quot;foreach&quot; 语句的目标。
-
+*/</code></pre><p>表明在某一线程在运行这段代码的时候，即睡了2s，别的线程是有可能回去执行别的代码的(这里是主线程去执行了getBalance()读余额的未上锁的方法)。</p>
+<blockquote>
+<p>业务代码只是对写加了锁，但是没有对读加锁。</p>
+<p>实际过程中要根据业务逻辑进行判断是否要给方法上锁，即允不允许脏读(比如对于<strong>暂时性的读的数据未更新</strong>无所谓之类的…)。</p>
+</blockquote>
+<h3 id="9"><a href="#9" class="headerlink" title="9"></a>9</h3><p>代码：</p>
+<pre><code>/**
+ * 一个同步方法可以调用另外一个同步方法，一个线程已经拥有某个对象的锁，再次申请的时候仍然会得到该对象的锁.
+ * @author mashibing
  */
-public class ForEachDemo {
-    public static void main(String[] args) {
-         //创建集合对象
-        Collection&lt;String&gt; c = new ArrayList&lt;String&gt;();
-        //添加元素
-        c.add(&quot;hello&quot;);
-        c.add(&quot;world&quot;);
-        c.add(&quot;java&quot;);
+package com.yangcofi.yxxy.c_009;
 
-        //增强for循环遍历集合
-        /*for(Object obj : c) {
-            System.out.println(obj);
-        }*/
+import java.util.concurrent.TimeUnit;
 
-
-        /*for(String s : c) {
-            System.out.println(s.toUpperCase());
-        }*/
-
-        for (String string : c) {
-            c.add(&quot;android&quot;);
-            System.out.println(string);
+public class T {
+    synchronized void m1() {
+        System.out.println(&quot;m1 start&quot;);
+        try {
+            TimeUnit.SECONDS.sleep(1);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
+        m2();
     }
-}</code></pre><h2 id="List体系结构"><a href="#List体系结构" class="headerlink" title="List体系结构"></a>List体系结构</h2><h3 id="特点"><a href="#特点" class="headerlink" title="特点"></a>特点</h3><p>A:有序的（存储和读取的顺序是一致的）<br>B:有整数索引<br>C:允许重复的</p>
-<h3 id="特有功能"><a href="#特有功能" class="headerlink" title="特有功能"></a>特有功能</h3><p>void add(int index, E element) :将元素添加到index索引位置上</p>
-<p>E get(int index) :根据index索引获取元素</p>
-<p>E remove(int index) :根据index索引删除元素</p>
-<p>E set(int index, E element):将index索引位置的的元素设置为element</p>
+
+    synchronized void m2() {
+        try {
+            TimeUnit.SECONDS.sleep(2);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        System.out.println(&quot;m2&quot;);
+    }
+}</code></pre><p>在执行m1()的时候，加了把锁，执行锁定的过程之中，调用了m2()，而调用m2()的过程中发现m2()也是需要一把锁，而这把锁就是当前自己已经持有的这把锁。</p>
+<p>在一个线程里面好理解，就是同一把锁被锁定了两次。</p>
+<blockquote>
+<p>synchronized获得的锁是<strong>可重入锁</strong></p>
+</blockquote>
+<hr>
+<p><strong>什么情况下会产生死锁?死锁代码?</strong></p>
+<p>假如有一个线程,在它执行的过程中首先需要锁定A,OK,它去申请A这把锁,在锁定A后,这个线程还需要去锁定B;而另外一个线程,首先需要锁定B,在锁定B后,还需要锁定A。</p>
+<p>那么第一个线程把A锁了,第二个线程把B锁了,这时候第一个线程想去申请锁定B,不行,因为第二个线程已经把B锁定了。第一个线程无法执行下去.而第二个线程亦是如此,两个线程都执行不下去了。</p>
 <p>代码：</p>
-<pre><code>package com.yang.basic.day17;
+<pre><code>package com.yangcofi.exercise;
 
-import java.util.ArrayList;
-import java.util.List;
-/*
- * List:
- *         有序的（存储和读取的顺序是一致的）
- *         有整数索引
- *         允许重复的
- *
- * List的特有功能：
- *             void add(int index, E element)
- *             E get(int index)
- *             E remove(int index)
- *          E set(int index, E element)
- *
- *   增删改查
- */
-public class Day_17_Generics8 {
-    public static void main(String[] args) {
-        //创建的列表对象
-        List list = new ArrayList();
+/**
+ * @ClassName DeadLock
+ * @Description Use Synchronized() to implement DeadLock
+ * @Author YangC
+ * @Date 2019/7/16 10:16
+ **/
+public class DeadLock {
+    private Object object1=new Object ();
+    private Object object2=new Object ();
 
-        //void add(int index, E element)  : 在指定索引位置添加指定元素
-        list.add(0, &quot;hello&quot;);
-        list.add(0, &quot;world&quot;);
-        list.add(1, &quot;java&quot;);
-
-        //E get(int index)  :根据索引返回元素
-        /*System.out.println(list.get(0));
-        System.out.println(list.get(1));
-        System.out.println(list.get(2));*/
-        //System.out.println(list.get(3));
-
-        /*for (int i = 0; i &lt; list.size(); i++) {
-            System.out.println(list.get(i));
-        }*/
-
-        //E remove(int index)  : 删除指定元素并返回
-
-        //System.out.println(list.remove(5));
-
-        //E set(int index, E element) : 将指定索引位置的元素替换为指定元素，并将原先的元素返回
-        System.out.println(list.set(0, &quot;android&quot;));
-
-        System.out.println(list);
-    }
-}</code></pre><h2 id="LinkedList"><a href="#LinkedList" class="headerlink" title="LinkedList"></a>LinkedList</h2><h3 id="特有功能-1"><a href="#特有功能-1" class="headerlink" title="特有功能"></a>特有功能</h3><p>LinkedList底层使用的是链表结构,因此增删快,查询相对ArrayList较慢</p>
-<p>void addFirst(E e) :向链表的头部添加元素</p>
-<p>void addLast(E e):向链表的尾部添加元素</p>
-<p>E getFirst():获取链头的元素,不删除元素</p>
-<p>E getLast():获取链尾的元素,不删除元素</p>
-<p>E removeFirst():返回链头的元素并删除链头的元素</p>
-<p>E removeLast():返回链尾的元素并删除链尾的元素</p>
-<p>代码：</p>
-<pre><code>package com.yang.basic.day17;
-
-import java.util.LinkedList;
-
-/*
- * List的常用子类：
- *         ArrayList
- *             底层是数组结构，查询快，增删慢
- *         LinkedList
- *             底层结构是链表，查询慢，增删快
- *
- * 如何选择使用不同的集合？
- *         如果查询多，增删少，则使用ArrayList
- *         如果查询少，增删多，则使用LinkedList
- *         如果你不知道使用什么，则使用ArrayList
- *
- * LinkedList的特有功能：
- *             void addFirst(E e)
- *             void addLast(E e)
-             E getFirst()
-             E getLast()
-             E removeFirst()
-             E removeLast()
- *
- */
-public class Day_17_Generics9 {
-    public static void main(String[] args) {
-        LinkedList list = new LinkedList();
-        list.add(&quot;hello&quot;);
-        list.add(&quot;world&quot;);
-
-        //void addFirst(E e)  :将元素添加到索引为0的位置
-        //void addLast(E e) ：将元素添加到索引为size()-1的位置
-        list.addFirst(&quot;java&quot;);
-        list.addLast(&quot;android&quot;);
-
-        //E getFirst()  :获取索引为0的元素
-        //E getLast()  ：获取索引为size()-1的元素
-        //System.out.println(list.getFirst());
-        //System.out.println(list.getLast());
-
-        //E removeFirst() :删除索引为0的元素并返回
-        //E removeLast() ：删除索引为size()-1的元素并返回
-        System.out.println(list.removeFirst());
-        System.out.println(list.removeLast());
-
-
-        System.out.println(list);
-    }
-}</code></pre><p>定义一个方法。返回指定列表中指定元素的位置索引：</p>
-<p>代码：</p>
-<pre><code>import java.util.ArrayList;
-import java.util.List;
-
-/*
- * 需求：定义一个方法，返回指定列表中指定元素的索引位置
- * 
- * 判断元素是否存在
- * 
- */
-public class ListTest {
-    public static void main(String[] args) {
-        List list = new ArrayList();
-        list.add(&quot;hello&quot;);
-        list.add(&quot;world&quot;);
-        list.add(&quot;java&quot;);
-
-        //int index = index(list,&quot;php&quot;);
-        //System.out.println(index);
-
-        //boolean flag = contains(list, &quot;php&quot;);
-        //System.out.println(flag);
-
-        boolean flag = list.contains(&quot;php&quot;);
-        System.out.println(flag);
-    }
-
-    public static int index(List list,Object other) {
-        for(int x = 0;x &lt; list.size();x++) {
-            //获取列表中的元素
-            Object obj = list.get(x);
-            //使用列表中的元素和指定的元素进行比较
-            if(obj.equals(other)) {
-                return x;
+    public void method1(){
+        synchronized (object1){
+            System.out.println (Thread.currentThread ().getName ()+&quot;:Start&quot;);
+            try {
+                Thread.sleep (2000);
+            } catch (InterruptedException e) {
+                e.printStackTrace ();
+            }
+            synchronized (object2){
+                System.out.println (Thread.currentThread ().getName ()+&quot;:End&quot;);
             }
         }
-        //查找不到指定的元素
-        return -1;
+    }
+    public void method2(){
+        synchronized (object2){
+            System.out.println (Thread.currentThread ().getName ()+&quot;:Start&quot;);
+            try {
+                Thread.sleep (2000);
+            } catch (InterruptedException e) {
+                e.printStackTrace ();
+            }
+            synchronized (object1){
+                System.out.println (Thread.currentThread ().getName ()+&quot;:End&quot;);
+            }
+        }
     }
 
-    public static boolean contains(List list,Object other) {
-        //获取指定元素在指定列表中的索引位置
-        int index = index(list,other);
-        //如果索引位置大于等于0，则认为元素存在，否则不存在
-        if(index &gt;= 0) {
-            return true;
+    public static void main(String[] args) {
+        DeadLock deadLock=new DeadLock ();
+        Thread thread=new Thread (()-&gt;{deadLock.method1 ();},&quot;T1&quot;);
+        Thread thread1=new Thread (()-&gt;{deadLock.method2 ();},&quot;T2&quot;);
+        thread.start ();
+        try {
+            Thread.sleep (2000);
+        } catch (InterruptedException e) {
+            e.printStackTrace ();
         }
-        else {
-            return false;
+        thread1.start ();
+    }
+}</code></pre><p>其中的</p>
+<pre><code>Thread thread=new Thread (()-&gt;{deadLock.method1 ();},&quot;T1&quot;);    //run()方法就是method1()
+Thread thread1=new Thread (()-&gt;{deadLock.method2 ();},&quot;T2&quot;);</code></pre><p>是lambda表达式的写法，就相当于new Thread()里面new Runnable()，再重写run()方法一样。</p>
+<hr>
+<h3 id="10"><a href="#10" class="headerlink" title="10"></a>10</h3><p>代码：</p>
+<pre><code>/**
+ * 一个同步方法可以调用另外一个同步方法，一个线程已经拥有某个对象的锁，再次申请的时候仍然会得到该对象的锁.
+ * 也就是说synchronized获得的锁是可重入的
+ * 这里是继承中有可能发生的情形，子类调用父类的同步方法
+ * @author mashibing
+ * 子类的同步方法调用父类的同步方法
+ */
+package com.yangcofi.yxxy.c_010;
+
+import java.util.concurrent.TimeUnit;
+
+public class T {
+    synchronized void m() {
+        System.out.println(&quot;m start&quot;);
+        try {
+            TimeUnit.SECONDS.sleep(1);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        System.out.println(&quot;m end&quot;);
+    }
+
+    public static void main(String[] args) {
+        new TT().m();        //锁定的还是new出来的那个TT的对象，在子类的m方法里面调用了父类的m方法。
+    }
+
+}
+
+class TT extends T {
+    @Override
+    synchronized void m() {
+        System.out.println(&quot;child m start&quot;);
+        super.m();
+        System.out.println(&quot;child m end&quot;);
+    }
+}</code></pre><p>执行结果：</p>
+<pre><code>child m start
+m start
+m end 
+child m end</code></pre><blockquote>
+<p>子类的synchronized()方法可以去调用父类的synchronized()方法！</p>
+<p>这里锁定的是TT()对象！</p>
+</blockquote>
+<blockquote>
+<p>初始化子类对象的时候会先初始化父类对象 </p>
+<p>子类对象中封装了父类对象，</p>
+</blockquote>
+<p>注意：</p>
+<ul>
+<li><p>“When you create an object of the derived class, it contains within it a subobject of the base class. This subobject is the same as if you had created an object of the base class by itself. It’s just that from the outside, the subobject of the base class is wrapped within the derived-class object.”<br>这里说派生类拥有一个父类的亚对象(subobject)，是指派生类的对象中的一部分与父类对象是相同的。这个亚对象不是一个实际的对象，是无法独立于派生类对象之外的。</p>
+</li>
+<li><p>子类在创建实例后，类初始化方法会调用父类的初始化方法(除了java.lang.Object类，因为java.lang.Object类没有父类)，而这种调用会逐级追述，直到java.lang.Object的初始化方法。<br>这个地方是初始化方法，而不是构造方法，因为构造方法是相对于java源程序而言，而编译后的class文件是初始化方法即” <init>“方法，初始化方法由java源程序的三个部分组成的，一个部分是成员字段后的直接的初始化语句，例如private int i=0;，第二个部分是由初始化块组成，例如:public class Test{ { this.i=4; \do something…… } }<br>第三个部分就是java源代码中的构造方法中的代码，java源代码中有几个构造方法，那么class文件中就有几个初始化方法，编译器会把第一部分与第二部分分别复制到每个初始化方法的前端，然后把初始化方法对应参数的构造方法的代码复制到相应初始化方法中，调用初始化方法并不会生成对象。<br>想象你的父类是一个抽象类，那么抽象类又如何能够产生对象呢</init></p>
+</li>
+</ul>
+<blockquote>
+<p>对象的创建就是根据在堆上有没有开辟实例域的数据空间</p>
+</blockquote>
+<h3 id="11"><a href="#11" class="headerlink" title="11"></a>11</h3><p>代码:</p>
+<pre><code>package com.yangcofi.yxxy.c_011;
+
+import java.util.concurrent.TimeUnit;
+
+public class T {
+    int count = 0;
+    synchronized void m() {
+        System.out.println(Thread.currentThread().getName() + &quot; start&quot;);
+        while(true) {
+            count ++;
+            System.out.println(Thread.currentThread().getName() + &quot; count = &quot; + count);
+            try {
+                TimeUnit.SECONDS.sleep(1);
+
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
+            if(count == 5) {
+                int i = 1/0; //此处抛出异常，锁将被释放，要想不被释放，可以在这里进行catch，然后让循环继续
+                System.out.println(i);
+            }
         }
     }
 
-}</code></pre><p>其中，obj.equals(other)，这里使用的equals是object的equals吗？不一定！如果此时的列表的具体的对象它重写了equals，由多态的一个动态绑定的特点，它调用的就是子类的具体的已经重写过的equals方法。</p>
+    public static void main(String[] args) {
+        T t = new T();
+        Runnable r = new Runnable() {
+
+            @Override
+            public void run() {
+                t.m();
+            }
+
+        };
+        new Thread(r, &quot;t1&quot;).start();
+
+        try {
+            TimeUnit.SECONDS.sleep(3);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        new Thread(r, &quot;t2&quot;).start();
+    }
+
+}
+//t1加到5时，遇到1/0异常，释放掉锁，t2开始执行</code></pre><blockquote>
+<p>程序在执行过程中，如果出现异常，默认情况锁会被释放。你不想释放，加上try catch做异常处理。</p>
+<p>在并发处理的过程中，有异常要多加小心，不然可能会发生不一致的情况。</p>
+<p>比如，在一个web app处理过程中，多个servlet线程共同访问同一个资源(servlet本身就支持多线程)，这时如果异常处理不合适，在第一个线程中抛出异常，其他线程就会进入同步代码区，有可能会访问到异常产生时的数据。(比如前一个线程只改了一半的数据)</p>
+</blockquote>
+<p><strong>因此要非常小心的处理同步业务逻辑中的异常</strong></p>
+<h3 id="12"><a href="#12" class="headerlink" title="12"></a>12</h3><p><strong>volatile关键字</strong></p>
+<p>代码：</p>
+<pre><code>/**
+ * volatile 关键字，使一个变量在多个线程间可见
+ * A B线程都用到一个变量，java默认是A线程中保留一份copy，这样如果B线程修改了该变量，则A线程未必知道
+ * 使用volatile关键字，会让所有线程都会读到变量的修改值
+ * 
+ * 在下面的代码中，running是存在于堆内存的t对象中
+ * 当线程t1开始运行的时候，会把running值从内存中读到t1线程的工作区，在运行过程中直接使用这个copy，并不会每次都去
+ * 读取堆内存，这样，当主线程修改running的值之后，t1线程感知不到，所以不会停止运行
+ * 
+ * 使用volatile，将会强制所有线程都去堆内存中读取running的值
+ * 
+ * 可以阅读这篇文章进行更深入的理解
+ * http://www.cnblogs.com/nexiyi/p/java_memory_model_and_thread.html
+ * 
+ * volatile并不能保证多个线程共同修改running变量时所带来的不一致问题，也就是说volatile不能替代synchronized
+ * @author mashibing
+ */
+package com.yangcofi.yxxy.c_012;
+
+import java.util.concurrent.TimeUnit;
+
+public class T {
+    /*volatile*/ boolean running = true; //对比一下有无volatile的情况下，整个程序运行结果的区别
+    void m() {
+        System.out.println(&quot;m start&quot;);
+        while(running) {
+            /*
+            try {
+                TimeUnit.MILLISECONDS.sleep(10);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }*/
+        }
+        System.out.println(&quot;m end!&quot;);
+    }
+
+    public static void main(String[] args) {
+        T t = new T();
+
+        new Thread(t::m, &quot;t1&quot;).start();
+
+        //第二个线程就是我们的主线程，主线程睡了一秒钟之后，将running设置为false
+        try {
+            TimeUnit.SECONDS.sleep(1);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        t.running = false;
+    }
+
+}
+//主线程想把t对象的running设置为false，来使t1线程停止。运行发现是不行的，t1会一直运行
+//加上volatile就可以了。</code></pre><p>JMM(Java内存模型)</p>
+<p><img src="https://github.com/YangCoFi/IMG/raw/master/volatile.PNG" alt="image"></p>
+<p><strong>加了volatile之后，一旦主内存的值发生改变之后，会通知别的线程，你们的缓冲区里的内容过期了，请你们自己再去重新读一下。</strong></p>
+<blockquote>
+<p>注意，当cpu空闲的时候，比如睡个几秒，打印语句的时候，它是可能会去主内存里去刷一下的。</p>
+</blockquote>
 
       
 
@@ -740,7 +821,7 @@ public class ListTest {
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">Java基础</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">Java并发</a>
         		</li>
       		
 		</ul>
@@ -796,7 +877,7 @@ public class ListTest {
     <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2019/07/02/集合and迭代器笔记/" alt="微信分享二维码">
+      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2019/07/16/HighCurrentCoding/" alt="微信分享二维码">
     </div>
 </div>
 
@@ -810,18 +891,9 @@ public class ListTest {
   
 <nav id="article-nav">
   
-    <a href="/2019/07/03/java内部类详解/" id="article-nav-newer" class="article-nav-link-wrap">
-      <i class="icon-circle-left"></i>
-      <div class="article-nav-title">
-        
-          Java内部类详解
-        
-      </div>
-    </a>
   
-  
-    <a href="/2019/06/30/算法笔记2/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">算法笔记（进阶篇）</div>
+    <a href="/2019/07/15/计算表达式的值/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">计算表达式的值</div>
       <i class="icon-circle-right"></i>
     </a>
   
@@ -848,7 +920,7 @@ public class ListTest {
                 </span>
                 <span class="tooltip-content">
                     <div class="toc-article">
-                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#集合体系"><span class="toc-number">1.</span> <span class="toc-text">集合体系</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#案例代码："><span class="toc-number">1.1.</span> <span class="toc-text">案例代码：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#collection类里面常见API"><span class="toc-number">1.2.</span> <span class="toc-text">collection类里面常见API</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#集合的遍历方式："><span class="toc-number">1.3.</span> <span class="toc-text">集合的遍历方式：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#并发修改异常"><span class="toc-number">1.4.</span> <span class="toc-text">并发修改异常</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#泛型"><span class="toc-number">1.5.</span> <span class="toc-text">泛型</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#增强for"><span class="toc-number">1.6.</span> <span class="toc-text">增强for</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#格式"><span class="toc-number">1.6.1.</span> <span class="toc-text">格式</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#List体系结构"><span class="toc-number">1.7.</span> <span class="toc-text">List体系结构</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#特点"><span class="toc-number">1.7.1.</span> <span class="toc-text">特点</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#特有功能"><span class="toc-number">1.7.2.</span> <span class="toc-text">特有功能</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#LinkedList"><span class="toc-number">1.8.</span> <span class="toc-text">LinkedList</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#特有功能-1"><span class="toc-number">1.8.1.</span> <span class="toc-text">特有功能</span></a></li></ol></li></ol></li></ol>
+                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Java高并发编程"><span class="toc-number">1.</span> <span class="toc-text">Java高并发编程</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#基础知识"><span class="toc-number">1.1.</span> <span class="toc-text">基础知识</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#第一章"><span class="toc-number">1.2.</span> <span class="toc-text">第一章</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1"><span class="toc-number">1.2.1.</span> <span class="toc-text">1</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2"><span class="toc-number">1.2.2.</span> <span class="toc-text">2</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3"><span class="toc-number">1.2.3.</span> <span class="toc-text">3</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4"><span class="toc-number">1.2.4.</span> <span class="toc-text">4</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5"><span class="toc-number">1.2.5.</span> <span class="toc-text">5</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6"><span class="toc-number">1.2.6.</span> <span class="toc-text">6</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#7"><span class="toc-number">1.2.7.</span> <span class="toc-text">7</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#8"><span class="toc-number">1.2.8.</span> <span class="toc-text">8</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#9"><span class="toc-number">1.2.9.</span> <span class="toc-text">9</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#10"><span class="toc-number">1.2.10.</span> <span class="toc-text">10</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#11"><span class="toc-number">1.2.11.</span> <span class="toc-text">11</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#12"><span class="toc-number">1.2.12.</span> <span class="toc-text">12</span></a></li></ol></li></ol></li></ol>
                     </div>
                 </span>
             </div>

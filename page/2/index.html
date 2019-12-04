@@ -149,6 +149,117 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-java内部类详解" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/07/03/java内部类详解/">Java内部类详解</a>
+    </h1>
+  
+
+        
+        <a href="/2019/07/03/java内部类详解/" class="archive-article-date">
+  	<time datetime="2019-07-03T03:41:26.636Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-07-03</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Java内部类"><a href="#Java内部类" class="headerlink" title="Java内部类"></a>Java内部类</h1><h2 id="总述"><a href="#总述" class="headerlink" title="总述"></a>总述</h2><p><strong>内部类：</strong></p>
+<p>1、内部类中的变量和方法不能声明为静态的。</p>
+<p>2、内部类创建自身对象需要先创建其所在类的对象。内部类实例化：B是A的内部类，实例化B：A.B b = new A().new B()。</p>
+<p><strong>3、内部类可以引用外部类的静态或者非静态属性及方法。</strong></p>
+<p><strong>静态内部类：</strong></p>
+<p>1、静态内部类属性和方法可以声明为静态的或者非静态的。</p>
+<p>2、实例化静态内部类：B是A的静态内部类，A.B b = new A.B()。</p>
+<p><strong>3、静态内部类只能引用外部类的静态的属性及方法。</strong></p>
+<p>代码：</p>
+<pre><code>package com.yang.basic.day17;
+
+public class TestInner {
+    private int number = 100;
+    public class Inner{
+        private int number = 200;
+        public void myPrinter(){
+            int number = 300;
+            System.out.println(number);
+            //通过this引用内部类的成员属性
+            System.out.println(this.number);
+            //通过外部类名加上this的方式访问外部类成员属性
+            System.out.println(TestInner.this.number);
+        }
+    }
+
+    public static void main(String[] args) {
+        TestInner tl = new TestInner();
+        TestInner.Inner in  = tl.new Inner();
+        in.myPrinter();
+    }
+
+}</code></pre><p>运行结果：</p>
+<pre><code>300
+200
+100</code></pre><p>内部类依靠外部类的存在为前提，而静态嵌套类（静态内部类）则可以完全独立</p>
+<p><strong>静态内部类的加载和外部类加载无关。静态内部类在使用的时候才会加载</strong></p>
+<h3 id="类加载过程"><a href="#类加载过程" class="headerlink" title="类加载过程"></a>类加载过程</h3><p>静态类型的属性和方法，在类加载的时候就会存在于内存中。使用某个类的静态属性和方法，那么这个类必须要加载到虚拟机中。但是非静态内部类并不随外部类一起加载，只有在实例化外部类之后才会加载。</p>
+<p>在外部类并没有实例化，内部类还没有加载的时候如果调用内部类的静态成员或方法，内部类还没有加载，却试图在内存中创建该内部类的静态成员，就会产生冲突。所以非静态内部类不能有静态成员变量或静态方法。</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">Java基础</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/07/03/java内部类详解/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-集合and迭代器笔记" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -3273,11 +3384,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">Java基础</a>
+                <a href="javascript:void(0)" class="js-tag color3">JavaWeb</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">JavaWeb</a>
+                <a href="javascript:void(0)" class="js-tag color2">Java基础</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -3294,6 +3405,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">leetcode</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">框架</a>
               </li>
              
               <li class="article-tag-list-item">

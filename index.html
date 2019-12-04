@@ -149,6 +149,1109 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-SpringNote" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/12/04/SpringNote/">Spring 笔记</a>
+    </h1>
+  
+
+        
+        <a href="/2019/12/04/SpringNote/" class="archive-article-date">
+  	<time datetime="2019-12-04T13:36:45.402Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-12-04</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <blockquote>
+<p>本文是<a href="https://www.bilibili.com/video/av47952931" target="_blank" rel="noopener">B站Spring教程IDEA版-4天-2018黑马</a>笔记</p>
+</blockquote>
+<h1 id="控制反转-IOC-与依赖注入-DI"><a href="#控制反转-IOC-与依赖注入-DI" class="headerlink" title="控制反转[IOC]与依赖注入[DI]"></a>控制反转[IOC]与依赖注入[DI]</h1><p>spring 的体系结构：<br><img src="https://github.com/YangCoFi/IMG/raw/master/Spring.png" alt="image"></p>
+<h2 id="程序的耦合"><a href="#程序的耦合" class="headerlink" title="程序的耦合"></a>程序的耦合</h2><h3 id="从JDBC引发的问题"><a href="#从JDBC引发的问题" class="headerlink" title="从JDBC引发的问题"></a>从JDBC引发的问题</h3><blockquote>
+<p>早期我们的 JDBC 操作，注册驱动时，我们为什么不使用 DriverManager 的 register 方法，而是采 用 Class.forName 的方式？</p>
+</blockquote>
+<p>有这样一个程序:</p>
+<pre><code>    package com.yangC.jdbc;
+
+    import java.sql.Connection;
+    import java.sql.DriverManager;
+    import java.sql.PreparedStatement;
+    import java.sql.ResultSet;
+
+    /**
+     * 程序的耦合
+     *      耦合：程序间的依赖关系
+     *          包括：
+     *              类之间的依赖
+     *              方法间的依赖
+     *      解耦：
+     *          降低程序间的依赖关系
+     *      实际开发中：
+     *          应该做到：编译期不依赖，运行时才依赖。
+     *
+     */
+    public class JdbcDemo1 {
+        public static void main(String[] args) throws  Exception{
+            //1.注册驱动
+    //        DriverManager.registerDriver(new com.mysql.jdbc.Driver());
+            Class.forName(&quot;com.mysql.jdbc.Driver&quot;);
+
+            //2.获取连接
+            Connection conn = DriverManager.getConnection(&quot;jdbc:mysql://localhost:3306/eesy&quot;,&quot;root&quot;,&quot;123456&quot;);
+            //3.获取操作数据库的预处理对象
+            PreparedStatement pstm = conn.prepareStatement(&quot;select * from account&quot;);
+            //4.执行SQL，得到结果集
+            ResultSet rs = pstm.executeQuery();
+            //5.遍历结果集
+            while(rs.next()){
+                System.out.println(rs.getString(&quot;name&quot;));
+            }
+            //6.释放资源
+            rs.close();
+            pstm.close();
+            conn.close();
+        }
+}</code></pre><p>这个依赖关系没有接触之前，类的独立性是很差的：</p>
+<pre><code>1.注册驱动
+DriverManager.registerDriver(new com.mysql.jdbc.Driver());</code></pre><p>这段代码意味着如果没有com.mysql.jdbc.Driver()这个类，就会发生编译不通过。</p>
+<p>解决思路：<strong>通过反射</strong></p>
+<pre><code>Class.forName(&quot;com.mysql.jdbc.Driver&quot;);</code></pre><p>此时这里的com.mysql.jdbc.Driver是字符串，编译肯定是可以通过的，但如果你确实没有这个类，就会发生<strong>异常</strong></p>
+<p>解耦的思路：</p>
+<pre><code>第一步：使用反射来创建对象，而避免使用new关键字。</code></pre><p>问题又出现了:将驱动写死了，万一是别的数据库呢？</p>
+<pre><code>第二步：通过读取配置文件来获取要创建的对象全限定类名。</code></pre><h3 id="工厂类"><a href="#工厂类" class="headerlink" title="工厂类"></a>工厂类</h3><p>编写代码：</p>
+<ul>
+<li>dao<ul>
+<li>impl<ul>
+<li>AccountDaoImpl.java   </li>
+</ul>
+</li>
+<li>IAccountDao.java</li>
+</ul>
+</li>
+<li>service<ul>
+<li>impl<ul>
+<li>AccountServiceImpl.java</li>
+</ul>
+</li>
+<li>IAccountService.java</li>
+</ul>
+</li>
+<li>ui<ul>
+<li>Client.java</li>
+</ul>
+</li>
+</ul>
+<p>如果我将持久层Dao的实现类AccountDaoImpl删除掉，则由于强耦合，程序无法运行。</p>
+<p>解决思路？</p>
+<p><strong>工厂</strong></p>
+<p><strong><em>需要什么，工厂就生产什么，依赖的对象发送了改变，只需要去改动工厂就行了。</em></strong></p>
+<ul>
+<li>dao<ul>
+<li>impl<ul>
+<li>AccountDaoImpl.java   </li>
+</ul>
+</li>
+<li>IAccountDao.java</li>
+</ul>
+</li>
+<li>factory<ul>
+<li>BeanFactory.java</li>
+</ul>
+</li>
+<li>service<ul>
+<li>impl<ul>
+<li>AccountServiceImpl.java</li>
+</ul>
+</li>
+<li>IAccountService.java</li>
+</ul>
+</li>
+<li>ui<ul>
+<li>Client.java</li>
+</ul>
+</li>
+</ul>
+<p><strong>BeanFactory.java</strong>:</p>
+<pre><code>package com.yangC.factory;
+
+import java.io.InputStream;
+import java.util.Enumeration;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Properties;
+
+/**
+*一个创建Bean对象的工厂
+*/
+public class BeanFactory {
+    //定义一个Properties对象
+    private static Properties props;
+
+    //定义一个Map,用于存放我们要创建的对象。我们把它称之为容器
+    private static Map&lt;String,Object&gt; beans;
+
+    //使用静态代码块为Properties对象赋值
+    static {
+        try {
+            //实例化对象
+            props = new Properties();
+            //获取properties文件的流对象
+            InputStream in = BeanFactory.class.getClassLoader().getResourceAsStream(&quot;bean.properties&quot;);
+            props.load(in);
+            //实例化容器
+            beans = new HashMap&lt;String,Object&gt;();
+            //取出配置文件中所有的Key
+            //Enumeration的泛型只能是Object
+            Enumeration keys = props.keys();
+            //遍历枚举
+            while (keys.hasMoreElements()){
+                //取出每个Key
+                String key = keys.nextElement().toString();
+                //根据key获取value
+                String beanPath = props.getProperty(key);
+                //反射创建对象
+                Object value = Class.forName(beanPath).newInstance();
+                //把key和value存入容器中
+                beans.put(key,value);
+            }
+        }catch(Exception e){
+            //没有这个对象，任何东西都创建不了
+            throw new ExceptionInInitializerError(&quot;初始化properties失败！&quot;);
+        }
+    }
+
+    /**
+     * 根据bean的名称获取对象
+     * @param beanName
+     * @return
+     */
+    public static Object getBean(String beanName){
+        return beans.get(beanName);
+    }
+
+    /**
+     * 根据Bean的名称获取bean对象
+     * @param beanName
+     * @return
+
+    public static Object getBean(String beanName){
+        Object bean = null;
+        try {
+            String beanPath = props.getProperty(beanName);
+//            System.out.println(beanPath);
+            bean = Class.forName(beanPath).newInstance();//每次都会调用默认构造函数创建对象
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return bean;
+    }*/
+}</code></pre><p><strong>静态代码块只在类加载的时候执行一次</strong></p>
+<blockquote>
+<p>Bean：在计算机英语中，有可重用组件的含义。</p>
+<p>JavaBean：用java语言编写的可重用组件。</p>
+</blockquote>
+<p>javabean &gt;  实体类</p>
+<p>它就是创建我们的service和dao对象的。</p>
+<p>第一个：需要一个配置文件来配置我们的service和dao</p>
+<pre><code>配置的内容：唯一标识=全限定类名（key=value)</code></pre><p>第二个：通过读取配置文件中配置的内容，反射创建对象</p>
+<p>我的配置文件可以是xml也可以是properties</p>
+<p>bean.properties:</p>
+<pre><code>accountService=com.itheima.service.impl.AccountServiceImpl
+accountDao=com.itheima.dao.impl.AccountDaoImpl</code></pre><p>解释一下：</p>
+<pre><code>//实例化对象
+props = new Properties();
+//获取properties文件的流对象
+InputStream in = BeanFactory.class.getClassLoader().getResourceAsStream(&quot;bean.properties&quot;);</code></pre><p>这里Properties:</p>
+<blockquote>
+<p>Properties 继承于 Hashtable。表示一个持久的属性集，属性列表以key-value的形式存在，key和value都是字符串。<br>Properties 类被许多Java类使用。例如，在获取环境变量时它就作为System.getProperties()方法的返回值。<br>我们在很多需要避免硬编码的应用场景下需要使用properties文件来加载程序需要的配置信息，比如JDBC、MyBatis框架等。Properties类则是properties文件和程序的中间桥梁，不论是从properties文件读取信息还是写入信息到properties文件都要经由Properties类。</p>
+</blockquote>
+<p>另外：</p>
+<p>InputStream这里不能写new一个FileInputStream，因为路径不好写。</p>
+<blockquote>
+<p>类路径：开发编码环境中，src和config等的源码目录。</p>
+<p>运行路径：bin目录和classes目录。</p>
+<p>BeanFactory.class.getClassLoader().getResourceAsStream()从类路径下获取指定文件名的文件。</p>
+</blockquote>
+<p>这样解耦，即使没有那个类，也不会出现编译错误。</p>
+<h3 id="工厂模式的问题和改造"><a href="#工厂模式的问题和改造" class="headerlink" title="工厂模式的问题和改造"></a>工厂模式的问题和改造</h3><p>单例：<br>【图片】</p>
+<p>一般在业务类或数据持久层里面，不定义成员变量，在方法里定义，所以单例模式所创建的一个对象不会影响变量的值变更！<br>由于没有类成员，所以不会有线程安全问题。</p>
+<h2 id="IoC思想"><a href="#IoC思想" class="headerlink" title="IoC思想"></a>IoC思想</h2><p>【图片】</p>
+<p>AccountServiceImpl代码：</p>
+<pre><code>package com.yangC.service.impl;
+
+import com.itheima.dao.IAccountDao;
+import com.itheima.factory.BeanFactory;
+import com.itheima.service.IAccountService;
+
+/**
+ * 账户的业务层实现类
+ */
+public class AccountServiceImpl implements IAccountService {
+
+//    private IAccountDao accountDao = new AccountDaoImpl();
+
+    private IAccountDao accountDao = (IAccountDao)BeanFactory.getBean(&quot;accountDao&quot;);
+
+//    private int i = 1;
+
+    public void  saveAccount(){
+        int i = 1;
+        accountDao.saveAccount();
+        System.out.println(i);
+        i++;
+    }
+}</code></pre><p>分析:</p>
+<pre><code>//private IAccountDao accountDao = new AccountDaoImpl();
+
+ private IAccountDao accountDao = (IAccountDao)BeanFactory.getBean(&quot;accountDao&quot;);</code></pre><p>上面这个类是由堵路的自主权的，想要谁就要谁；而下面这种控制权发生了转移，就叫做控制反转，它把控制权交给了这个工厂，来帮助我们创建对象，带来的好处就是降低程序间的依赖关系，削减计算机的耦合！</p>
+<h2 id="Spring中的IoC"><a href="#Spring中的IoC" class="headerlink" title="Spring中的IoC"></a>Spring中的IoC</h2><p>bean.xml:</p>
+<pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;beans xmlns=&quot;http://www.springframework.org/schema/beans&quot;
+       xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;
+       xsi:schemaLocation=&quot;http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd&quot;&gt;
+
+    &lt;!--把对象的创建交给spring来管理--&gt;
+    &lt;bean id=&quot;accountService&quot; class=&quot;com.itheima.service.impl.AccountServiceImpl&quot;&gt;&lt;/bean&gt;
+
+    &lt;bean id=&quot;accountDao&quot; class=&quot;com.itheima.dao.impl.AccountDaoImpl&quot;&gt;&lt;/bean&gt;
+&lt;/beans&gt;</code></pre><p>client.java:</p>
+<pre><code>package com.yangC.ui;
+
+import com.itheima.dao.IAccountDao;
+import com.itheima.service.IAccountService;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+/**
+ * 模拟一个表现层，用于调用业务层
+ */
+public class Client {
+
+    /**
+     * 获取spring的Ioc核心容器，并根据id获取对象
+     *
+     * ApplicationContext的三个常用实现类：
+     *      ClassPathXmlApplicationContext：它可以加载类路径下的配置文件，要求配置文件必须在类路径下。不在的话，加载不了。(更常用)
+     *      FileSystemXmlApplicationContext：它可以加载磁盘任意路径下的配置文件(必须有访问权限）
+     *
+     *      AnnotationConfigApplicationContext：它是用于读取注解创建容器的，是明天的内容。
+     *
+     * 核心容器的两个接口引发出的问题：
+     *  ApplicationContext:     单例对象适用              采用此接口
+     *      它在构建核心容器时，创建对象采取的策略是采用立即加载的方式。也就是说，只要一读取完配置文件马上就创建配置文件中配置的对象。
+     *
+     *  BeanFactory:            多例对象使用
+     *      它在构建核心容器时，创建对象采取的策略是采用延迟加载的方式。也就是说，什么时候根据id获取对象了，什么时候才真正的创建对象。
+     * @param args
+     */
+    public static void main(String[] args) {
+        //1.获取核心容器对象  这里需要找到这个接口的实现类
+        ApplicationContext ac = new ClassPathXmlApplicationContext(&quot;bean.xml&quot;);
+//        ApplicationContext ac = new FileSystemXmlApplicationContext(&quot;C:\\Users\\zhy\\Desktop\\bean.xml&quot;);
+        //2.根据id获取Bean对象
+        IAccountService as  = (IAccountService)ac.getBean(&quot;accountService&quot;);
+        IAccountDao adao = ac.getBean(&quot;accountDao&quot;,IAccountDao.class);
+
+        System.out.println(as);
+        System.out.println(adao);
+        as.saveAccount();
+
+
+        //--------BeanFactory----------
+//        Resource resource = new ClassPathResource(&quot;bean.xml&quot;);
+//        BeanFactory factory = new XmlBeanFactory(resource);
+//        IAccountService as  = (IAccountService)factory.getBean(&quot;accountService&quot;);
+//        System.out.println(as);
+    }
+}</code></pre><p>解释：</p>
+<pre><code>IAccountService as  = (IAccountService)ac.getBean(&quot;accountService&quot;);
+IAccountDao adao = ac.getBean(&quot;accountDao&quot;,IAccountDao.class);</code></pre><p>上面一个是强转，下面一个是通过字节码转换</p>
+<h2 id="核心容器的两个接口BeanFactory和ApplicationContext的区别"><a href="#核心容器的两个接口BeanFactory和ApplicationContext的区别" class="headerlink" title="核心容器的两个接口BeanFactory和ApplicationContext的区别"></a>核心容器的两个接口BeanFactory和ApplicationContext的区别</h2><p>ApplicationContext：        单例</p>
+<p>它在构建核心容器时，创建对象采取的策略是采用<strong>立即加载</strong>的方式。也就是说，只要一读取完配置文件马上就创建配置文件中配置的对象。</p>
+<p>当走完这一行代码的时候:</p>
+<pre><code>ApplicationContext ac = new ClassPathXmlApplicationContext(&quot;bean.xml&quot;);</code></pre><p>就会马上读xml配置文件，并且在配置文件中使用反射的方式来把一些对象都创建出来</p>
+<p><strong>创建对象后是存进map里面</strong></p>
+<p>BeanFactory:    多例</p>
+<p>它在构建核心容器时，创建对象采取的策略是采用<strong>延迟加载</strong>的方式。也就是说，什么时候根据id获取对象了，什么时候才真正的创建对象。</p>
+<p>因为如果我在加载容器时就把对象创建出来，当我第二次用肯定还要创建第二次，还不如等到什么时候用什么时候创建。</p>
+<h2 id="Spring-管理Bean的细节"><a href="#Spring-管理Bean的细节" class="headerlink" title="Spring 管理Bean的细节"></a>Spring 管理Bean的细节</h2><h3 id="创建Bean对象的三种方式"><a href="#创建Bean对象的三种方式" class="headerlink" title="创建Bean对象的三种方式"></a>创建Bean对象的三种方式</h3><ul>
+<li><p>使用默认构造函数创建。</p>
+<p>在spring的配置文件中使用bean标签，配以id和class属性之后，且没有其他属性和标签时。采用的就是默认构造函数创建bean对象，此时如果类中没有默认构造函数，则对象无法创建。</p>
+</li>
+</ul>
+<blockquote>
+<pre><code>&lt;bean id=&quot;accountService&quot; class=&quot;com.itheima.service.impl.AccountServiceImpl&quot;&gt;&lt;/bean&gt;</code></pre></blockquote>
+<p>一旦类没有默认构造函数，创建类对象是就会报错。</p>
+<p>问题：别人写好的类都是存在于jar包中的，是字节码文件，我们无法修改，这种情况下，我们如何使用呢？</p>
+<pre><code>package com.yangC.factory;
+
+import com.yangC.service.IAccountService;
+import com.yangC.service.impl.AccountServiceImpl;
+
+/**
+ * 模拟一个工厂类（该类可能是存在于jar包中的，我们无法通过修改源码的方式来提供默认构造函数）
+ */
+public class InstanceFactory {
+
+    public IAccountService getAccountService(){
+        return new AccountServiceImpl();
+    }
+}</code></pre><p>我们怎么去创建AccountServiceImpl呢？</p>
+<ul>
+<li><p>使用普通工厂中的方法创建对象（使用某个类中的方法创建对象，并存入spring容器)</p>
+<pre><code>&lt;bean id=&quot;instanceFactory&quot; class=&quot;com.itheima.factory.InstanceFactory&quot;&gt;&lt;/bean&gt;
+
+&lt;bean id=&quot;accountService&quot; factory-bean=&quot;instanceFactory&quot; factory-method=&quot;getAccountService&quot;&gt;&lt;/bean&gt;</code></pre></li>
+<li><p>使用工厂中的静态方法创建对象（使用某个类中的静态方法创建对象，并存入spring容器)</p>
+<pre><code>&lt;bean id=&quot;instanceFactory&quot; class=&quot;com.itheima.factory.InstanceFactory&quot;&gt;&lt;/bean&gt;</code></pre></li>
+</ul>
+<p>欲创建的是InstanceFactory对象，用instanceFactory作为id来取。</p>
+<p>这种方式：</p>
+<pre><code>&lt;bean id=&quot;accountService&quot; class=&quot;com.yangC.factory.StaticFactory&quot; factory-method=&quot;getAccountService&quot;&gt;&lt;/bean&gt;</code></pre><h3 id="Bean对象的作用范围"><a href="#Bean对象的作用范围" class="headerlink" title="Bean对象的作用范围"></a>Bean对象的作用范围</h3><p>Spring里Bean对象默认是单例创建的。</p>
+<pre><code>package com.yangC.ui;
+import com.yangC.service.IAccountService;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+public class Client {
+    public static void main(String[] args) {
+        //1.获取核心容器对象
+        ApplicationContext ac = new ClassPathXmlApplicationContext(&quot;bean.xml&quot;);
+        //2.根据id获取Bean对象
+        IAccountService as1  = (IAccountService)ac.getBean(&quot;accountService&quot;);
+        IAccountService as1  = (IAccountService)ac.getBean(&quot;accountService&quot;);    
+        //as.saveAccount();
+        System.out.println(as1 == as2)
+    }
+}</code></pre><p>运行结果:</p>
+<pre><code>对象创建了
+true</code></pre><p>怎么去调整呢？Bean标签的scope属性</p>
+<pre><code>bean标签的scope属性：
+    作用：用于指定bean的作用范围
+    取值： 常用的就是单例的和多例的
+        singleton：单例的（默认值）
+        prototype：多例的
+        request：作用于web应用的请求范围
+        session：作用于web应用的会话范围
+        global-session：作用于集群环境的会话范围（全局会话范围），当不是集群环境时，它就是session</code></pre><h3 id="Bean对象生命周期"><a href="#Bean对象生命周期" class="headerlink" title="Bean对象生命周期"></a>Bean对象生命周期</h3><pre><code>单例对象
+    出生：当容器创建时对象出生
+    活着：只要容器还在，对象一直活着
+    死亡：容器销毁，对象消亡
+    总结：单例对象的生命周期和容器相同
+多例对象
+    出生：当我们使用对象时spring框架为我们创建
+    活着：对象只要是在使用过程中就一直活着。
+    死亡：当对象长时间不用，且没有别的对象引用时，由Java的垃圾回收器回收</code></pre><p>bean.xml:</p>
+<pre><code>&lt;bean id=&quot;accountService&quot; class=&quot;com.itheima.service.impl.AccountServiceImpl&quot;
+      scope=&quot;singleton&quot; init-method=&quot;init&quot; destroy-method=&quot;destroy&quot;&gt;&lt;/bean&gt;</code></pre><p>AccountServiceImpl.java:</p>
+<pre><code>package com.yangC.service.impl;
+import com.yangC.service.IAccountService;
+public class AccountServiceImpl implements IAccountService {
+
+    public AccountServiceImpl(){
+        System.out.println(&quot;对象创建了&quot;);
+    }
+
+    public void  saveAccount(){
+        System.out.println(&quot;service中的saveAccount方法执行了。。。&quot;);
+    }
+
+    public void  init(){
+        System.out.println(&quot;对象初始化了。。。&quot;);
+    }
+    public void  destroy(){
+        System.out.println(&quot;对象销毁了。。。&quot;);
+    }
+
+}</code></pre><p>Client.java:</p>
+<pre><code>package com.yangC.ui;
+
+import com.yangC.service.IAccountService;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+/**
+ * 模拟一个表现层，用于调用业务层
+ */
+public class Client {
+
+    /**
+     *
+     * @param args
+     */
+    public static void main(String[] args) {
+        //1.获取核心容器对象
+        ApplicationContext ac = new ClassPathXmlApplicationContext(&quot;bean.xml&quot;);
+        //2.根据id获取Bean对象
+        IAccountService as  = (IAccountService)ac.getBean(&quot;accountService&quot;);
+        as.saveAccount();
+    }
+}</code></pre><p>发现结果：</p>
+<pre><code>对象创建了
+对象初始化了。。。
+service中的saveAccount方法执行了。。。</code></pre><p>没有销毁!!!</p>
+<p>why?</p>
+<p>main方法结束之后，当前这个应用中线程占用的内存全部释放，当然也包含容器，但是此时并未调用销毁方法，就已经把它的内存释放了，所以想销毁过程出现，我们需要手动释放。</p>
+<pre><code>package com.yangC.ui;
+
+import com.yangC.service.IAccountService;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+/**
+ * 模拟一个表现层，用于调用业务层
+ */
+public class Client {
+
+    /**
+     *
+     * @param args
+     */
+    public static void main(String[] args) {
+        //1.获取核心容器对象
+//        ApplicationContext ac = new ClassPathXmlApplicationContext(&quot;bean.xml&quot;);
+        ClassPathXmlApplicationContext ac = new ClassPathXmlApplicationContext(&quot;bean.xml&quot;);
+        //2.根据id获取Bean对象
+        IAccountService as  = (IAccountService)ac.getBean(&quot;accountService&quot;);
+        as.saveAccount();
+
+        //手动关闭容器 这里ApplicationContext ac = new ClassPathXmlApplicationContext(&quot;bean.xml&quot;);是不行的，接口对象没有这个方法
+        ac.close();
+    }
+}</code></pre><p>多例时：</p>
+<pre><code>&lt;bean id=&quot;accountService&quot; class=&quot;com.itheima.service.impl.AccountServiceImpl&quot;
+      scope=&quot;prototype&quot; init-method=&quot;init&quot; destroy-method=&quot;destroy&quot;&gt;&lt;/bean&gt;</code></pre><p>这是再执行发现</p>
+<pre><code>对象创建了
+对象初始化了。。。
+service中的saveAccount方法执行了。。。</code></pre><p>因为多例对象：</p>
+<pre><code>死亡：当对象长时间不用，且没有别的对象引用时，由Java的垃圾回收器回收</code></pre><h2 id="Spring的依赖注入-DI"><a href="#Spring的依赖注入-DI" class="headerlink" title="Spring的依赖注入(DI)"></a>Spring的依赖注入(DI)</h2><pre><code>依赖注入：
+    Dependency Injection
+IOC的作用：
+    降低程序间的耦合（依赖关系）
+依赖关系的管理：
+    以后都交给spring来维护
+在当前类需要用到其他类的对象，由spring为我们提供，我们只需要在配置文件中说明
+依赖关系的维护：
+    就称之为依赖注入。
+ 依赖注入：
+    能注入的数据：有三类
+        基本类型和String
+        其他bean类型（在配置文件中或者注解配置过的bean）
+        复杂类型/集合类型
+     注入的方式：有三种
+        第一种：使用构造函数提供
+        第二种：使用set方法提供
+        第三种：使用注解提供</code></pre><h3 id="构造函数注入"><a href="#构造函数注入" class="headerlink" title="构造函数注入"></a>构造函数注入</h3><p>先在业务层定义可以注入的变量</p>
+<pre><code>/**
+ * 账户的业务层实现类
+ */
+public class AccountServiceImpl implements IAccountService {
+
+    //如果是经常变化的数据，并不适用于注入的方式
+    private String name;
+    private Integer age;
+    private Date birthday;
+
+    public AccountServiceImpl(String name,Integer age,Date birthday){
+        this.name = name;
+        this.age = age;
+        this.birthday = birthday;
+    }
+
+    public void  saveAccount(){
+        System.out.println(&quot;service中的saveAccount方法执行了。。。&quot;+name+&quot;,&quot;+age+&quot;,&quot;+birthday);
+    }
+}</code></pre><p>此时类中已经没有默认构造函数了<br>xml中会报错，</p>
+<pre><code>&lt;bean id=&quot;accoutService&quot; class=&quot;com.yangC.service.impl.AccountServiceImpl&quot;&gt;&lt;/bean&gt;</code></pre><p>因此需要使用标签</p>
+<pre><code>&lt;!--构造函数注入：
+    使用的标签:constructor-arg
+    标签出现的位置：bean标签的内部
+    标签中的属性
+        type：用于指定要注入的数据的数据类型，该数据类型也是构造函数中某个或某些参数的类型
+        index：用于指定要注入的数据给构造函数中指定索引位置的参数赋值。索引的位置是从0开始
+        name：用于指定给构造函数中指定名称的参数赋值                                        常用的
+        =============以上三个用于指定给构造函数中哪个参数赋值===============================
+        value：用于提供基本类型和String类型的数据
+        ref：用于指定其他的bean类型数据。它指的就是在spring的Ioc核心容器中出现过的bean对象
+
+    优势：
+        在获取bean对象时，注入数据是必须的操作，否则对象无法创建成功。
+    弊端：
+        改变了bean对象的实例化方式，使我们在创建对象时，如果用不到这些数据，也必须提供。
+--&gt;
+&lt;bean id=&quot;accountService&quot; class=&quot;com.itheima.service.impl.AccountServiceImpl&quot;&gt;
+    &lt;constructor-arg name=&quot;name&quot; value=&quot;泰斯特&quot;&gt;&lt;/constructor-arg&gt;
+    &lt;constructor-arg name=&quot;age&quot; value=&quot;18&quot;&gt;&lt;/constructor-arg&gt;        &lt;!--spring是能把类型做转换的 --&gt;
+    &lt;constructor-arg name=&quot;birthday&quot; ref=&quot;now&quot;&gt;&lt;/constructor-arg&gt;
+&lt;/bean&gt;
+
+&lt;!-- 配置一个日期对象 --&gt;
+&lt;bean id=&quot;now&quot; class=&quot;java.util.Date&quot;&gt;&lt;/bean&gt;</code></pre><h3 id="set方式注入"><a href="#set方式注入" class="headerlink" title="set方式注入"></a>set方式注入</h3><p>不关心变量叫什么名称，关心的是set方法里的，去掉set后，大写字母还要改成小写</p>
+<pre><code>&lt;!-- set方法注入                更常用的方式
+    涉及的标签：property
+    出现的位置：bean标签的内部
+    标签的属性
+        name：用于指定注入时所调用的set方法名称
+        value：用于提供基本类型和String类型的数据
+        ref：用于指定其他的bean类型数据。它指的就是在spring的Ioc核心容器中出现过的bean对象
+    优势：
+        创建对象时没有明确的限制，可以直接使用默认构造函数
+    弊端：
+        如果有某个成员必须有值，则获取对象是有可能set方法没有执行。
+--&gt;
+&lt;bean id=&quot;accountService2&quot; class=&quot;com.itheima.service.impl.AccountServiceImpl2&quot;&gt;
+    &lt;property name=&quot;name&quot; value=&quot;TEST&quot; &gt;&lt;/property&gt;
+    &lt;property name=&quot;age&quot; value=&quot;21&quot;&gt;&lt;/property&gt;
+    &lt;property name=&quot;birthday&quot; ref=&quot;now&quot;&gt;&lt;/property&gt;
+&lt;/bean&gt;</code></pre><h2 id="基于注解的IoC配置"><a href="#基于注解的IoC配置" class="headerlink" title="基于注解的IoC配置"></a>基于注解的IoC配置</h2><p>账户的业务层实现类：</p>
+<pre><code>package com.yangc.service.impl;
+
+import com.yangc.dao.IAccountDao;
+import com.yangc.service.IAccountService;
+import org.springframework.stereotype.Service;
+
+import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
+import javax.annotation.Resource;
+
+@Service(&quot;accountService&quot;)
+//@Scope(&quot;prototype&quot;)
+public class AccountServiceImpl implements IAccountService {
+
+//    @Autowired
+//    @Qualifier(&quot;accountDao1&quot;)
+    @Resource(name = &quot;accountDao2&quot;)
+    private IAccountDao accountDao = null;
+
+    @PostConstruct
+    public void  init(){
+        System.out.println(&quot;初始化方法执行了&quot;);
+    }
+
+    @PreDestroy
+    public void  destroy(){
+        System.out.println(&quot;销毁方法执行了&quot;);
+    }
+
+    public void  saveAccount(){
+        accountDao.saveAccount();
+    }
+}</code></pre><p> 曾经XML的配置：</p>
+<pre><code>&lt;bean id=&quot;accountService&quot; class=&quot;com.itheima.service.impl.AccountServiceImpl&quot;
+   scope=&quot;&quot;  init-method=&quot;&quot; destroy-method=&quot;&quot;&gt;
+   &lt;property name=&quot;&quot;  value=&quot;&quot; | ref=&quot;&quot;&gt;&lt;/property&gt;
+&lt;/bean&gt;</code></pre><ul>
+<li><p>用于创建对象的</p>
+<pre><code>他们的作用就和在XML配置文件中编写一个&lt;bean&gt;标签实现的功能是一样的
+
+Component:
+
+作用：用于把当前类对象存入spring容器中。当我们在类上写上该注解时，Spring就会通过反射为我们创建一个对象
+
+属性：value：用于指定bean的id。当我们不写时，它的默认值是当前类名，且首字母改小写。
+     Controller：一般用在表现层
+     Service：一般用在业务层
+     Repository：一般用在持久层
+     以上三个注解他们的作用和属性与Component是一模一样。
+     他们三个是spring框架为我们提供明确的三层使用的注解，使我们的三层对象更加清晰</code></pre></li>
+</ul>
+<ul>
+<li><p>用于注入数据的</p>
+<pre><code>他们的作用就和在xml配置文件中的bean标签中写一个&lt;property&gt;标签的作用是一样的
+
+Autowired:
+作用：自动按照类型注入。只要容器中有唯一的一个bean对象类型和要注入的变量类型匹配，就可以注入成功
+     如果ioc容器中没有任何bean的类型和要注入的变量类型匹配，则报错。
+     如果Ioc容器中有多个类型匹配时：
+出现位置：
+   可以是变量上，也可以是方法上
+细节：
+   在使用注解注入时，set方法就不是必须的了。
+
+Qualifier:
+作用：在按照类中注入的基础之上再按照名称注入。它在给类成员注入时不能单独使用。但是在给方法参数注入时可以（稍后我们讲）
+属性：
+   value：用于指定注入bean的id。
+
+Resource
+作用：直接按照bean的id注入。它可以独立使用
+属性：
+    name：用于指定bean的id。
+    以上三个注入都只能注入其他bean类型的数据，而基本类型和String类型无法使用上述注解实现。
+    另外，集合类型的注入只能通过XML来实现。
+
+Value
+作用：用于注入基本类型和String类型的数据
+属性：
+   value：用于指定数据的值。它可以使用spring中SpEL(也就是spring的el表达式）
+          SpEL的写法：${表达式}</code></pre></li>
+<li><p>用于改变作用范围的</p>
+<pre><code>他们的作用就和在bean标签中使用scope属性实现的功能是一样的
+Scope
+作用：用于指定bean的作用范围
+属性：
+    value：指定范围的取值。常用取值：singleton prototype</code></pre></li>
+<li><p>和生命周期相关 (了解)</p>
+<pre><code>他们的作用就和在bean标签中使用init-method和destroy-methode的作用是一样的
+PreDestroy
+作用：用于指定销毁方法
+PostConstruct
+作用：用于指定初始化方法</code></pre></li>
+</ul>
+<p>在bean.xml中：</p>
+<pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;beans xmlns=&quot;http://www.springframework.org/schema/beans&quot;
+       xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;
+       xmlns:context=&quot;http://www.springframework.org/schema/context&quot;
+       xsi:schemaLocation=&quot;http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd&quot;&gt;
+
+    &lt;!--告知spring在创建容器时要扫描的包，配置所需要的标签不是在beans的约束中，而是一个名称为
+    context名称空间和约束中--&gt;
+    &lt;context:component-scan base-package=&quot;com.itheima&quot;&gt;&lt;/context:component-scan&gt;
+&lt;/beans&gt;</code></pre><h3 id="基于XML的IoC案例-编写Spring的IoC配置"><a href="#基于XML的IoC案例-编写Spring的IoC配置" class="headerlink" title="基于XML的IoC案例-编写Spring的IoC配置"></a>基于XML的IoC案例-编写Spring的IoC配置</h3><p>其中包括数据源配置和连接数据库的信息配置。</p>
+<pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;beans xmlns=&quot;http://www.springframework.org/schema/beans&quot;
+       xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;
+       xsi:schemaLocation=&quot;http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd&quot;&gt;
+    &lt;!-- 配置Service --&gt;
+    &lt;bean id=&quot;accountService&quot; class=&quot;com.itheima.service.impl.AccountServiceImpl&quot;&gt;
+        &lt;!-- 注入dao --&gt;
+        &lt;property name=&quot;accountDao&quot; ref=&quot;accountDao&quot;&gt;&lt;/property&gt;
+    &lt;/bean&gt;
+
+    &lt;!--配置Dao对象--&gt;
+    &lt;bean id=&quot;accountDao&quot; class=&quot;com.itheima.dao.impl.AccountDaoImpl&quot;&gt;
+        &lt;!-- 注入QueryRunner --&gt;
+        &lt;property name=&quot;runner&quot; ref=&quot;runner&quot;&gt;&lt;/property&gt;
+    &lt;/bean&gt;
+
+    &lt;!--配置QueryRunner 因为是单例对象，面对多个dao可能产生的线程安全问题prototype--&gt;
+    &lt;bean id=&quot;runner&quot; class=&quot;org.apache.commons.dbutils.QueryRunner&quot; scope=&quot;prototype&quot;&gt;
+        &lt;!--注入数据源--&gt;
+        &lt;constructor-arg name=&quot;ds&quot; ref=&quot;dataSource&quot;&gt;&lt;/constructor-arg&gt;
+    &lt;/bean&gt;
+
+    &lt;!-- 配置数据源 --&gt;
+    &lt;bean id=&quot;dataSource&quot; class=&quot;com.mchange.v2.c3p0.ComboPooledDataSource&quot;&gt;
+        &lt;!--连接数据库的必备信息--&gt;
+        &lt;property name=&quot;driverClass&quot; value=&quot;com.mysql.jdbc.Driver&quot;&gt;&lt;/property&gt;
+        &lt;property name=&quot;jdbcUrl&quot; value=&quot;jdbc:mysql://localhost:3306/eesy&quot;&gt;&lt;/property&gt;
+        &lt;property name=&quot;user&quot; value=&quot;root&quot;&gt;&lt;/property&gt;
+        &lt;property name=&quot;password&quot; value=&quot;1234&quot;&gt;&lt;/property&gt;
+    &lt;/bean&gt;
+&lt;/beans&gt;</code></pre><h3 id="基于注解的IoC案例-编写Spring的IoC配置"><a href="#基于注解的IoC案例-编写Spring的IoC配置" class="headerlink" title="基于注解的IoC案例-编写Spring的IoC配置"></a>基于注解的IoC案例-编写Spring的IoC配置</h3><pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;beans xmlns=&quot;http://www.springframework.org/schema/beans&quot;
+       xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;
+       xmlns:context=&quot;http://www.springframework.org/schema/context&quot;
+       xsi:schemaLocation=&quot;http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd&quot;&gt;
+
+    &lt;!-- 告知spring在创建容器时要扫描的包 --&gt;
+    &lt;context:component-scan base-package=&quot;com.itheima&quot;&gt;&lt;/context:component-scan&gt;
+    &lt;!--配置QueryRunner--&gt;
+    &lt;bean id=&quot;runner&quot; class=&quot;org.apache.commons.dbutils.QueryRunner&quot; scope=&quot;prototype&quot;&gt;
+        &lt;!--注入数据源--&gt;
+        &lt;constructor-arg name=&quot;ds&quot; ref=&quot;dataSource&quot;&gt;&lt;/constructor-arg&gt;
+    &lt;/bean&gt;
+
+    &lt;!-- 配置数据源 --&gt;
+    &lt;bean id=&quot;dataSource&quot; class=&quot;com.mchange.v2.c3p0.ComboPooledDataSource&quot;&gt;
+        &lt;!--连接数据库的必备信息--&gt;
+        &lt;property name=&quot;driverClass&quot; value=&quot;com.mysql.jdbc.Driver&quot;&gt;&lt;/property&gt;
+        &lt;property name=&quot;jdbcUrl&quot; value=&quot;jdbc:mysql://localhost:3306/eesy&quot;&gt;&lt;/property&gt;
+        &lt;property name=&quot;user&quot; value=&quot;root&quot;&gt;&lt;/property&gt;
+        &lt;property name=&quot;password&quot; value=&quot;1234&quot;&gt;&lt;/property&gt;
+    &lt;/bean&gt;
+&lt;/beans&gt;</code></pre><h3 id="Spring的新注解-Configuration和ComponentScan"><a href="#Spring的新注解-Configuration和ComponentScan" class="headerlink" title="Spring的新注解-Configuration和ComponentScan"></a>Spring的新注解-Configuration和ComponentScan</h3><p>如何拿掉上面的XML配置呢？</p>
+<p>想法：创建一个配置类（创建一个config包，在该包下创建SpringConfiguration.java），它能够代替xml中的配置。</p>
+<p>xml中:</p>
+<pre><code>package config;
+
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Import;
+import org.springframework.context.annotation.PropertySource;
+
+/**
+ * 该类是一个配置类，它的作用和bean.xml是一样的
+ * spring中的新注解
+
+
+ *      作用：用于通过注解指定spring在创建容器时要扫描的包
+ *      属性：
+ *          value：它和basePackages的作用是一样的，都是用于指定创建容器时要扫描的包。
+ *                 我们使用此注解就等同于在xml中配置了:
+ *                      &lt;context:component-scan base-package=&quot;com.itheima&quot;&gt;&lt;/context:component-scan&gt;
+ *  Bean
+ *      作用：用于把当前方法的返回值作为bean对象存入spring的ioc容器中
+ *      属性:
+ *          name:用于指定bean的id。当不写时，默认值是当前方法的名称
+ *      细节：
+ *          当我们使用注解配置方法时，如果方法有参数，spring框架会去容器中查找有没有可用的bean对象。
+ *          查找的方式和Autowired注解的作用是一样的
+ *  Import
+ *      作用：用于导入其他的配置类
+ *      属性：
+ *          value：用于指定其他配置类的字节码。
+ *                  当我们使用Import的注解之后，有Import注解的类就父配置类，而导入的都是子配置类
+ *  PropertySource
+ *      作用：用于指定properties文件的位置
+ *      属性：
+ *          value：指定文件的名称和路径。
+ *                  关键字：classpath，表示类路径下
+ */
+//@Configuration
+@ComponentScan(&quot;com.itheima&quot;)
+@Import(JdbcConfig.class)
+@PropertySource(&quot;classpath:jdbcConfig.properties&quot;)
+public class SpringConfiguration {
+
+
+}</code></pre><p>这里：</p>
+<pre><code>&lt;!--配置QueryRunner--&gt;
+&lt;bean id=&quot;runner&quot; class=&quot;org.apache.commons.dbutils.QueryRunner&quot; scope=&quot;prototype&quot;&gt;
+    &lt;!--注入数据源--&gt;
+    &lt;constructor-arg name=&quot;ds&quot; ref=&quot;dataSource&quot;&gt;&lt;/constructor-arg&gt;
+&lt;/bean&gt;</code></pre><p>有一个全限定类名org.apache.commons.dbutils.QueryRunner，它会反射创建该对象，并且调用一个单参构造，把dataSource参数传进去。</p>
+<p>我们在配置类里写：</p>
+<pre><code>public QueryRunner createQueryRunner(DataSource dataSource){
+    return new QueryRunner(dataSource); 
+}</code></pre><p>两者是否一样？</p>
+<p>效果不一样，前者除了会创建对象，还会扔到Spring的IoC容器中，前面的runner就是它的key，创建的对象就是它的value，而后者只是一个方法，不会有人将它存入Spring容器。<br>如果有一个注解，能把当前的这个方法的返回值存入Spring容器中，那么他们就是一样的了。<br>这个注解就是@Bean</p>
+<pre><code>package com.yangC.test;
+
+import config.SpringConfiguration;
+import org.apache.commons.dbutils.QueryRunner;
+import org.junit.Test;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+
+/**
+ * 测试queryrunner是否单例
+ */
+public class QueryRunnerTest {
+
+    @Test
+    public  void  testQueryRunner(){
+        //1.获取容易
+        ApplicationContext ac = new AnnotationConfigApplicationContext(SpringConfiguration.class);
+        //2.获取queryRunner对象
+        QueryRunner runner = ac.getBean(&quot;runner&quot;,QueryRunner.class);
+        QueryRunner runner1 = ac.getBean(&quot;runner&quot;,QueryRunner.class);
+        System.out.println(runner == runner1);
+    }
+}</code></pre><p>此时是单例的，与我们之前.xml配置不一样，因此在@Bean下再加上@Scope(“prototype”)</p>
+<p>对于@Configuration:</p>
+<pre><code>* Configuration
+*     作用：指定当前类是一个配置类
+*     细节：当配置类作为AnnotationConfigApplicationContext对象创建的参数时，该注解可以不写。
+* ComponentScan
+
+ApplicationContext ac = new AnnotationConfigApplicationContext(SpringConfiguration.class);
+
+已经把这个SpringConfiguration.class作为参数传递进去了，所以一定会去读这个类中的东西。
+
+所以配置类应该配置一些常用的class</code></pre><p>新建一个JdbcConfig.class：</p>
+<pre><code>package config;
+
+import com.mchange.v2.c3p0.ComboPooledDataSource;
+import org.apache.commons.dbutils.QueryRunner;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Scope;
+
+import javax.sql.DataSource;
+
+/**
+ * 和spring连接数据库相关的配置类
+ */
+public class JdbcConfig {
+
+    @Value(&quot;${jdbc.driver}&quot;)
+    private String driver;
+
+    @Value(&quot;${jdbc.url}&quot;)
+    private String url;
+
+    @Value(&quot;${jdbc.username}&quot;)
+    private String username;
+
+    @Value(&quot;${jdbc.password}&quot;)
+    private String password;
+
+    /**
+     * 用于创建一个QueryRunner对象
+     * @param dataSource
+     * @return
+     */
+    @Bean(name=&quot;runner&quot;)
+    @Scope(&quot;prototype&quot;)
+    public QueryRunner createQueryRunner(@Qualifier(&quot;ds2&quot;) DataSource dataSource){
+        return new QueryRunner(dataSource);
+    }
+
+    /**
+     * 创建数据源对象
+     * @return
+     */
+    @Bean(name=&quot;ds2&quot;)
+    public DataSource createDataSource(){
+        try {
+            ComboPooledDataSource ds = new ComboPooledDataSource();
+            ds.setDriverClass(driver);
+            ds.setJdbcUrl(url);
+            ds.setUser(username);
+            ds.setPassword(password);
+            return ds;
+        }catch (Exception e){
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Bean(name=&quot;ds1&quot;)
+    public DataSource createDataSource1(){
+        try {
+            ComboPooledDataSource ds = new ComboPooledDataSource();
+            ds.setDriverClass(driver);
+            ds.setJdbcUrl(&quot;jdbc:mysql://localhost:3306/eesy02&quot;);
+            ds.setUser(username);
+            ds.setPassword(password);
+            return ds;
+        }catch (Exception e){
+            throw new RuntimeException(e);
+        }
+    }
+}</code></pre><p>可以用@import注解将配置类加入到主配置类里面去。</p>
+<h3 id="Spring的新注解-PropertySource："><a href="#Spring的新注解-PropertySource：" class="headerlink" title="Spring的新注解-PropertySource："></a>Spring的新注解-PropertySource：</h3><p>SpringConfiguration.java:</p>
+<pre><code>package config;
+
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Import;
+import org.springframework.context.annotation.PropertySource;
+
+/**
+ * 该类是一个配置类，它的作用和bean.xml是一样的
+ * spring中的新注解
+ * Configuration
+ *     作用：指定当前类是一个配置类
+ *     细节：当配置类作为AnnotationConfigApplicationContext对象创建的参数时，该注解可以不写。
+ * ComponentScan
+ *      作用：用于通过注解指定spring在创建容器时要扫描的包
+ *      属性：
+ *          value：它和basePackages的作用是一样的，都是用于指定创建容器时要扫描的包。
+ *                 我们使用此注解就等同于在xml中配置了:
+ *                      &lt;context:component-scan base-package=&quot;com.itheima&quot;&gt;&lt;/context:component-scan&gt;
+ *  Bean
+ *      作用：用于把当前方法的返回值作为bean对象存入spring的ioc容器中
+ *      属性:
+ *          name:用于指定bean的id。当不写时，默认值是当前方法的名称
+ *      细节：
+ *          当我们使用注解配置方法时，如果方法有参数，spring框架会去容器中查找有没有可用的bean对象。
+ *          查找的方式和Autowired注解的作用是一样的
+ *  Import
+ *      作用：用于导入其他的配置类
+ *      属性：
+ *          value：用于指定其他配置类的字节码。
+ *                  当我们使用Import的注解之后，有Import注解的类就父配置类，而导入的都是子配置类
+ *  PropertySource
+ *      作用：用于指定properties文件的位置
+ *      属性：
+ *          value：指定文件的名称和路径。
+ *                  关键字：classpath，表示类路径下
+ */
+//@Configuration
+@ComponentScan(&quot;com.itheima&quot;)
+@Import(JdbcConfig.class)
+@PropertySource(&quot;classpath:jdbcConfig.properties&quot;)
+public class SpringConfiguration {
+
+
+}</code></pre><p>JdbcConfig.java:</p>
+<pre><code>package config;
+
+import com.mchange.v2.c3p0.ComboPooledDataSource;
+import org.apache.commons.dbutils.QueryRunner;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Scope;
+
+import javax.sql.DataSource;
+
+/**
+ * 和spring连接数据库相关的配置类
+ */
+public class JdbcConfig {
+
+    @Value(&quot;${jdbc.driver}&quot;)
+    private String driver;
+
+    @Value(&quot;${jdbc.url}&quot;)
+    private String url;
+
+    @Value(&quot;${jdbc.username}&quot;)
+    private String username;
+
+    @Value(&quot;${jdbc.password}&quot;)
+    private String password;
+
+    /**
+     * 用于创建一个QueryRunner对象
+     * @param dataSource
+     * @return
+     */
+    @Bean(name=&quot;runner&quot;)
+    @Scope(&quot;prototype&quot;)
+    public QueryRunner createQueryRunner(@Qualifier(&quot;ds2&quot;) DataSource dataSource){
+        return new QueryRunner(dataSource);
+    }
+
+    /**
+     * 创建数据源对象
+     * @return
+     */
+    @Bean(name=&quot;ds2&quot;)
+    public DataSource createDataSource(){
+        try {
+            ComboPooledDataSource ds = new ComboPooledDataSource();
+            ds.setDriverClass(driver);
+            ds.setJdbcUrl(url);
+            ds.setUser(username);
+            ds.setPassword(password);
+            return ds;
+        }catch (Exception e){
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Bean(name=&quot;ds1&quot;)
+    public DataSource createDataSource1(){
+        try {
+            ComboPooledDataSource ds = new ComboPooledDataSource();
+            ds.setDriverClass(driver);
+            ds.setJdbcUrl(&quot;jdbc:mysql://localhost:3306/eesy02&quot;);
+            ds.setUser(username);
+            ds.setPassword(password);
+            return ds;
+        }catch (Exception e){
+            throw new RuntimeException(e);
+        }
+    }
+}</code></pre><p>jdbcConfig.properties:</p>
+<pre><code>jdbc.driver=com.mysql.jdbc.Driver
+jdbc.url=jdbc:mysql://localhost:3306/eesy
+jdbc.username=root
+jdbc.password=1234</code></pre><h2 id="AOP"><a href="#AOP" class="headerlink" title="AOP"></a>AOP</h2><h3 id="Account案例"><a href="#Account案例" class="headerlink" title="Account案例"></a>Account案例</h3><pre><code>package com.itheima.utils;
+
+import javax.sql.DataSource;
+import java.sql.Connection;
+
+/**
+ * 连接的工具类，它用于从数据源中获取一个连接，并且实现和线程的绑定
+ */
+public class ConnectionUtils {
+
+    private ThreadLocal&lt;Connection&gt; tl = new ThreadLocal&lt;Connection&gt;();
+
+    private DataSource dataSource;
+
+    public void setDataSource(DataSource dataSource) {
+        this.dataSource = dataSource;
+    }
+
+    /**
+     * 获取当前线程上的连接
+     * @return
+     */
+    public Connection getThreadConnection() {
+        try{
+            //1.先从ThreadLocal上获取
+            Connection conn = tl.get();
+            //2.判断当前线程上是否有连接
+            if (conn == null) {
+                //3.从数据源中获取一个连接，并且存入ThreadLocal中
+                conn = dataSource.getConnection();
+                tl.set(conn);
+            }
+            //4.返回当前线程上的连接
+            return conn;
+        }catch (Exception e){
+            throw new RuntimeException(e);
+        }
+    }
+
+    /**
+     * 把连接和线程解绑
+     */
+    public void removeConnection(){
+        tl.remove();
+    }
+}</code></pre>
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">Java</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">框架</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/12/04/SpringNote/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-HighCurrentCoding" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -1139,7 +2242,7 @@ public class CardGameProblem {
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="反射知识点"><a href="#反射知识点" class="headerlink" title="反射知识点"></a>反射知识点</h2><ul>
+        <h2 id="反射"><a href="#反射" class="headerlink" title="反射"></a>反射</h2><ul>
 <li>框架：半成品软件，可以在框架的基础上进行软件开发，简化编码。</li>
 <li>反射：将类的各个组成部分封装为其他对象，这就是反射机制。</li>
 </ul>
@@ -3332,117 +4435,6 @@ public class MaxEorBasePreTree {
 
 
   
-    <article id="post-java内部类详解" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/07/03/java内部类详解/">Java内部类详解</a>
-    </h1>
-  
-
-        
-        <a href="/2019/07/03/java内部类详解/" class="archive-article-date">
-  	<time datetime="2019-07-03T03:41:26.636Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-07-03</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="Java内部类"><a href="#Java内部类" class="headerlink" title="Java内部类"></a>Java内部类</h1><h2 id="总述"><a href="#总述" class="headerlink" title="总述"></a>总述</h2><p><strong>内部类：</strong></p>
-<p>1、内部类中的变量和方法不能声明为静态的。</p>
-<p>2、内部类创建自身对象需要先创建其所在类的对象。内部类实例化：B是A的内部类，实例化B：A.B b = new A().new B()。</p>
-<p><strong>3、内部类可以引用外部类的静态或者非静态属性及方法。</strong></p>
-<p><strong>静态内部类：</strong></p>
-<p>1、静态内部类属性和方法可以声明为静态的或者非静态的。</p>
-<p>2、实例化静态内部类：B是A的静态内部类，A.B b = new A.B()。</p>
-<p><strong>3、静态内部类只能引用外部类的静态的属性及方法。</strong></p>
-<p>代码：</p>
-<pre><code>package com.yang.basic.day17;
-
-public class TestInner {
-    private int number = 100;
-    public class Inner{
-        private int number = 200;
-        public void myPrinter(){
-            int number = 300;
-            System.out.println(number);
-            //通过this引用内部类的成员属性
-            System.out.println(this.number);
-            //通过外部类名加上this的方式访问外部类成员属性
-            System.out.println(TestInner.this.number);
-        }
-    }
-
-    public static void main(String[] args) {
-        TestInner tl = new TestInner();
-        TestInner.Inner in  = tl.new Inner();
-        in.myPrinter();
-    }
-
-}</code></pre><p>运行结果：</p>
-<pre><code>300
-200
-100</code></pre><p>内部类依靠外部类的存在为前提，而静态嵌套类（静态内部类）则可以完全独立</p>
-<p><strong>静态内部类的加载和外部类加载无关。静态内部类在使用的时候才会加载</strong></p>
-<h3 id="类加载过程"><a href="#类加载过程" class="headerlink" title="类加载过程"></a>类加载过程</h3><p>静态类型的属性和方法，在类加载的时候就会存在于内存中。使用某个类的静态属性和方法，那么这个类必须要加载到虚拟机中。但是非静态内部类并不随外部类一起加载，只有在实例化外部类之后才会加载。</p>
-<p>在外部类并没有实例化，内部类还没有加载的时候如果调用内部类的静态成员或方法，内部类还没有加载，却试图在内存中创建该内部类的静态成员，就会产生冲突。所以非静态内部类不能有静态成员变量或静态方法。</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">Java基础</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/07/03/java内部类详解/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
       <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
@@ -3560,11 +4552,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">Java基础</a>
+                <a href="javascript:void(0)" class="js-tag color3">JavaWeb</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">JavaWeb</a>
+                <a href="javascript:void(0)" class="js-tag color2">Java基础</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -3581,6 +4573,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">leetcode</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">框架</a>
               </li>
              
               <li class="article-tag-list-item">
